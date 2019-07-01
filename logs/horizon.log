@@ -1,0 +1,17 @@
+Horizon started successfully.
+[2019-07-01 14:24:37][1] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:24:37][1] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:24:37][1] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:24:37][1] Failed:     App\Notifications\VerifyEmailQueued
+[2019-07-01 14:33:13][2] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:33:13][2] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:33:13][2] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:33:13][2] Failed:     App\Notifications\VerifyEmailQueued
+[2019-07-01 14:49:39][3] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:49:39][3] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:49:39][3] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:49:39][3] Failed:     App\Notifications\VerifyEmailQueued
+[2019-07-01 14:50:47][4] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:50:47][4] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:50:47][4] Processing: App\Notifications\VerifyEmailQueued
+[2019-07-01 14:50:47][4] Failed:     App\Notifications\VerifyEmailQueued
