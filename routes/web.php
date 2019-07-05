@@ -25,7 +25,7 @@ Route::get('email', function() {
 });
 
 
-Auth::routes();
+//Auth::routes();
 
 Auth::routes(['verify' => true]);
 
