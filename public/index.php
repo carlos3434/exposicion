@@ -1,4 +1,10 @@
 <?php
+header('Access-Control-Allow-Origin:  *');
+header('Access-Control-Allow-Credentials:  True');
+header('Access-Control-Allow-Methods:  GET,POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Max-Age:  1000');
+//header('Access-Control-Allow-Origin:  http://localhost:4200');
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin');
 
 /**
  * Laravel - A PHP Framework For Web Artisans
