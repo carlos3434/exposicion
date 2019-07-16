@@ -14,7 +14,7 @@ class ShareController extends Controller
      */
     public function index()
     {
-        $shares = Share::all();
+        $shares = Share::paginate(2);
 
         return view('shares.index', compact('shares'));
     }

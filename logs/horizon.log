@@ -15,3 +15,4 @@ Horizon started successfully.
 [2019-07-01 14:50:47][4] Processing: App\Notifications\VerifyEmailQueued
 [2019-07-01 14:50:47][4] Processing: App\Notifications\VerifyEmailQueued
 [2019-07-01 14:50:47][4] Failed:     App\Notifications\VerifyEmailQueued
+Horizon started successfully.

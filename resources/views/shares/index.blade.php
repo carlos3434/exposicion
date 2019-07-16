@@ -41,5 +41,6 @@
         @endforeach
     </tbody>
   </table>
+  {{ $shares->links() }}
 <div>
 @endsection

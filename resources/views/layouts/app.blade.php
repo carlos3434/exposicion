@@ -34,6 +34,24 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
+                        @can('READ_PERMISSION')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('permissions.index') }}">Permisos</a>
+                            </li>
+                        @endcan
+
+                        @can('READ_ROLE')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
+                            </li>
+                        @endcan
+
+                        @can('READ_USER')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users.index') }}">Usuarios</a>
+                            </li>
+                        @endcan
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -73,6 +91,15 @@
         </nav>
 
         <main class="py-4">
+            @if(session('info'))
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="alert alert-success">{{ session('info') }}</div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @yield('content')
         </main>
     </div>

@@ -31,3 +31,21 @@ Auth::routes(['verify' => true]);
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+//ruta test
+Route::get('/juan', 'PermissionController@index');
+Route::get('/juan/{permission}', 'PermissionController@update');
+
+
+//routes
+Route::middleware(['auth' => true ])->group(function(){
+    //permisos
+    Route::resource('permissions','PermissionController');
+    Route::resource('roles','RoleController');
+    Route::resource('users','UserController');
+    
+});
+
+
+
