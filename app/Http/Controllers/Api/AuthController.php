@@ -2,7 +2,8 @@
 namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User; 
+use App\User;
+use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -32,18 +33,24 @@ class AuthController extends Controller
     public function login(){
 
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
-            $success['token'] =  $user->createToken('AppName')-> accessToken;
+            $user = Auth::user() ;
 
-            $roles =[];
-            foreach($user->roles as $value)
+            $success['token'] =  $user->createToken('AppName')->accessToken;
+
+            $permissions = $roles =[];
+            foreach($user->roles as $role)
             {
-                array_push($roles, $value->name);
+                foreach($role->permissions as $permission)
+                {
+                    array_push($permissions, $permission->slug);
+                }
+                $rol = ['name'=>$role->name,'special'=>$role->special];
+                array_push($roles, $rol);
             }
-            $permissions =[];
-            foreach( $user->permissions as $value)
+
+            foreach( $user->permissions as $permission)
             {
-                array_push($permissions, $value->slug);
+                array_push($permissions, $permission->slug);
             }
 
             $success['rol'] = $roles;
