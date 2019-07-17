@@ -33,7 +33,7 @@ class EntregaDiplomaController extends Controller
     public function store(Request $request)
     {
         $entregaDiploma = EntregaDiploma::create($request->all());
-        return response()->json($article, 201);
+        return response()->json($entregaDiploma, 201);
     }
     /**
      * Display the specified resource.
