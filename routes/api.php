@@ -25,6 +25,7 @@ Route::prefix('v1')->group(function(){
         Route::resource('permissions','Api\PermissionController');
         Route::resource('roles','Api\RoleController');
         Route::resource('users','Api\UserController');
+        Route::resource('diplomas','Api\EntregaDiplomaController');
     });
 
     

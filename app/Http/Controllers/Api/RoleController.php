@@ -19,9 +19,10 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Role::all();
+        $per_page = $request->input('per_page', 25);
+        return Role::paginate($per_page);
     }
     /**
      * Show the form for creating a new resource.
