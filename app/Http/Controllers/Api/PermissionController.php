@@ -22,7 +22,9 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->input('per_page', 25);
-        return Permission::paginate($per_page);
+        $sortBy = $request->input('sortBy', 'id');
+        $direction = $request->input('direction', 'DESC');
+        return Permission::orderBy($sortBy,$direction)->paginate($per_page);
     }
     /**
      * Show the form for creating a new resource.
@@ -74,7 +76,7 @@ class PermissionController extends Controller
     public function update(Request $request, Permission $permission)
     {
         $permission->update( $request->all() );
-        return response()->json($article, 200);
+        return response()->json($permission, 200);
     }
     /**
      * Remove the specified resource from storage.

@@ -22,7 +22,9 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->input('per_page', 25);
-        return Role::paginate($per_page);
+        $sortBy = $request->input('sortBy', 'id');
+        $direction = $request->input('direction', 'DESC');
+        return Role::orderBy($sortBy,$direction)->paginate($per_page);
     }
     /**
      * Show the form for creating a new resource.
@@ -74,7 +76,7 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $role->update( $request->all() );
-        return response()->json($article, 200);
+        return response()->json($role, 200);
     }
     /**
      * Remove the specified resource from storage.

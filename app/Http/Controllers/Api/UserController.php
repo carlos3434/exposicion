@@ -22,7 +22,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->input('per_page', 25);
-        return User::paginate($per_page);
+        $sortBy = $request->input('sortBy', 'id');
+        $direction = $request->input('direction', 'DESC');
+
+        $query = User::orderBy($sortBy,$direction);
+        if(!empty($request->name)){
+            $query->where('name', 'like', '%'.$request->name.'%');
+        }
+
+        return $query->paginate($per_page);
     }
     /**
      * Show the form for creating a new resource.
@@ -42,7 +50,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = User::create($request->all());
-        return response()->json($article, 201);
+        return response()->json($user, 201);
     }
     /**
      * Display the specified resource.
