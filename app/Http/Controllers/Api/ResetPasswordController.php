@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\ResetPasswordController as Reset;
+use Illuminate\Foundation\Auth\RedirectsUsers;
 
 class ResetPasswordController extends Reset
 {
