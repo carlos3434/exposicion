@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\EntregaDiploma;
+use App\Http\Requests\EntregaDiploma as EntregaDiplomaRequest;
 
 class EntregaDiplomaController extends Controller
 {
@@ -50,7 +51,7 @@ class EntregaDiplomaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EntregaDiplomaRequest $request)
     {
         $entregaDiploma = EntregaDiploma::create($request->all());
         return response()->json($entregaDiploma, 201);
@@ -72,7 +73,7 @@ class EntregaDiplomaController extends Controller
      * @param  \App\EntregaDiploma  $entregaDiploma
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EntregaDiploma $entregaDiploma)
+    public function update(EntregaDiplomaRequest $request, EntregaDiploma $entregaDiploma)
     {
         $entregaDiploma->update( $request->all() );
         return response()->json($entregaDiploma, 200);

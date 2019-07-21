@@ -6,63 +6,73 @@ use App\User;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Carbon\Carbon;
 
 class AuthController extends Controller 
 {
     public $successStatus = 200;
 
     public function register(Request $request) {
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            //'c_password' => 'required|same:password',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
-        }
+        $this->validateRegister($request);
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['token'] =  $user->createToken('AppName')->accessToken;
         return response()->json(['success'=>$success], $this->successStatus);
-
     }
+    protected function validateRegister(Request $request){
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    }
+    protected function validateLogin(Request $request){
+        $this->validate($request,[
+            'email' => 'required|string|email',
+            'password' => 'required|string'
+        ]);
+    }
+    public function login(Request $request){
+        $this->validateLogin($request);
+        if (!Auth::attempt( request(['email', 'password']) )) {
+            return response()->json([
+                'message' => 'Unauthorized'], 401);
+        }
+        $user = Auth::user();
+        $tokenResult =  $user->createToken('AppName');
+        $success['token'] =  $tokenResult->accessToken;
+        $success['token_type'] =  'Bearer';
+        $success['expires_at'] = Carbon::parse($tokenResult->token->expires_at)
+                                ->toDateTimeString();
 
-    public function login(){
-
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user() ;
-
-            $success['token'] =  $user->createToken('AppName')->accessToken;
-
-            $permissions = $roles =[];
-            foreach($user->roles as $role)
-            {
-                foreach($role->permissions as $permission)
-                {
-                    array_push($permissions, $permission->slug);
-                }
-                $rol = ['name'=>$role->name,'special'=>$role->special];
-                array_push($roles, $rol);
-            }
-
-            foreach( $user->permissions as $permission)
+        $permissions = $roles =[];
+        foreach($user->roles as $role)
+        {
+            foreach($role->permissions as $permission)
             {
                 array_push($permissions, $permission->slug);
             }
-
-            $success['rol'] = $roles;
-            $success['permissions'] = $permissions;
-
-            return response()->json(['success' => $success], $this-> successStatus);
-        } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
+            $rol = ['name'=>$role->name,'special'=>$role->special];
+            array_push($roles, $rol);
         }
+
+        foreach( $user->permissions as $permission)
+        {
+            array_push($permissions, $permission->slug);
+        }
+
+        $success['rol'] = $roles;
+        $success['permissions'] = $permissions;
+
+        return response()->json(['success' => $success], $this->successStatus);
 
     }
 
+    public function logout( Request $request ) {
+        $request->user()->token()->revoke();
+        return response()->json(['message' =>'Successfully logged out']);
+    }
     public function getUser() {
         $user = Auth::user();
         return response()->json(['success' => $user], $this->successStatus);

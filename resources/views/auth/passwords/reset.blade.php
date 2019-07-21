@@ -8,6 +8,7 @@
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
                 <div class="card-body">
+                    <!-- cambiar la ruta del navedaor, yerson deberia pasarte este template-->
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 

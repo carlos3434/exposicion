@@ -24,7 +24,10 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
+        Route::model('user', \App\User::class);
+        Route::model('diploma', \App\EntregaDiploma::class);
+        Route::model('permission', \Caffeinated\Shinobi\Models\Permission::class);
+        Route::model('role', \Caffeinated\Shinobi\Models\Role::class);
         parent::boot();
     }
 
