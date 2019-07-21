@@ -34,7 +34,7 @@ Route::prefix('v1')->group(function(){
 
     Route::post('register', 'Api\AuthController@register');
     Route::group(['middleware' => 'auth:api'], function(){
-        Route::post('getUser', 'Api\AuthControll@getUser');
+        Route::post('getUser', 'Api\AuthController@getUser');
         Route::post('logout', 'Api\AuthController@logout');
         Route::apiResource('permissions','Api\PermissionController');
         Route::apiResource('roles','Api\RoleController');
