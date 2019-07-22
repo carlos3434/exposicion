@@ -44,6 +44,11 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('incidentes','Api\IncidenteController');
         Route::apiResource('translados','Api\TransladoController');
         Route::apiResource('licencias','Api\LicenciaController');
+        Route::apiResource('tipoProcesoDisciplinario','Api\TipoProcesoDisciplinarioController');
+        Route::apiResource('sanciones','Api\SancionController');
+        Route::apiResource('procesos','Api\ProcesoDisciplinarioController');
+        Route::apiResource('apelaciones','Api\ApelacionController');
+
     });
 
     

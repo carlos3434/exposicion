@@ -6,9 +6,6 @@ use App\User;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Http\Request;
 
-use App\Exports\UsersExport;
-use Maatwebsite\Excel\Facades\Excel;
-
 class UserController extends Controller
 {
     public function __construct()
@@ -19,18 +16,7 @@ class UserController extends Controller
         $this->middleware('can:DETAIL_USER')->only('show');
         $this->middleware('can:DELETE_USER')->only('destroy');
     }
-    public function export() 
-    {
-        $headings = [
-            'name', 'email'
-        ];
-        $rows = User::select('name', 'email')->get()->toArray();
-        $export = new UsersExport($rows,$headings);
 
-        return Excel::download($export, 'users.xlsx');
-
-        //return Excel::download(new UsersExport, 'users.xlsx');
-    }
     /**
      * Display a listing of the resource.
      *

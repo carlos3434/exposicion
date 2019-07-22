@@ -22,7 +22,7 @@ Route::get('email', function() {
                 ->subject('Welcome!');
     });
 });
-Route::get('users/export/', 'UserController@export');
+//Route::get('users/export/', 'UserController@export');
 
 //Auth::routes();
 
