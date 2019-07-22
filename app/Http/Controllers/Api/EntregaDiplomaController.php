@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 use App\EntregaDiploma;
 use App\Http\Requests\EntregaDiploma as EntregaDiplomaRequest;
 
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class EntregaDiplomaController extends Controller
 {
     public function __construct()
@@ -23,10 +26,13 @@ class EntregaDiplomaController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
+        $sortBy = $request->input('sortBy', 'entrega_diplomas.id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = EntregaDiploma::orderBy($sortBy,$direction);
+        $query = EntregaDiploma::orderBy($sortBy,$direction)
+                ->select('entrega_diplomas.*','departamentos.name as departamento')
+                ->join('departamentos', 'departamento_id', '=', 'departamentos.id');
+
         if (!empty($request->departamento_id)){
             $query->where('departamento_id', $request->departamento_id);
         }
@@ -41,6 +47,21 @@ class EntregaDiplomaController extends Controller
             } elseif (trim($request->fecha_entrega) !=='') {
                 $query->where('fecha_entrega', $request->fecha_entrega);
             }
+        }
+        if (!empty($request->excel)){
+
+            $headings = [ "id","departamento_id", "fecha_entrega", "cantidad", "observacion" , "created_at", "updated_at", "departamento"];
+            $rows = $query->get()->toArray();
+            $export = new UsersExport($rows,$headings);
+
+            return Excel::download($export, 'users.xlsx');
+        }
+        if (!empty($request->pdf)){
+            $headings = [ "id","departamento_id", "fecha_entrega", "cantidad", "observacion" , "created_at", "updated_at", "departamento"];
+            $rows = $query->get()->toArray();
+            $export = new UsersExport($rows,$headings);
+
+            return Excel::download($export, 'users.pdf');
         }
 
         return $query->paginate($per_page);
