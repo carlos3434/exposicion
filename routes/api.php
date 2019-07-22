@@ -40,6 +40,10 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('roles','Api\RoleController');
         Route::apiResource('users','Api\UserController');
         Route::apiResource('diplomas','Api\EntregaDiplomaController');
+        Route::apiResource('tipoIncidentes','Api\TipoIncidenteController');
+        Route::apiResource('incidentes','Api\IncidenteController');
+        Route::apiResource('translados','Api\TransladoController');
+        Route::apiResource('licencias','Api\LicenciaController');
     });
 
     
