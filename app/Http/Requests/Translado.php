@@ -25,12 +25,12 @@ class Translado extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro' => 'required',
-            'motivo' => 'required',
-            'documento' => 'required',
-            'origen_departamento_id' => 'required',
-            'destino_departamento_id' => 'required',
-            'persona_id' => 'required',
+            'fecha_registro' => 'required|date_format:Y-m-d',
+            'motivo' => 'required|alpha_num',
+            'documento' => 'required|alpha_num',
+            'origen_departamento_id' => 'required|unique:departamentos,id',
+            'destino_departamento_id' => 'required|unique:departamentos,id',
+            'persona_id' => 'required|integer|min:1',
             //'clave' => 'required|unique:calendarizaciones,clave'
         ];
     }

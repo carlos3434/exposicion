@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\EntregaDiploma;
 use App\Http\Requests\EntregaDiploma as EntregaDiplomaRequest;
 
-use App\Exports\UsersExport;
+use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EntregaDiplomaController extends Controller
@@ -48,20 +48,14 @@ class EntregaDiplomaController extends Controller
                 $query->where('fecha_entrega', $request->fecha_entrega);
             }
         }
-        if (!empty($request->excel)){
+        $name='entrega_diplomas_'.date('m-d-Y_hia');
 
+        if ( !empty($request->excel) || !empty($request->pdf) ){
+            $type = ($request->excel) ? '.xlsx' : '.pdf';
             $headings = [ "id","departamento_id", "fecha_entrega", "cantidad", "observacion" , "created_at", "updated_at", "departamento"];
             $rows = $query->get()->toArray();
-            $export = new UsersExport($rows,$headings);
-
-            return Excel::download($export, 'users.xlsx');
-        }
-        if (!empty($request->pdf)){
-            $headings = [ "id","departamento_id", "fecha_entrega", "cantidad", "observacion" , "created_at", "updated_at", "departamento"];
-            $rows = $query->get()->toArray();
-            $export = new UsersExport($rows,$headings);
-
-            return Excel::download($export, 'users.pdf');
+            $export = new Export($rows,$headings);
+            return Excel::download($export, $name. $type);
         }
 
         return $query->paginate($per_page);

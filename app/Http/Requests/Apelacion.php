@@ -25,14 +25,14 @@ class Apelacion extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro' => 'required',
-            'resolucion' => 'required',
-            'persona_id' => 'required',
-            'is_titular' => 'required',
-            'representanteNombres' => 'required',
-            'representanteApellidoPaterno' => 'required',
-            'representanteApellidoMaterno' => 'required',
-            'documento_id' => 'required',
+            'fecha_registro' => 'required|date_format:Y-m-d',
+            'resolucion' => 'required|alpha_num',
+            'persona_id' => 'required|integer|min:1',
+            'is_titular' => 'required|boolean',
+            'representanteNombres' => 'required|alpha_num',
+            'representanteApellidoPaterno' => 'required|alpha_num',
+            'representanteApellidoMaterno' => 'required|alpha_num',
+            'documento_id' => 'required|unique:proceso_disciplinarios,id',
             //'clave' => 'required|unique:calendarizaciones,clave'
         ];
     }

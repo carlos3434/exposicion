@@ -6,7 +6,8 @@ use App\Licencia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Licencia as LicenciaRequest;
-
+use App\Exports\Export;
+use Maatwebsite\Excel\Facades\Excel;
 class LicenciaController extends Controller
 {
     public function __construct()
@@ -49,6 +50,16 @@ class LicenciaController extends Controller
             } elseif (trim($request->fecha_registro) !=='') {
                 $query->where('fecha_registro', $request->fecha_registro);
             }
+        }
+        $name='licencias_'.date('m-d-Y_hia');
+
+        if ( !empty($request->excel) || !empty($request->pdf) ){
+            $type = ($request->excel) ? '.xlsx' : '.pdf';
+            $headings = [ "id","fecha_registro", "motivo", "documento", "fecha_inicio" , "fecha_fin", "persona_id","created_at"];
+            $query->select($headings);
+            $rows = $query->get()->toArray();
+            $export = new Export($rows,$headings);
+            return Excel::download($export, $name. $type);
         }
 
         return $query->paginate($per_page);

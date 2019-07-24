@@ -25,11 +25,11 @@ class Translado extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro' => 'required',
-            'descripcion' => 'required',
-            'documento' => 'required',
-            'tipo_incidente_id' => 'required',
-            'persona_id' => 'required',
+            'fecha_registro' => 'required|date_format:Y-m-d',
+            'descripcion' => 'required|alpha_num',
+            'documento' => 'required|alpha_num',
+            'tipo_incidente_id' => 'required|unique:tipo_incidentes,id',
+            'persona_id' => 'required|integer|min:1',
             //'clave' => 'required|unique:calendarizaciones,clave'
         ];
     }

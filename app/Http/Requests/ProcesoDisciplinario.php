@@ -25,12 +25,12 @@ class ProcesoDisciplinario extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro' => 'required',
-            'descripcion' => 'required',
-            'documento' => 'required',
-            'sancion_id' => 'required',
-            'tipo_proceso_disciplinario_id' => 'required',
-            'persona_id' => 'required',
+            'fecha_registro' => 'required|date_format:Y-m-d',
+            'descripcion' => 'required|alpha_num',
+            'documento' => 'required|alpha_num',
+            'sancion_id' => 'required|unique:sancions,id',
+            'tipo_proceso_disciplinario_id' => 'required|unique:tipo_proceso_disciplinarios,id',
+            'persona_id' => 'required|integer|min:1',
             //'clave' => 'required|unique:calendarizaciones,clave'
         ];
     }

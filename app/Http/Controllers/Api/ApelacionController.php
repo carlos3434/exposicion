@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Apelacion;
 use Illuminate\Http\Request;
 use App\Http\Requests\Apelacion as ApelacionRequest;
-
+use App\Exports\Export;
+use Maatwebsite\Excel\Facades\Excel;
 class ApelacionController extends Controller
 {
     public function __construct()
@@ -34,7 +35,7 @@ class ApelacionController extends Controller
         }
         if (!empty($request->documento_id)){
             $query->where('documento_id', $request->documento_id);
-        }
+        }// se refiere al foregin key de proceso_disciplinarios
 
         if (!empty($request->fecha_registro)){
             if (is_array($request->fecha_registro) && count($request->fecha_registro) > 0) {
@@ -47,7 +48,16 @@ class ApelacionController extends Controller
                 $query->where('fecha_registro', $request->fecha_registro);
             }
         }
+        $name='apelaciones_'.date('m-d-Y_hia');
 
+        if ( !empty($request->excel) || !empty($request->pdf) ){
+            $type = ($request->excel) ? '.xlsx' : '.pdf';
+            $headings = [ "id","fecha_registro", "resolucion", "is_titular", "representanteNombres" , "representanteApellidoPaterno", "representanteApellidoMaterno","documento_id","created_at"];
+            $query->select($headings);
+            $rows = $query->get()->toArray();
+            $export = new Export($rows,$headings);
+            return Excel::download($export, $name. $type);
+        }
         return $query->paginate($per_page);
     }
 

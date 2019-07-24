@@ -25,12 +25,12 @@ class Licencia extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro' => 'required',
-            'motivo' => 'required',
-            'documento' => 'required',
-            'fecha_inicio' => 'required',
-            'fecha_fin' => 'required',
-            'persona_id' => 'required',
+            'fecha_registro' => 'required|date_format:Y-m-d',
+            'motivo' => 'required|alpha_num',
+            'documento' => 'required|alpha_num',
+            'fecha_inicio' => 'required|date_format:Y-m-d',
+            'fecha_fin' => 'required|date_format:Y-m-d',
+            'persona_id' => 'required|integer|min:1',
             //'clave' => 'required|unique:calendarizaciones,clave'
         ];
     }

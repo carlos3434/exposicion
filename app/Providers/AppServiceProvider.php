@@ -9,12 +9,14 @@ use App\Translado;
 use App\Licencia;
 use App\ProcesoDisciplinario;
 use App\Apelacion;
+use App\Comite;
 
 use App\Observers\IncidenteObserver;
 use App\Observers\TransladoObserver;
 use App\Observers\LicenciaObserver;
 use App\Observers\ProcesoDisciplinarioObserver;
 use App\Observers\ApelacionObserver;
+use App\Observers\ComiteObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Licencia::observe(LicenciaObserver::class);
         ProcesoDisciplinario::observe(ProcesoDisciplinarioObserver::class);
         Apelacion::observe(ApelacionObserver::class);
+        Comite::observe(ComiteObserver::class);
 
         Schema::defaultStringLength(191);
     }
