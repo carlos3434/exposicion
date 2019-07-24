@@ -68,7 +68,7 @@ class ApelacionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ApelacionRequest $request)
     {
         $apelacion = Apelacion::create($request->all());
         return response()->json($apelacion, 201);
@@ -92,7 +92,7 @@ class ApelacionController extends Controller
      * @param  \App\Apelacion  $apelacion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Apelacion $apelacion)
+    public function update(ApelacionRequest $request, Apelacion $apelacion)
     {
         $apelacion->update( $request->all() );
         return response()->json($apelacion, 200);

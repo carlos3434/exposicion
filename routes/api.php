@@ -50,6 +50,9 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('procesos','Api\ProcesoDisciplinarioController');
         Route::apiResource('apelaciones','Api\ApelacionController');
         Route::apiResource('comites','Api\ComiteController');
+        Route::apiResource('listasGanadoras','Api\ListaGanadoraController');
+        Route::apiResource('listaPostulantes','Api\ListaPostulanteController');
+        Route::apiResource('resultadoElecciones','Api\ResultadoEleccionController');
 
     });
 
