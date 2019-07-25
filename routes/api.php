@@ -54,7 +54,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('listaPostulantes','Api\ListaPostulanteController');
         Route::apiResource('resultadoElecciones','Api\ResultadoEleccionController');
         Route::apiResource('departamentos','Api\DepartamentoController');
-        Route::apiResource('registros','Api\DepartamentoController');
+        Route::apiResource('registros','Api\RegistroController');
 
     });
 
