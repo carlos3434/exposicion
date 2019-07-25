@@ -13,6 +13,7 @@ use App\Comite;
 use App\ResultadoEleccion;
 use App\ListaGanadora;
 use App\ListaPostulante;
+use App\Persona;
 
 use App\Observers\IncidenteObserver;
 use App\Observers\TransladoObserver;
@@ -23,6 +24,7 @@ use App\Observers\ComiteObserver;
 use App\Observers\ResultadoEleccionObserver;
 use App\Observers\ListaGanadoraObserver;
 use App\Observers\ListaPostulanteObserver;
+use App\Observers\PersonaObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -51,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
         ResultadoEleccion::observe(ResultadoEleccionObserver::class);
         ListaGanadora::observe(ListaGanadoraObserver::class);
         ListaPostulante::observe(ListaPostulanteObserver::class);
+        Persona::observe(PersonaObserver::class);
 
         Schema::defaultStringLength(191);
     }
