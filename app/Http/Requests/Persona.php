@@ -59,7 +59,7 @@ class Persona extends FormRequest
             'url_cv' => 'alpha_num',
             'is_voluntario' => 'boolean',
             'grupo_sanguineo' => 'alpha_num',
-            'departamento_colegiado_id' => 'integer',
+            'departamento_colegiado_id' => 'required|integer',
             'is_habilitado' => 'boolean',
             'is_incidencia' => 'boolean',
             'is_carnet' => 'boolean',
