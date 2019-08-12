@@ -25,7 +25,7 @@ class Role extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|alpha_num_spaces',
+            'name' => 'required|alpha_num_spaces|unique:roles,name',
             'slug' => 'alpha_dash|unique:roles,slug',
             'description' => 'required|alpha_num_spaces',
             'special' => 'in:all-access',
@@ -37,6 +37,7 @@ class Role extends FormRequest
         return [
             'name.required' => 'El :attribute es un campo requerido',
             'name.alpha_num_spaces' => 'El :attribute solo puede contener caracteres alfanumericos, espacios, guin bajo y guines',
+            'name.unique' => 'El :attribute ya ha sido tomado',
             'slug.alpha_dash' => 'El :attribute puede solo contener letras, numeros, guiones y suiones bajo.',
             'slug.unique' => 'El :attribute ya ha sido tomado',
             'description.required' => 'El :attribute es un campo requerido',

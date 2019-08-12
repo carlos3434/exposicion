@@ -14,6 +14,7 @@ use App\ResultadoEleccion;
 use App\ListaGanadora;
 use App\ListaPostulante;
 use App\Persona;
+use Caffeinated\Shinobi\Models\Role;
 
 use App\Observers\IncidenteObserver;
 use App\Observers\TransladoObserver;
@@ -25,6 +26,7 @@ use App\Observers\ResultadoEleccionObserver;
 use App\Observers\ListaGanadoraObserver;
 use App\Observers\ListaPostulanteObserver;
 use App\Observers\PersonaObserver;
+use App\Observers\RoleObserver;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -56,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
         ListaGanadora::observe(ListaGanadoraObserver::class);
         ListaPostulante::observe(ListaPostulanteObserver::class);
         Persona::observe(PersonaObserver::class);
+        Role::observe(RoleObserver::class);
 
         Validator::extend('alpha_spaces', function ($attribute, $value) {
             return preg_match('/^[\pL\s]+$/u', $value); 
