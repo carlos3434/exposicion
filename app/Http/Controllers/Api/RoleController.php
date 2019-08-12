@@ -3,6 +3,9 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Caffeinated\Shinobi\Models\Role;
+use App\Http\Requests\Role as RoleRequest;
+use App\Exports\Export;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RoleController extends Controller
 {
@@ -24,16 +27,22 @@ class RoleController extends Controller
         $per_page = $request->input('per_page', 25);
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
+        $query = Role::orderBy($sortBy,$direction);
+
+        if(!empty($request->name)){
+            $query->where('name', 'like', '%'.$request->name.'%');
+        }
+        $name='roles_'.date('m-d-Y_hia');
+
+        if ( !empty($request->excel) || !empty($request->pdf) ){
+            $type = ($request->excel) ? '.xlsx' : '.pdf';
+            $headings = [ "id","name","description","special","created_at"];
+            $query->select($headings);
+            $rows = $query->get()->toArray();
+            $export = new Export($rows,$headings);
+            return Excel::download($export, $name. $type);
+        }
         return Role::orderBy($sortBy,$direction)->paginate($per_page);
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
     /**
      * Store a newly created resource in storage.
@@ -41,9 +50,10 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
         $role = Role::create($request->all());
+        $role->permissions()->sync( $request->get('permissions') );
         return response()->json($role, 201);
     }
     /**
@@ -52,19 +62,9 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show( $id )
     {
-        return $role;
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return Role::with([ 'permissions'])->find($id)->first();
     }
     /**
      * Update the specified resource in storage.
@@ -73,9 +73,10 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
         $role->update( $request->all() );
+        $role->permissions()->sync( $request->get('permissions') );
         return response()->json($role, 200);
     }
     /**

@@ -26,6 +26,8 @@ use App\Observers\ListaGanadoraObserver;
 use App\Observers\ListaPostulanteObserver;
 use App\Observers\PersonaObserver;
 
+use Illuminate\Support\Facades\Validator;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -55,6 +57,12 @@ class AppServiceProvider extends ServiceProvider
         ListaPostulante::observe(ListaPostulanteObserver::class);
         Persona::observe(PersonaObserver::class);
 
+        Validator::extend('alpha_spaces', function ($attribute, $value) {
+            return preg_match('/^[\pL\s]+$/u', $value); 
+        });
+        Validator::extend('alpha_num_spaces', function ($attribute, $value) {
+            return preg_match('/^([-a-z0-9_ ])+$/i', $value);
+        });
         Schema::defaultStringLength(191);
     }
 }

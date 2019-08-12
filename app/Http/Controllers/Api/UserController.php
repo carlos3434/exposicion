@@ -26,21 +26,13 @@ class UserController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = User::orderBy($sortBy,$direction);
+        $query = User::with(['roles', 'permissions'])->orderBy($sortBy,$direction);
+
         if(!empty($request->name)){
             $query->where('name', 'like', '%'.$request->name.'%');
         }
 
         return $query->paginate($per_page);
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
     /**
      * Store a newly created resource in storage.
@@ -51,6 +43,13 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = User::create($request->all());
+        if ($request->has('roles')) {
+            $user->roles()->sync( $request->get('roles') );
+        }
+        if ($request->has('permissions')) {
+            $user->permissions()->sync( $request->get('permissions') );
+        }
+        
         return response()->json($user, 201);
     }
     /**
@@ -59,9 +58,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    //public function show(User $user)
+    public function show($id)
     {
-        return $user;
+        return User::with(['roles', 'permissions'])->find($id)->first();
     }
     /**
      * Update the specified resource in storage.
@@ -73,6 +73,13 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $user->update( $request->all() );
+
+        if ($request->has('roles')) {
+            $user->roles()->sync( $request->get('roles') );
+        }
+        if ($request->has('permissions')) {
+            $user->permissions()->sync( $request->get('permissions') );
+        }
         return response()->json($user, 200);
     }
     /**

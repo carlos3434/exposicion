@@ -27,8 +27,9 @@ class User extends FormRequest
         return [
             'name' => 'required|alpha_num',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:8'
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            'password' => 'required|min:8',
+            'roles' => 'exists:roles,id',
+            'permissions' => 'exists:permissions,id'
         ];
     }
     public function messages()
@@ -40,7 +41,9 @@ class User extends FormRequest
             'email.email' => 'El :attribute debe ser un email valido',
             'email.unique' => ':attribute ya se a registrado',
             'password.required' => 'El :attribute es un campo requerido',
-            'password.min' => 'El :attribute debe contener al menos 8 caracteres'
+            'password.min' => 'El :attribute debe contener al menos 8 caracteres',
+            'roles.exists' => 'El :attribute seleccionado es invalido',
+            'permissions.exists' => 'El :attribute seleccionado es invalido'
             // ..
         ];
     }

@@ -12,7 +12,8 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
-
+    'alpha_spaces'         => 'The :attribute may only contain letters and spaces.',
+    'alpha_num_spaces'         => 'The :attribute may only contain alpha-numeric characters, spaces, underscores, and dashes.',
     'accepted' => 'The :attribute must be accepted.',
     'active_url' => 'The :attribute is not a valid URL.',
     'after' => 'The :attribute must be a date after :date.',

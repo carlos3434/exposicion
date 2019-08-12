@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Caffeinated\Shinobi\Models\Role;
+use Caffeinated\Shinobi\Models\Permission;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -36,7 +37,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::get();
-        return view('reporteria.administracion.users.create', compact('roles'));
+        $permissions = Permission::get();
+        return view('reporteria.administracion.users.create', compact('roles','permissions'));
     }
 
     /**
@@ -50,6 +52,7 @@ class UserController extends Controller
         $user = User::create( $request->all() );
 
         $user->roles()->sync( $request->get('roles') );
+        $user->permissions()->sync( $request->get('permissions') );
 
         return redirect()
                     ->route('users.edit', $user->id )
@@ -65,7 +68,8 @@ class UserController extends Controller
     public function show(User $user)
     {
         $roles = Role::get();
-        return view('reporteria.administracion.users.show', compact('user', 'roles') );
+        $permissions = Permission::get();
+        return view('reporteria.administracion.users.show', compact('user', 'roles','permissions') );
     }
 
     /**
@@ -77,7 +81,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::get();
-        return view('reporteria.administracion.users.edit', compact('user', 'roles') );
+        $permissions = Permission::get();
+        return view('reporteria.administracion.users.edit', compact('user', 'roles','permissions') );
     }
 
     /**
@@ -92,6 +97,7 @@ class UserController extends Controller
         $user->update( $request->all() );
 
         $user->roles()->sync( $request->get('roles') );
+        $user->permissions()->sync( $request->get('permissions') );
 
         return redirect()
                 ->route('users.edit', $user->id )

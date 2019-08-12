@@ -43,6 +43,24 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * Permissions can belong to many roles.
+     *
+     * @return Model
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(config('shinobi.models.role'))->withTimestamps();
+    }
+    /**
+     * Permissions can belong to many permissions.
+     *
+     * @return Model
+     */
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(config('shinobi.models.permission'))->withTimestamps();
+    }
     
     public function sendEmailVerificationNotification()
     {

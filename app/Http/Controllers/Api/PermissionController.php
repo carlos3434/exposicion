@@ -3,6 +3,9 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Caffeinated\Shinobi\Models\Permission;
+use App\Http\Requests\Permission as PermissionRequest;
+use App\Exports\Export;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PermissionController extends Controller
 {
@@ -24,24 +27,32 @@ class PermissionController extends Controller
         $per_page = $request->input('per_page', 25);
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
-        return Permission::orderBy($sortBy,$direction)->paginate($per_page);
+
+        $query = Permission::orderBy($sortBy,$direction);
+
+        if(!empty($request->name)){
+            $query->where('name', 'like', '%'.$request->name.'%');
+        }
+        $name='permisos_'.date('m-d-Y_hia');
+
+        if ( !empty($request->excel) || !empty($request->pdf) ){
+            $type = ($request->excel) ? '.xlsx' : '.pdf';
+            $headings = [ "id","name","description","created_at"];
+            $query->select($headings);
+            $rows = $query->get()->toArray();
+            $export = new Export($rows,$headings);
+            return Excel::download($export, $name. $type);
+        }
+        return $query->paginate($per_page);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PermissionRequest $request)
     {
         $permission = Permission::create($request->all());
         return response()->json($permission, 201);
@@ -56,16 +67,7 @@ class PermissionController extends Controller
     {
         return $permission;
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -73,7 +75,7 @@ class PermissionController extends Controller
      * @param  \App\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+    public function update(PermissionRequest $request, Permission $permission)
     {
         $permission->update( $request->all() );
         return response()->json($permission, 200);
