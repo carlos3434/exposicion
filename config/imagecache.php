@@ -57,7 +57,7 @@ return array(
         'medium' => 'Intervention\Image\Templates\Medium',
         'large' => 'Intervention\Image\Templates\Large',
         'photo' => App\Intervention\Templates\PhotoFilter::class,
-        //'photo' => 'App\Filters\PhotoFilter',
+        //'photo' => 'App\Intervention\Templates\PhotoFilter',
     ),
 
     /*
