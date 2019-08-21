@@ -1,5 +1,5 @@
 <?php
-namespace App\Intervention\Templates\Filters;
+namespace App\Intervention\Templates;
 
 use Intervention\Image\Image;
 use Intervention\Image\Filters\FilterInterface;
