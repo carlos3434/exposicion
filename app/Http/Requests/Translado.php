@@ -26,12 +26,12 @@ class Translado extends FormRequest
     {
         return [
             'fecha_registro' => 'required|date_format:Y-m-d',
-            'motivo' => 'required|alpha_num',
-            'documento' => 'required|alpha_num',
-            'origen_departamento_id' => 'required|unique:departamentos,id',
-            'destino_departamento_id' => 'required|unique:departamentos,id',
+            'motivo' => 'required|alpha_num_spaces',
+            'documento' => 'required|alpha_num_spaces',
+            'origen_departamento_id' => 'required|exists:ubigeos,id',
+            'destino_departamento_id' => 'required|exists:ubigeos,id',
             'persona_id' => 'required|integer|min:1',
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }
     public function messages()

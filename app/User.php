@@ -12,6 +12,9 @@ use Caffeinated\Shinobi\Contracts\Permission;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Caffeinated\Shinobi\Contracts\Role;
 
+use App\Filters\UserFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable, HasRolesAndPermissions;
@@ -43,6 +46,10 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new UserFilter($request))->filter($builder);
+    }
     /**
      * Permissions can belong to many roles.
      *

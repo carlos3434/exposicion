@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Apelacion extends FormRequest
+class ListaGanadora extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,11 @@ class Apelacion extends FormRequest
     {
         return [
             'fecha_registro' => 'required|date_format:Y-m-d',
-            'periodo' => 'required|alpha_num',
-            'cargo_postulante_id' => 'required|unique:cargo_postulantes,id',
-            'departamento_id' => 'required|unique:proceso_disciplinarios,id',
+            'periodo' => 'required|alpha_num_spaces',
+            'cargo_postulante_id' => 'required|exists:cargo_postulantes,id',
+            'departamento_id' => 'required|exists:ubigeos,id',
             'persona_id' => 'required|integer|min:1',
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }
     public function messages()

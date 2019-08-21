@@ -26,10 +26,10 @@ class Comite extends FormRequest
     {
         return [
             'fecha_registro' => 'required|date_format:Y-m-d',
-            'observacion' => 'required|alpha_num',
-            'cargo_postulante_id' => 'required|unique:cargo_postulantes,id',
+            'observacion' => 'required|alpha_num_spaces',
+            'cargo_postulante_id' => 'required|exists:cargo_postulantes,id',
             'persona_id' => 'required|integer|min:1',
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }
     public function messages()

@@ -17,8 +17,8 @@ class CreatePersonasTable extends Migration
             $table->bigIncrements('id');
             $table->date('fecha_registro');
 
-
-            $table->string('dni',11);
+            $table->integer('tipo_documento_identidad_id');
+            $table->string('numero_documento_identidad',11);
             $table->string('nacionalidad_id');
             $table->string('apellido_paterno');
             $table->string('apellido_materno');
@@ -31,9 +31,9 @@ class CreatePersonasTable extends Migration
             $table->string('conyuge_nombres')->nullable();
             $table->string('numero_hijos')->nullable();
 
-            $table->integer('departamento_id');
-            $table->integer('provincia_id');
-            $table->integer('distrito_id');
+            $table->unsignedBigInteger('ubigeo_id')->index();
+            $table->foreign('ubigeo_id')->references('id')->on('ubigeos')->onDelete('cascade');
+
             $table->string('direccion');
 
             $table->string('telefono_fijo')->nullable();
@@ -58,10 +58,9 @@ class CreatePersonasTable extends Migration
             $table->string('url_cv')->nullable();
             $table->boolean('is_voluntario')->nullable();
             $table->string('grupo_sanguineo')->nullable();
-            
-            $table->unsignedBigInteger('departamento_colegiado_id')->index();
-            $table->foreign('departamento_colegiado_id')->references('id')->on('departamentos')->onDelete('cascade');
-            
+
+            $table->integer('departamento_colegiado_id')->nullable();
+
             $table->boolean('is_habilitado')->nullable();
             $table->boolean('is_incidencia')->nullable();
             $table->boolean('is_carnet')->nullable();
@@ -82,8 +81,6 @@ class CreatePersonasTable extends Migration
             $table->string('total_consejo')->nullable();
             $table->string('multa_pendiente')->nullable();
             $table->string('multa_pagadas')->nullable();
-
-
 
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();

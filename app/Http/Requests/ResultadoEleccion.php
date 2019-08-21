@@ -26,14 +26,14 @@ class ResultadoEleccion extends FormRequest
     {
         return [
             'fecha_registro' => 'required|date_format:Y-m-d',
-            'lista_ganadora' => 'required|alpha_num',
+            'lista_ganadora' => 'required|alpha_num_spaces',
             'numero_votantes' => 'required|integer',
             'numero_novotantes' => 'required|integer',
             'numero_votos' => 'required|integer',
-            'observacion' => 'required|alpha_num',
-            'departamento_id' => 'required|unique:departamentos,id',
+            'observacion' => 'required|alpha_num_spaces',
+            'departamento_id' => 'required|exists:ubigeos,id',
 
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }
     public function messages()

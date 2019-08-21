@@ -26,11 +26,11 @@ class Incidencia extends FormRequest
     {
         return [
             'fecha_registro' => 'required|date_format:Y-m-d',
-            'descripcion' => 'required|alpha_num',
-            'documento' => 'required|alpha_num',
-            'tipo_incidente_id' => 'required|unique:tipo_incidentes,id',
+            'descripcion' => 'required|alpha_num_spaces',
+            'documento' => 'required|alpha_num_spaces',
+            'tipo_incidente_id' => 'required|exists:tipo_incidentes,id',
             'persona_id' => 'required|integer|min:1',
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }
     public function messages()

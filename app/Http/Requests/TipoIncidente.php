@@ -25,8 +25,8 @@ class TipoIncidente extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|alpha_num'
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            'name' => 'required|alpha_num_spaces'
+            //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }
     public function messages()

@@ -40,12 +40,11 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('roles','Api\RoleController');
         Route::apiResource('users','Api\UserController');
         Route::apiResource('diplomas','Api\EntregaDiplomaController');
-        Route::apiResource('tipoIncidentes','Api\TipoIncidenteController');
+
         Route::apiResource('incidentes','Api\IncidenteController');
         Route::apiResource('translados','Api\TransladoController');
         Route::apiResource('licencias','Api\LicenciaController');
-        Route::apiResource('tipoProcesoDisciplinarios','Api\TipoProcesoDisciplinarioController');
-        Route::apiResource('cargoPostulantes','Api\CargoPostulanteController');
+
         Route::apiResource('sanciones','Api\SancionController');
         Route::apiResource('procesos','Api\ProcesoDisciplinarioController');
         Route::apiResource('apelaciones','Api\ApelacionController');
@@ -53,8 +52,26 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('listasGanadoras','Api\ListaGanadoraController');
         Route::apiResource('listaPostulantes','Api\ListaPostulanteController');
         Route::apiResource('resultadoElecciones','Api\ResultadoEleccionController');
-        Route::apiResource('departamentos','Api\DepartamentoController');
+
         Route::apiResource('registros','Api\RegistroController');
+
+        //Tipos
+        Route::apiResource('tipoIncidentes','Api\Tipos\TipoIncidenteController');
+
+
+        Route::apiResource('especialidadPosgrado','Api\Tipos\EspecialidadPosgradoController');
+        Route::apiResource('areaEjercicioProfesional','Api\Tipos\AreaEjercicioProfesionalController');
+        Route::apiResource('universidades','Api\Tipos\UniversidadController');
+        Route::apiResource('cargoPostulantes','Api\Tipos\CargoPostulanteController');
+
+        Route::apiResource('tipoProcesoDisciplinarios','Api\Tipos\TipoProcesoDisciplinarioController');
+        Route::apiResource('tipoDocumentoIdentidad','Api\Tipos\TipoDocumentoIdentidadController');
+        Route::apiResource('estadoCivil','Api\Tipos\EstadoCivilController');
+        Route::apiResource('tipoDocumentoPago','Api\Tipos\TipoDocumentoPagoController');
+        Route::apiResource('estadoCuentaSistema','Api\Tipos\EstadoCuentaSistemaController');
+        Route::apiResource('estadoRegistroColegiado','Api\Tipos\EstadoRegistroColegiadoController');
+
+        Route::apiResource('ubigeos','Api\Tipos\UbigeoController');
 
     });
 

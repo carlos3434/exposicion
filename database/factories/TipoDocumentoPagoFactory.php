@@ -2,10 +2,10 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Departamento;
+use App\TipoDocumentoPago;
 use Faker\Generator as Faker;
 
-$factory->define(Departamento::class, function (Faker $faker) {
+$factory->define(TipoDocumentoPago::class, function (Faker $faker) {
     return [
         //
     ];

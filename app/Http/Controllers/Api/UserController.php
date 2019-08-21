@@ -1,9 +1,13 @@
 <?php
 namespace App\Http\Controllers\Api;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Http\Requests\User as UserRequest;
+
+use App\Http\Resources\User\User as UserResource;
+use App\Http\Resources\User\UserCollection;
 
 class UserController extends Controller
 {
@@ -26,13 +30,11 @@ class UserController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = User::with(['roles', 'permissions'])->orderBy($sortBy,$direction);
-
-        if(!empty($request->name)){
-            $query->where('name', 'like', '%'.$request->name.'%');
-        }
-
-        return $query->paginate($per_page);
+        return new UserCollection(
+            User::filter($request)
+                ->orderBy($sortBy,$direction)
+                ->paginate($per_page)
+        );
     }
     /**
      * Store a newly created resource in storage.
@@ -58,10 +60,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    //public function show(User $user)
-    public function show($id)
+    public function show(User $user)
+    //public function show($id)
     {
-        return User::with(['roles', 'permissions'])->find($id)->first();
+        return new UserResource($user);
     }
     /**
      * Update the specified resource in storage.

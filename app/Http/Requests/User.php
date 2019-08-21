@@ -25,7 +25,7 @@ class User extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|alpha_num',
+            'name' => 'required|alpha_num_spaces',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'roles' => 'exists:roles,id',

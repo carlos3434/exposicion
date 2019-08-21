@@ -25,18 +25,17 @@ class EntregaDiploma extends FormRequest
     public function rules()
     {
         return [
-            'departamento_id' => 'required|integer|between:1,12',
+            'departamento_id' => 'required|exists:ubigeos,id',
             'fecha_entrega' => 'required|date_format:Y-m-d',
             'cantidad' => 'required|integer|min:1',
-            'observacion' => 'alpha_num'
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            'observacion' => 'alpha_num_spaces'
+            //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }
     public function messages()
     {
         return [
             'departamento_id.required' => 'El :attribute es un campo requerido',
-            'departamento_id.between' => 'El :attribute debe ser entero entre 1 y 12',
             'fecha_entrega.required' => 'El :attribute entrega es un campo requerido',
             'fecha_entrega.date_format' => 'El :attribute entrega debe ser fecha con formato Y-m-d',
             'cantidad.required' => 'El :attribute es un campo requerido',

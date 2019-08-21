@@ -30,8 +30,8 @@ class EntregaDiplomaController extends Controller
         $direction = $request->input('direction', 'DESC');
 
         $query = EntregaDiploma::orderBy($sortBy,$direction)
-                ->select('entrega_diplomas.*','departamentos.name as departamento')
-                ->join('departamentos', 'departamento_id', '=', 'departamentos.id');
+                ->select('entrega_diplomas.*','ubigeos.name as departamento')
+                ->join('ubigeos', 'departamento_id', '=', 'ubigeos.id');
 
         if (!empty($request->departamento_id)){
             $query->where('departamento_id', $request->departamento_id);

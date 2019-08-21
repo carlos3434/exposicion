@@ -10,6 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('test', function () {
+
+    /*
+    dd("fin");
+    $json = file_get_contents( 'http://exposicion.juan/test.json'  );
+    $query = json_decode($json);
+
+    dd( !$query->api_key );
+    $query->api_key = !isset($query->api_key) ? $this->config['api_key'] : $query->api_key;
+    */
+    return view('welcome');
+});
 Route::get('/', function () {
     return view('welcome');
 });

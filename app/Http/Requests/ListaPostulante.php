@@ -26,13 +26,13 @@ class ListaPostulante extends FormRequest
     {
         return [
             'fecha_registro' => 'required|date_format:Y-m-d',
-            'lista' => 'required|alpha_num',
-            'proceso' => 'required|alpha_num',
-            'observacion' => 'required|alpha_num',
-            'cargo_postulante_id' => 'required|unique:cargo_postulantes,id',
-            'departamento_id' => 'required|unique:departamentos,id',
+            'lista' => 'required|alpha_num_spaces',
+            'proceso' => 'required|alpha_num_spaces',
+            'observacion' => 'required|alpha_num_spaces',
+            'cargo_postulante_id' => 'required|exists:cargo_postulantes,id',
+            'departamento_id' => 'required|exists:ubigeos,id',
             'persona_id' => 'required|integer|min:1',
-            //'clave' => 'required|unique:calendarizaciones,clave'
+            //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }
     public function messages()

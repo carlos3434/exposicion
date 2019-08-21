@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Tipos;
 
-use App\CargoPostulante;
+use App\Ubigeo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CargoPostulanteController extends Controller
+use App\Http\Resources\Ubigeo\UbigeoCollection;
+
+class UbigeoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_CARGOPOSTULANTE')->only(['create','store']);
-        $this->middleware('can:READ_CARGOPOSTULANTE')->only('index');
-        $this->middleware('can:UPDATE_CARGOPOSTULANTE')->only(['edit','update']);
-        $this->middleware('can:DETAIL_CARGOPOSTULANTE')->only('show');
-        $this->middleware('can:DELETE_CARGOPOSTULANTE')->only('destroy');
+        $this->middleware('can:CREATE_UBIGEO')->only(['create','store']);
+        $this->middleware('can:READ_UBIGEO')->only('index');
+        $this->middleware('can:UPDATE_UBIGEO')->only(['edit','update']);
+        $this->middleware('can:DETAIL_UBIGEO')->only('show');
+        $this->middleware('can:DELETE_UBIGEO')->only('destroy');
     }
     /**
      * Display a listing of the resource.
@@ -27,7 +29,14 @@ class CargoPostulanteController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = CargoPostulante::orderBy($sortBy,$direction);
+        return new UbigeoCollection(
+            Ubigeo::filter($request)
+                ->get()
+                //->orderBy($sortBy,$direction)
+                //->paginate($per_page)
+        );
+
+        $query = Ubigeo::orderBy($sortBy,$direction);
 
         return $query->paginate($per_page);
     }
@@ -46,10 +55,10 @@ class CargoPostulanteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Comite  $comite
+     * @param  \App\Ubigeo  $ubigeo
      * @return \Illuminate\Http\Response
      */
-    public function show(Comite $comite)
+    public function show(Ubigeo $ubigeo)
     {
         //
     }
@@ -58,10 +67,10 @@ class CargoPostulanteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comite  $comite
+     * @param  \App\Ubigeo  $ubigeo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comite $comite)
+    public function update(Request $request, Ubigeo $ubigeo)
     {
         //
     }
@@ -69,10 +78,10 @@ class CargoPostulanteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comite  $comite
+     * @param  \App\Ubigeo  $ubigeo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comite $comite)
+    public function destroy(Ubigeo $ubigeo)
     {
         //
     }

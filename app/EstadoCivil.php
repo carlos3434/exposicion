@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Departamento extends Model
+class EstadoCivil extends Model
 {
     /**
      * The attributes that are fillable via mass assignment.
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name','sigla'];
 
     /**
      * Create a new Permission instance.
@@ -23,6 +23,6 @@ class Departamento extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable('departamentos');
+        $this->setTable('estado_civil');
     }
 }
