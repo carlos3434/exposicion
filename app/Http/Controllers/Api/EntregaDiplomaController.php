@@ -77,9 +77,10 @@ class EntregaDiplomaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(EntregaDiploma $entregaDiploma)
+    //public function show(EntregaDiploma $entregaDiploma)
+    public function show( $id)
     {
-        return $entregaDiploma;
+        return EntregaDiploma::find($id);
     }
     /**
      * Update the specified resource in storage.

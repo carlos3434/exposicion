@@ -65,9 +65,10 @@ class RegistroController extends Controller
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function show(Persona $persona)
+    //public function show(Persona $persona)
+    public function show($id)
     {
-        return $persona;
+        return Persona::find($id);
     }
     /**
      * Update the specified resource in storage.
