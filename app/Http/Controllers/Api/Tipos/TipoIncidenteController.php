@@ -28,7 +28,8 @@ class TipoIncidenteController extends Controller
 
         $query = TipoIncidente::orderBy($sortBy,$direction);
 
-        return $query->paginate($per_page);
+        //return $query->paginate($per_page);
+        return $query->get();
     }
 
     /**
