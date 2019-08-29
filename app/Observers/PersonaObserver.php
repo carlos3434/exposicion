@@ -4,8 +4,6 @@ namespace App\Observers;
 
 use App\Persona;
 use Illuminate\Support\Facades\Auth;
-use Image;
-use Illuminate\Support\Facades\Storage;
 
 class PersonaObserver
 {
@@ -16,14 +14,7 @@ class PersonaObserver
     }
     public function saving(Persona $persona)
     {
-        $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$persona->url_foto));
-        //Image::make($image)->resize(300,300)->save($s3);
-        $profileImg= Image::make($image)->stream();
 
-        $fileName = time().'.png';
-        Storage::put('uploads/photos/'.$fileName, $profileImg, 'public');
-
-        $persona->url_foto = $fileName;
     }
     /**
      * Handle the Persona "created" event.

@@ -29,7 +29,8 @@ class TipoProcesoDisciplinarioController extends Controller
 
         $query = TipoProcesoDisciplinario::orderBy($sortBy,$direction);
 
-        return $query->paginate($per_page);
+        //return $query->paginate($per_page);
+        return $query->get();
     }
 
     /**

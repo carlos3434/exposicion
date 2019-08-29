@@ -27,7 +27,8 @@ class EstadoRegistroColegiadoController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
         $query = EstadoRegistroColegiado::orderBy($sortBy,$direction);
-        return $query->paginate($per_page);
+        //return $query->paginate($per_page);
+        return $query->get();
     }
 
     /**

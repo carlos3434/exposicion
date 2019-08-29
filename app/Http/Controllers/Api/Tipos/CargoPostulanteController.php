@@ -29,7 +29,8 @@ class CargoPostulanteController extends Controller
 
         $query = CargoPostulante::orderBy($sortBy,$direction);
 
-        return $query->paginate($per_page);
+        //return $query->paginate($per_page);
+        return $query->get();
     }
 
     /**

@@ -27,7 +27,8 @@ class EspecialidadPosgradoController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
         $query = EspecialidadPosgrado::orderBy($sortBy,$direction);
-        return $query->paginate($per_page);
+        //return $query->paginate($per_page);
+        return $query->get();
     }
 
     /**

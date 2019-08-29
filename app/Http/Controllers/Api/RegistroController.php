@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Persona as PersonaRequest;
 
+use Image;
+use Illuminate\Support\Facades\Storage;
+
 class RegistroController extends Controller
 {
     public function __construct()
@@ -39,8 +42,21 @@ class RegistroController extends Controller
      */
     public function store(PersonaRequest $request)
     {
+        $this->savePhoto($request);
         $persona = Persona::create($request->all());
         return response()->json($persona, 201);
+    }
+    private function savePhoto(&$request)
+    {
+        if ($request->has('url_foto')) {
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$request->url_foto));
+            //Image::make($image)->resize(300,300)->save($s3);
+            $profileImg= Image::make($image)->stream();
+
+            $fileName = time().'.png';
+            Storage::put('uploads/photos/'.$fileName, $profileImg, 'public');
+            $request->merge(['url_foto' => $fileName]);
+        }
     }
 
     /**
@@ -62,6 +78,7 @@ class RegistroController extends Controller
      */
     public function update(PersonaRequest $request, Persona $persona)
     {
+        $this->savePhoto($request);
         $persona->update( $request->all() );
         return response()->json($persona, 200);
     }
