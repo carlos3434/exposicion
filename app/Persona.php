@@ -14,6 +14,7 @@ class Persona extends Model
      * @var array
      */
     protected $fillable = [
+        'url_foto',
         'fecha_registro',
         'tipo_documento_identidad_id',
         'numero_documento_identidad',
