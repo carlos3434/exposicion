@@ -45,26 +45,25 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('translados','Api\TransladoController');
         Route::apiResource('licencias','Api\LicenciaController');
 
-        Route::apiResource('sanciones','Api\SancionController');
         Route::apiResource('procesos','Api\ProcesoDisciplinarioController');
         Route::apiResource('apelaciones','Api\ApelacionController');
         Route::apiResource('comites','Api\ComiteController');
         Route::apiResource('listasGanadoras','Api\ListaGanadoraController');
         Route::apiResource('listaPostulantes','Api\ListaPostulanteController');
         Route::apiResource('resultadoElecciones','Api\ResultadoEleccionController');
-
-        Route::apiResource('registros','Api\RegistroController');
+        //Route::apiResource('registros','Api\RegistroController');
+        Route::apiResource('personas','Api\PersonaController');
 
         //Tipos
         Route::apiResource('tipoIncidentes','Api\Tipos\TipoIncidenteController');
-
+        Route::apiResource('sanciones','Api\SancionController');
 
         Route::apiResource('especialidadPosgrado','Api\Tipos\EspecialidadPosgradoController');
         Route::apiResource('areaEjercicioProfesional','Api\Tipos\AreaEjercicioProfesionalController');
         Route::apiResource('universidades','Api\Tipos\UniversidadController');
         Route::apiResource('cargoPostulantes','Api\Tipos\CargoPostulanteController');
 
-        Route::apiResource('tipoProcesoDisciplinarios','Api\Tipos\TipoProcesoDisciplinarioController');
+        Route::apiResource('tipoProcesoDisciplinario','Api\Tipos\TipoProcesoDisciplinarioController');
         Route::apiResource('tipoDocumentoIdentidad','Api\Tipos\TipoDocumentoIdentidadController');
         Route::apiResource('estadoCivil','Api\Tipos\EstadoCivilController');
         Route::apiResource('tipoDocumentoPago','Api\Tipos\TipoDocumentoPagoController');

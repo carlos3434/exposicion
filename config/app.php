@@ -184,6 +184,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
+
+        Clockwork\Support\Laravel\ClockworkServiceProvider::class
     ],
 
     /*

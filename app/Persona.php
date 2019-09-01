@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Filters\PersonaFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class Persona extends Model
 {
     use SoftDeletes;
@@ -68,7 +71,10 @@ class Persona extends Model
         'multa_pagadas'
     ];
     //protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
-
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new PersonaFilter($request))->filter($builder);
+    }
     /**
      * Create a new Permission instance.
      * 
@@ -81,4 +87,77 @@ class Persona extends Model
 
         $this->setTable('personas');
     }
+
+    /**
+     * Get the TipoDocumentoIdentidad
+     */
+    public function tipoDocumentoIdentidad()
+    {
+        return $this->belongsTo('App\TipoDocumentoIdentidad');
+    }
+    /**
+     * Get the Ubigeo
+     */
+    public function nacionalidad()
+    {
+        return $this->belongsTo('App\Ubigeo', 'nacionalidad_id');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function estadoCivil()
+    {
+        return $this->belongsTo('App\EstadoCivil');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function ubigeo()
+    {
+        return $this->belongsTo('App\Ubigeo','ubigeo_id');
+    }
+
+    /**
+     * Get the EstadoCivil
+     */
+    public function universidadProcedencia()
+    {
+        return $this->belongsTo('App\Universidad','universidad_procedencia_id');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function especialidadPosgrado()
+    {
+        return $this->belongsTo('App\EspecialidadPosgrado');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function areaEjercicioProfesional()
+    {
+        return $this->belongsTo('App\AreaEjercicioProfesional');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function departamentoColegiado()
+    {
+        return $this->belongsTo('App\Ubigeo','departamento_colegiado_id');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function estadoRegistroColegiado()
+    {
+        return $this->belongsTo('App\EstadoRegistroColegiado');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function estadoCuentaSistema()
+    {
+        return $this->belongsTo('App\EstadoCuentaSistema');
+    }
+
 }

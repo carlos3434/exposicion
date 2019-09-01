@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Persona\Persona as PersonaResource;
 use App\Http\Resources\Persona\PersonaCollection;
 
-class RegistroController extends Controller
+class PersonaController extends Controller
 {
     public function __construct()
     {
@@ -78,7 +78,7 @@ class RegistroController extends Controller
     //public function show($id)
     {
         return new PersonaResource($persona);
-        return Persona::find($id);
+        //return Persona::find($id);
     }
     /**
      * Update the specified resource in storage.

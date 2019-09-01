@@ -11,8 +11,9 @@
 |
 */
 
-Route::get('test', function () {
+//Route::get('personas','Api\PersonaController@index');
 
+Route::get('test', function () {
     /*
     dd("fin");
     $json = file_get_contents( 'http://exposicion.juan/test.json'  );

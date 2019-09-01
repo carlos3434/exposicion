@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\Persona;
 
 use App\Http\Resources\AppCollection;
 
-class UserCollection extends AppCollection
+class PersonaCollection extends AppCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -16,8 +16,8 @@ class UserCollection extends AppCollection
     {
         return array_merge(
             [
-                'data' => $this->collection->transform(function ($user) {
-                    return new User($user);
+                'data' => $this->collection->transform(function ($persona) {
+                    return new Persona($persona);
                 })
             ],
             $this->getPaginate()

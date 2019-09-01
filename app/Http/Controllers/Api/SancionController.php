@@ -29,7 +29,8 @@ class SancionController extends Controller
 
         $query = Sancion::orderBy($sortBy,$direction);
 
-        return $query->paginate($per_page);
+        //return $query->paginate($per_page);
+        return $query->get();
     }
 
     /**
