@@ -9,6 +9,9 @@ use App\Http\Requests\ResultadoEleccion as ResultadoEleccionRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Http\Resources\ResultadoEleccion\ResultadoEleccionCollection;
+use App\Http\Resources\ResultadoEleccion\ResultadoEleccion as ResultadoEleccionResource;
+
 class ResultadoEleccionController extends Controller
 {
     public function __construct()
@@ -56,7 +59,8 @@ class ResultadoEleccionController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-        return $query->paginate($per_page);
+        return new ResultadoEleccionCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
     /**
      * Store a newly created resource in storage.
@@ -78,7 +82,8 @@ class ResultadoEleccionController extends Controller
      */
     public function show(ResultadoEleccion $resultadoEleccion)
     {
-        return $resultadoEleccion;
+        return new ResultadoEleccionResource($resultadoEleccion);
+        //return $resultadoEleccion;
     }
 
     /**

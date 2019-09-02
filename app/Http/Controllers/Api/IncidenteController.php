@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Http\Resources\Incidente\IncidenteCollection;
+use App\Http\Resources\Incidente\Incidente as IncidenteResource;
+
 class IncidenteController extends Controller
 {
     public function __construct()
@@ -59,8 +62,8 @@ class IncidenteController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-
-        return $query->paginate($per_page);
+        return new IncidenteCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
 
     /**
@@ -83,7 +86,8 @@ class IncidenteController extends Controller
      */
     public function show(Incidente $incidente)
     {
-        return $incidente;
+        return new IncidenteResource($incidente);
+        //return $incidente;
     }
 
     /**

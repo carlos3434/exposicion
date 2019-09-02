@@ -9,6 +9,9 @@ use App\Http\Requests\ListaGanadora as ListaGanadoraRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Http\Resources\ListaGanadora\ListaGanadoraCollection;
+use App\Http\Resources\ListaGanadora\ListaGanadora as ListaGanadoraResource;
+
 class ListaGanadoraController extends Controller
 {
     public function __construct()
@@ -62,7 +65,8 @@ class ListaGanadoraController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-        return $query->paginate($per_page);
+        return new ListaGanadoraCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
 
     /**
@@ -85,7 +89,8 @@ class ListaGanadoraController extends Controller
      */
     public function show(ListaGanadora $listaGanadora)
     {
-        return $listaGanadora;
+        return new ListaGanadoraResource($listaGanadora);
+        //return $listaGanadora;
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Tipos;
 
 use App\Sancion;
 use Illuminate\Http\Request;

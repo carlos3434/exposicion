@@ -7,6 +7,9 @@ use App\Http\Requests\Permission as PermissionRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Http\Resources\Permission\PermissionCollection;
+use App\Http\Resources\Permission\Permission as PermissionResource;
+
 class PermissionController extends Controller
 {
     public function __construct()
@@ -43,7 +46,8 @@ class PermissionController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-        return $query->paginate($per_page);
+        return new PermissionCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
 
     /**
@@ -65,7 +69,8 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
-        return $permission;
+        return new PermissionResource($permission);
+        //return $permission;
     }
 
     /**

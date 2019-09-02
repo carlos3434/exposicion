@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Translado as TransladoRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Http\Resources\Translado\TransladoCollection;
+use App\Http\Resources\Translado\Translado as TransladoResource;
+
 class TransladoController extends Controller
 {
     public function __construct()
@@ -60,8 +64,8 @@ class TransladoController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-
-        return $query->paginate($per_page);
+        return new TransladoCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
 
     /**
@@ -84,7 +88,8 @@ class TransladoController extends Controller
      */
     public function show(Translado $translado)
     {
-        return $translado;
+        return new TransladoResource($translado);
+        //return $translado;
     }
 
     /**

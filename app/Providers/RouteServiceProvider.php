@@ -27,11 +27,21 @@ class RouteServiceProvider extends ServiceProvider
 
         parent::boot();
         Route::model('user', \App\User::class);
-        
-        Route::model('diploma', \App\EntregaDiploma::class);
         Route::model('permission', \Caffeinated\Shinobi\Models\Permission::class);
         Route::model('role', \Caffeinated\Shinobi\Models\Role::class);
+
+        Route::model('diploma', \App\EntregaDiploma::class);
+        Route::model('incidente', \App\Incidente::class);
+        Route::model('translado', \App\Translado::class);
+        Route::model('licencia', \App\Licencia::class);
+        Route::model('proceso', \App\ProcesoDisciplinario::class);
+        Route::model('apelacione', \App\Apelacion::class);
+        Route::model('comite', \App\Comite::class);
+        Route::model('listasGanadora', \App\ListaGanadora::class);
+        Route::model('listaPostulante', \App\ListaPostulante::class);
+        Route::model('resultadoEleccione', \App\ResultadoEleccion::class);
         Route::model('persona', \App\Persona::class);
+
     }
 
     /**

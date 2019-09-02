@@ -7,6 +7,9 @@ use App\Http\Requests\Role as RoleRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Http\Resources\Role\RoleCollection;
+use App\Http\Resources\Role\Role as RoleResource;
+
 class RoleController extends Controller
 {
     public function __construct()
@@ -42,7 +45,8 @@ class RoleController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-        return Role::orderBy($sortBy,$direction)->paginate($per_page);
+        return new RoleCollection($query->paginate($per_page));
+        //return Role::orderBy($sortBy,$direction)->paginate($per_page);
     }
     /**
      * Store a newly created resource in storage.
@@ -64,6 +68,7 @@ class RoleController extends Controller
      */
     public function show( $id )
     {
+        //return new RoleResource($role);
         return Role::with([ 'permissions'])->find($id)->first();
     }
     /**

@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Licencia as LicenciaRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Http\Resources\Licencia\LicenciaCollection;
+use App\Http\Resources\Licencia\Licencia as LicenciaResource;
+
 class LicenciaController extends Controller
 {
     public function __construct()
@@ -61,8 +65,8 @@ class LicenciaController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-
-        return $query->paginate($per_page);
+        return new LicenciaCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
     /**
      * Store a newly created resource in storage.
@@ -84,7 +88,8 @@ class LicenciaController extends Controller
      */
     public function show(Licencia $licencia)
     {
-        return $licencia;
+        return new LicenciaResource($licencia);
+        //return $licencia;
     }
 
     /**

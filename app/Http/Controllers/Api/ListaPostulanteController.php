@@ -9,6 +9,9 @@ use App\Http\Requests\ListaPostulante as ListaPostulanteRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Http\Resources\ListaPostulante\ListaPostulanteCollection;
+use App\Http\Resources\ListaPostulante\ListaPostulante as ListaPostulanteResource;
+
 class ListaPostulanteController extends Controller
 {
     public function __construct()
@@ -62,7 +65,8 @@ class ListaPostulanteController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-        return $query->paginate($per_page);
+        return new ListaPostulanteCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
 
     /**
@@ -85,7 +89,8 @@ class ListaPostulanteController extends Controller
      */
     public function show(ListaPostulante $listaPostulante)
     {
-        return $listaPostulante;
+        return new ListaPostulanteResource($listaPostulante);
+        //return $listaPostulante;
     }
 
     /**

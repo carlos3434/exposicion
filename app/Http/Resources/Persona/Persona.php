@@ -100,7 +100,7 @@ class Persona extends JsonResource
             "multa_pendiente"               => $this->multa_pendiente,
             "multa_pagadas"                 => $this->multa_pagadas,
 
-            'created_at' => $this->created_at->toDateTimeString(),
+            'created_at'                    => $this->created_at->toDateTimeString(),
             /*'roles' => new RolesByPersonaCollection($this->roles),
             'permissions' => new PermissionsByPersonaCollection($this->permissions)*/
 

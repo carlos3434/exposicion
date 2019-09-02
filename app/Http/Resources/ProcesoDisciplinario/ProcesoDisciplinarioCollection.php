@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Persona;
+namespace App\Http\Resources\ProcesoDisciplinario;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class PersonaCollection extends ResourceCollection
+class ProcesoDisciplinarioCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -14,8 +14,6 @@ class PersonaCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function ($persona) {
-            return new Persona($persona);
-        });
+        return parent::toArray($request);
     }
 }

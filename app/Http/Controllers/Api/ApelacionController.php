@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Apelacion as ApelacionRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Http\Resources\Apelacion\ApelacionCollection;
+use App\Http\Resources\Apelacion\Apelacion as ApelacionResource;
+
 class ApelacionController extends Controller
 {
     public function __construct()
@@ -58,7 +62,8 @@ class ApelacionController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-        return $query->paginate($per_page);
+        return new ApelacionCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
 
 
@@ -82,7 +87,8 @@ class ApelacionController extends Controller
      */
     public function show(Apelacion $apelacion)
     {
-        return $apelacion;
+        return new ApelacionResource($apelacion);
+        //return $apelacion;
     }
 
     /**

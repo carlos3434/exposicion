@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\ListaPostulante;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Role extends JsonResource
+class ListaPostulante extends JsonResource
 {
     /**
      * Transform the resource into an array.

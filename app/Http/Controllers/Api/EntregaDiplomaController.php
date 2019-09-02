@@ -8,6 +8,9 @@ use App\Http\Requests\EntregaDiploma as EntregaDiplomaRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Http\Resources\EntregaDiploma\EntregaDiplomaCollection;
+use App\Http\Resources\EntregaDiploma\EntregaDiploma as EntregaDiplomaResource;
+
 class EntregaDiplomaController extends Controller
 {
     public function __construct()
@@ -57,8 +60,8 @@ class EntregaDiplomaController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-
-        return $query->paginate($per_page);
+        return new EntregaDiplomaCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
     /**
      * Store a newly created resource in storage.
@@ -77,10 +80,12 @@ class EntregaDiplomaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    //public function show(EntregaDiploma $entregaDiploma)
-    public function show( $id)
+    public function show(EntregaDiploma $entregaDiploma)
+    //public function show( $id)
     {
-        return EntregaDiploma::find($id);
+        return new EntregaDiplomaResource($entregaDiploma);
+        //return new PermissionResource($permission);
+        //return EntregaDiploma::find($id);
     }
     /**
      * Update the specified resource in storage.

@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\User;
 
-use App\Http\Resources\AppCollection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class UserCollection extends AppCollection
+class UserCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -14,13 +14,8 @@ class UserCollection extends AppCollection
      */
     public function toArray($request)
     {
-        return array_merge(
-            [
-                'data' => $this->collection->transform(function ($user) {
-                    return new User($user);
-                })
-            ],
-            $this->getPaginate()
-        );
+        return $this->collection->transform(function ($user) {
+            return new User($user);
+        });
     }
 }

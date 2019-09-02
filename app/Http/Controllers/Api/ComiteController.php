@@ -9,6 +9,9 @@ use App\Http\Requests\Comite as ComiteRequest;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Http\Resources\Comite\ComiteCollection;
+use App\Http\Resources\Comite\Comite as ComiteResource;
+
 class ComiteController extends Controller
 {
     public function __construct()
@@ -59,7 +62,8 @@ class ComiteController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-        return $query->paginate($per_page);
+        return new ComiteCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
 
 
@@ -83,7 +87,8 @@ class ComiteController extends Controller
      */
     public function show(Comite $comite)
     {
-        return $comite;
+        return new ComiteResource($comite);
+        //return $comite;
     }
 
     /**

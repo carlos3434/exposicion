@@ -36,27 +36,25 @@ Route::prefix('v1')->group(function(){
     Route::group(['middleware' => 'auth:api'], function(){
         Route::post('getUser', 'Api\AuthController@getUser');
         Route::post('logout', 'Api\AuthController@logout');
+        //apis
         Route::apiResource('permissions','Api\PermissionController');
         Route::apiResource('roles','Api\RoleController');
         Route::apiResource('users','Api\UserController');
         Route::apiResource('diplomas','Api\EntregaDiplomaController');
-
         Route::apiResource('incidentes','Api\IncidenteController');
         Route::apiResource('translados','Api\TransladoController');
         Route::apiResource('licencias','Api\LicenciaController');
-
         Route::apiResource('procesos','Api\ProcesoDisciplinarioController');
         Route::apiResource('apelaciones','Api\ApelacionController');
         Route::apiResource('comites','Api\ComiteController');
         Route::apiResource('listasGanadoras','Api\ListaGanadoraController');
         Route::apiResource('listaPostulantes','Api\ListaPostulanteController');
         Route::apiResource('resultadoElecciones','Api\ResultadoEleccionController');
-        //Route::apiResource('registros','Api\RegistroController');
         Route::apiResource('personas','Api\PersonaController');
 
         //Tipos
         Route::apiResource('tipoIncidentes','Api\Tipos\TipoIncidenteController');
-        Route::apiResource('sanciones','Api\SancionController');
+        Route::apiResource('sanciones','Api\Tipos\SancionController');
 
         Route::apiResource('especialidadPosgrado','Api\Tipos\EspecialidadPosgradoController');
         Route::apiResource('areaEjercicioProfesional','Api\Tipos\AreaEjercicioProfesionalController');

@@ -8,6 +8,10 @@ use App\Http\Requests\ProcesoDisciplinario as ProcesoDisciplinarioRequest;
 use App\Http\Controllers\Controller;
 use App\Exports\Export;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Http\Resources\ProcesoDisciplinario\ProcesoDisciplinarioCollection;
+use App\Http\Resources\ProcesoDisciplinario\ProcesoDisciplinario as ProcesoDisciplinarioResource;
+
 class ProcesoDisciplinarioController extends Controller
 {
     public function __construct()
@@ -61,8 +65,8 @@ class ProcesoDisciplinarioController extends Controller
             $export = new Export($rows,$headings);
             return Excel::download($export, $name. $type);
         }
-
-        return $query->paginate($per_page);
+        return new ProcesoDisciplinarioCollection($query->paginate($per_page));
+        //return $query->paginate($per_page);
     }
 
     /**
@@ -82,9 +86,10 @@ class ProcesoDisciplinarioController extends Controller
      * @param  \App\ProcesoDisciplinario  $procesoDisciplinario
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProcesoDisciplinario $procesoDisciplinario)
+    public function show(ProcesoDisciplinario $procesoDisciplinario)
     {
-        return $procesoDisciplinario;
+        return new ProcesoDisciplinarioResource($procesoDisciplinario);
+        //return $procesoDisciplinario;
     }
 
     /**

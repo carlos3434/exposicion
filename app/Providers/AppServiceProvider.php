@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Http\Resources\Json\Resource;
+
 use App\Incidente;
 use App\Translado;
 use App\Licencia;
@@ -67,5 +69,6 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^([-a-z0-9_ ])+$/i', $value);
         });
         Schema::defaultStringLength(191);
+        Resource::withoutWrapping();
     }
 }
