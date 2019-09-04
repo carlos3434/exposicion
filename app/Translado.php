@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Filters\TransladoFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class Translado extends Model
 {
     use SoftDeletes;
@@ -27,5 +31,30 @@ class Translado extends Model
         parent::__construct($attributes);
 
         $this->setTable('translados');
+    }
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new TransladoFilter($request))->filter($builder);
+    }
+    /**
+     * Get the TipoDocumentoIdentidad
+     */
+    public function origenDepartamento()
+    {
+        return $this->belongsTo('App\Ubigeo');
+    }
+    /**
+     * Get the Ubigeo
+     */
+    public function destinoDepartamento()
+    {
+        return $this->belongsTo('App\Ubigeo');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
     }
 }

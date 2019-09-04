@@ -6,10 +6,11 @@ use App\ProcesoDisciplinario;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProcesoDisciplinario as ProcesoDisciplinarioRequest;
 use App\Http\Controllers\Controller;
-use App\Exports\Export;
-use Maatwebsite\Excel\Facades\Excel;
+//use App\Exports\Export;
+//use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Resources\ProcesoDisciplinario\ProcesoDisciplinarioCollection;
+use App\Http\Resources\ProcesoDisciplinario\ProcesoDisciplinarioExcelCollection;
 use App\Http\Resources\ProcesoDisciplinario\ProcesoDisciplinario as ProcesoDisciplinarioResource;
 
 class ProcesoDisciplinarioController extends Controller
@@ -33,37 +34,25 @@ class ProcesoDisciplinarioController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = ProcesoDisciplinario::orderBy($sortBy,$direction);
-        if (!empty($request->persona_id)){
-            $query->where('persona_id', $request->persona_id);
-        }
-        if (!empty($request->sancion_id)){
-            $query->where('sancion_id', $request->sancion_id);
-        }
-        if (!empty($request->tipo_proceso_disciplinario_id)){
-            $query->where('tipo_proceso_disciplinario_id', $request->tipo_proceso_disciplinario_id);
-        }
+        $query = ProcesoDisciplinario::filter($request)
+            ->with([
+                'persona',
+                'sancion',
+                'tipoProcesoDisciplinario',
+        ])->orderBy($sortBy,$direction);
 
-        if (!empty($request->fecha_registro)){
-            if (is_array($request->fecha_registro) && count($request->fecha_registro) > 0) {
-                foreach ( $request->fecha_registro as $fecha_registro) {
-                    if (isset($fecha_registro)) {
-                        $query->orWhere('fecha_registro', $fecha_registro);
-                    }
-                }
-            } elseif (trim($request->fecha_registro) !=='') {
-                $query->where('fecha_registro', $request->fecha_registro);
-            }
-        }
         $name='procesos_disciplinarios_'.date('m-d-Y_hia');
 
         if ( !empty($request->excel) || !empty($request->pdf) ){
-            $type = ($request->excel) ? '.xlsx' : '.pdf';
-            $headings = [ "id","fecha_registro", "descripcion", "documento", "sancion_id" , "tipo_proceso_disciplinario_id", "persona_id","created_at"];
-            $query->select($headings);
-            $rows = $query->get()->toArray();
-            $export = new Export($rows,$headings);
-            return Excel::download($export, $name. $type);
+            if ($query->count() > 0) {
+                $result = new ProcesoDisciplinarioExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    $name.'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
         }
         return new ProcesoDisciplinarioCollection($query->paginate($per_page));
         //return $query->paginate($per_page);

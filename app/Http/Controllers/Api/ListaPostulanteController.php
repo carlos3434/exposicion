@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\ListaPostulante;
 use Illuminate\Http\Request;
 use App\Http\Requests\ListaPostulante as ListaPostulanteRequest;
-use App\Exports\Export;
-use Maatwebsite\Excel\Facades\Excel;
+//use App\Exports\Export;
+//use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Resources\ListaPostulante\ListaPostulanteCollection;
+use App\Http\Resources\ListaPostulante\ListaPostulanteExcelCollection;
 use App\Http\Resources\ListaPostulante\ListaPostulante as ListaPostulanteResource;
 
 class ListaPostulanteController extends Controller
@@ -33,37 +34,23 @@ class ListaPostulanteController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = ListaPostulante::orderBy($sortBy,$direction);
-        if (!empty($request->persona_id)){
-            $query->where('persona_id', $request->persona_id);
-        }
-        if (!empty($request->cargo_postulante_id)){
-            $query->where('cargo_postulante_id', $request->cargo_postulante_id);
-        }
-        if (!empty($request->departamento_id)){
-            $query->where('departamento_id', $request->departamento_id);
-        }
-
-        if (!empty($request->fecha_registro)){
-            if (is_array($request->fecha_registro) && count($request->fecha_registro) > 0) {
-                foreach ( $request->fecha_registro as $fecha_registro) {
-                    if (isset($fecha_registro)) {
-                        $query->orWhere('fecha_registro', $fecha_registro);
-                    }
-                }
-            } elseif (trim($request->fecha_registro) !=='') {
-                $query->where('fecha_registro', $request->fecha_registro);
-            }
-        }
-        $name='comites_'.date('m-d-Y_hia');
-
+        $name='listas_'.date('m-d-Y_hia');
+        $query = ListaPostulante::filter($request)
+            ->with([
+                'cargoPostulante',
+                'departamento',
+                'persona'
+        ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
-            $type = ($request->excel) ? '.xlsx' : '.pdf';
-            $headings = [ "id","fecha_registro", "lista", "proceso", "observacion" , "cargo_postulante_id", "departamento_id" , "persona_id", "created_by" ];
-            $query->select($headings);
-            $rows = $query->get()->toArray();
-            $export = new Export($rows,$headings);
-            return Excel::download($export, $name. $type);
+            if ($query->count() > 0) {
+                $result = new ListaPostulanteExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    $name.'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
         }
         return new ListaPostulanteCollection($query->paginate($per_page));
         //return $query->paginate($per_page);

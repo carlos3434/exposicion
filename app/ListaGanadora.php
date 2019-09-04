@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Filters\ListaGanadoraFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class ListaGanadora extends Model
 {
     use SoftDeletes;
@@ -27,5 +30,30 @@ class ListaGanadora extends Model
         parent::__construct($attributes);
 
         $this->setTable('lista_ganadoras');
+    }
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new ListaGanadoraFilter($request))->filter($builder);
+    }
+    /**
+     * Get the Persona
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
+    }
+    /**
+     * Get the Ubigeo
+     */
+    public function departamento()
+    {
+        return $this->belongsTo('App\Ubigeo','departamento_id');
+    }
+    /**
+     * Get the CargoPostulante
+     */
+    public function cargoPostulante()
+    {
+        return $this->belongsTo('App\CargoPostulante','cargo_postulante_id');
     }
 }

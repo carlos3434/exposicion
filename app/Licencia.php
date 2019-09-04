@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Filters\LicenciaFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class Licencia extends Model
 {
     use SoftDeletes;
@@ -28,5 +31,16 @@ class Licencia extends Model
         parent::__construct($attributes);
 
         $this->setTable('licencias');
+    }
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new LicenciaFilter($request))->filter($builder);
+    }
+    /**
+     * Get the Persona
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
     }
 }

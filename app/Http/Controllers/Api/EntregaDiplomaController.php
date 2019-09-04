@@ -5,10 +5,11 @@ use App\Http\Controllers\Controller;
 use App\EntregaDiploma;
 use App\Http\Requests\EntregaDiploma as EntregaDiplomaRequest;
 
-use App\Exports\Export;
-use Maatwebsite\Excel\Facades\Excel;
+//use App\Exports\Export;
+//use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Resources\EntregaDiploma\EntregaDiplomaCollection;
+use App\Http\Resources\EntregaDiploma\EntregaDiplomaExcelCollection;
 use App\Http\Resources\EntregaDiploma\EntregaDiploma as EntregaDiplomaResource;
 
 class EntregaDiplomaController extends Controller
@@ -32,33 +33,21 @@ class EntregaDiplomaController extends Controller
         $sortBy = $request->input('sortBy', 'entrega_diplomas.id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = EntregaDiploma::orderBy($sortBy,$direction)
-                ->select('entrega_diplomas.*','ubigeos.name as departamento')
-                ->join('ubigeos', 'departamento_id', '=', 'ubigeos.id');
-
-        if (!empty($request->departamento_id)){
-            $query->where('departamento_id', $request->departamento_id);
-        }
-
-        if (!empty($request->fecha_entrega)){
-            if (is_array($request->fecha_entrega) && count($request->fecha_entrega) > 0) {
-                foreach ( $request->fecha_entrega as $fecha_entrega) {
-                    if (isset($fecha_entrega)) {
-                        $query->orWhere('fecha_entrega', $fecha_entrega);
-                    }
-                }
-            } elseif (trim($request->fecha_entrega) !=='') {
-                $query->where('fecha_entrega', $request->fecha_entrega);
-            }
-        }
         $name='entrega_diplomas_'.date('m-d-Y_hia');
-
+        $query = EntregaDiploma::filter($request)
+            ->with([
+                'departamento'
+        ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
-            $type = ($request->excel) ? '.xlsx' : '.pdf';
-            $headings = [ "id","departamento_id", "fecha_entrega", "cantidad", "observacion" , "created_at", "updated_at", "departamento"];
-            $rows = $query->get()->toArray();
-            $export = new Export($rows,$headings);
-            return Excel::download($export, $name. $type);
+            if ($query->count() > 0) {
+                $result = new EntregaDiplomaExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    $name.'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
         }
         return new EntregaDiplomaCollection($query->paginate($per_page));
         //return $query->paginate($per_page);

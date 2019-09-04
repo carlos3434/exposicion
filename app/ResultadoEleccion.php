@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Filters\ResultadoEleccionFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class ResultadoEleccion extends Model
 {
     use SoftDeletes;
@@ -28,5 +31,16 @@ class ResultadoEleccion extends Model
         parent::__construct($attributes);
 
         $this->setTable('resultado_eleccions');
+    }
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new ResultadoEleccionFilter($request))->filter($builder);
+    }
+    /**
+     * Get the Ubigeo
+     */
+    public function departamento()
+    {
+        return $this->belongsTo('App\Ubigeo', 'departamento_id');
     }
 }

@@ -5,10 +5,11 @@ use App\Http\Controllers\Controller;
 use App\Translado;
 use Illuminate\Http\Request;
 use App\Http\Requests\Translado as TransladoRequest;
-use App\Exports\Export;
-use Maatwebsite\Excel\Facades\Excel;
+//use App\Exports\Export;
+//use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Resources\Translado\TransladoCollection;
+use App\Http\Resources\Translado\TransladoExcelCollection;
 use App\Http\Resources\Translado\Translado as TransladoResource;
 
 class TransladoController extends Controller
@@ -32,37 +33,24 @@ class TransladoController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = Translado::orderBy($sortBy,$direction);
-        if (!empty($request->persona_id)){
-            $query->where('persona_id', $request->persona_id);
-        }
-        if (!empty($request->origen_departamento_id)){
-            $query->where('origen_departamento_id', $request->origen_departamento_id);
-        }
-        if (!empty($request->destino_departamento_id)){
-            $query->where('destino_departamento_id', $request->destino_departamento_id);
-        }
+        $query = Translado::filter($request)->with([
+            'origenDepartamento',
+            'destinoDepartamento',
+            'persona'
+        ])->orderBy($sortBy,$direction);
 
-        if (!empty($request->fecha_registro)){
-            if (is_array($request->fecha_registro) && count($request->fecha_registro) > 0) {
-                foreach ( $request->fecha_registro as $fecha_registro) {
-                    if (isset($fecha_registro)) {
-                        $query->orWhere('fecha_registro', $fecha_registro);
-                    }
-                }
-            } elseif (trim($request->fecha_registro) !=='') {
-                $query->where('fecha_registro', $request->fecha_registro);
-            }
-        }
         $name='translados_'.date('m-d-Y_hia');
 
         if ( !empty($request->excel) || !empty($request->pdf) ){
-            $type = ($request->excel) ? '.xlsx' : '.pdf';
-            $headings = [ "id","fecha_registro", "motivo", "documento", "origen_departamento_id" , "destino_departamento_id", "persona_id","created_at"];
-            $query->select($headings);
-            $rows = $query->get()->toArray();
-            $export = new Export($rows,$headings);
-            return Excel::download($export, $name. $type);
+            if ($query->count() > 0) {
+                $result = new TransladoExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    $name.'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
         }
         return new TransladoCollection($query->paginate($per_page));
         //return $query->paginate($per_page);

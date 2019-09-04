@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Filters\ListaPostulanteFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class ListaPostulante extends Model
 {
     use SoftDeletes;
@@ -29,4 +32,30 @@ class ListaPostulante extends Model
 
         $this->setTable('lista_postulantes');
     }
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new ListaPostulanteFilter($request))->filter($builder);
+    }
+    /**
+     * Get the CargoPostulante
+     */
+    public function cargoPostulante()
+    {
+        return $this->belongsTo('App\CargoPostulante', 'cargo_postulante_id');
+    }
+    /**
+     * Get the Ubigeo
+     */
+    public function departamento()
+    {
+        return $this->belongsTo('App\Ubigeo', 'departamento_id');
+    }
+    /**
+     * Get the Persona
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
+    }
+
 }

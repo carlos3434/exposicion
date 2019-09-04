@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\ResultadoEleccion;
 use Illuminate\Http\Request;
 use App\Http\Requests\ResultadoEleccion as ResultadoEleccionRequest;
-use App\Exports\Export;
-use Maatwebsite\Excel\Facades\Excel;
+//use App\Exports\Export;
+//use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Resources\ResultadoEleccion\ResultadoEleccionCollection;
+use App\Http\Resources\ResultadoEleccion\ResultadoEleccionExcelCollection;
 use App\Http\Resources\ResultadoEleccion\ResultadoEleccion as ResultadoEleccionResource;
 
 class ResultadoEleccionController extends Controller
@@ -33,31 +34,21 @@ class ResultadoEleccionController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = ResultadoEleccion::orderBy($sortBy,$direction);
-        if (!empty($request->departamento_id)){
-            $query->where('departamento_id', $request->departamento_id);
-        }
-
-        if (!empty($request->fecha_registro)){
-            if (is_array($request->fecha_registro) && count($request->fecha_registro) > 0) {
-                foreach ( $request->fecha_registro as $fecha_registro) {
-                    if (isset($fecha_registro)) {
-                        $query->orWhere('fecha_registro', $fecha_registro);
-                    }
-                }
-            } elseif (trim($request->fecha_registro) !=='') {
-                $query->where('fecha_registro', $request->fecha_registro);
-            }
-        }
-        $name='comites_'.date('m-d-Y_hia');
-
+        $name='resultados_'.date('m-d-Y_hia');
+        $query = ResultadoEleccion::filter($request)
+            ->with([
+                'departamento'
+        ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
-            $type = ($request->excel) ? '.xlsx' : '.pdf';
-            $headings = [ "id","fecha_registro", "lista_ganadora", "numero_votantes", "numero_novotantes" , "numero_votos", "observacion", "departamento_id" , "created_by"];
-            $query->select($headings);
-            $rows = $query->get()->toArray();
-            $export = new Export($rows,$headings);
-            return Excel::download($export, $name. $type);
+            if ($query->count() > 0) {
+                $result = new ResultadoEleccionExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    $name.'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
         }
         return new ResultadoEleccionCollection($query->paginate($per_page));
         //return $query->paginate($per_page);

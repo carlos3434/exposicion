@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Filters\ProcesoDisciplinarioFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class ProcesoDisciplinario extends Model
 {
     use SoftDeletes;
@@ -28,5 +31,30 @@ class ProcesoDisciplinario extends Model
         parent::__construct($attributes);
 
         $this->setTable('proceso_disciplinarios');
+    }
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new ProcesoDisciplinarioFilter($request))->filter($builder);
+    }
+    /**
+     * Get the Persona
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
+    }
+    /**
+     * Get the Sancion
+     */
+    public function sancion()
+    {
+        return $this->belongsTo('App\Sancion');
+    }
+    /**
+     * Get the Persona
+     */
+    public function tipoProcesoDisciplinario()
+    {
+        return $this->belongsTo('App\TipoProcesoDisciplinario','tipo_proceso_disciplinario_id');
     }
 }

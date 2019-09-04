@@ -6,10 +6,11 @@ use App\Incidente;
 use Illuminate\Http\Request;
 use App\Http\Requests\Incidente as IncidenteRequest;
 use App\Http\Controllers\Controller;
-use App\Exports\Export;
-use Maatwebsite\Excel\Facades\Excel;
+//use App\Exports\Export;
+//use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Resources\Incidente\IncidenteCollection;
+use App\Http\Resources\Incidente\IncidenteExcelCollection;
 use App\Http\Resources\Incidente\Incidente as IncidenteResource;
 
 class IncidenteController extends Controller
@@ -33,34 +34,22 @@ class IncidenteController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = Incidente::orderBy($sortBy,$direction);
-        if (!empty($request->persona_id)){
-            $query->where('persona_id', $request->persona_id);
-        }
-        if (!empty($request->tipo_incidente_id)){
-            $query->where('tipo_incidente_id', $request->tipo_incidente_id);
-        }
-
-        if (!empty($request->fecha_registro)){
-            if (is_array($request->fecha_registro) && count($request->fecha_registro) > 0) {
-                foreach ( $request->fecha_registro as $fecha_registro) {
-                    if (isset($fecha_registro)) {
-                        $query->orWhere('fecha_registro', $fecha_registro);
-                    }
-                }
-            } elseif (trim($request->fecha_registro) !=='') {
-                $query->where('fecha_registro', $request->fecha_registro);
-            }
-        }
         $name='incidentes_'.date('m-d-Y_hia');
-
+        $query = Incidente::filter($request)
+            ->with([
+                'persona',
+                'tipoIncidente'
+        ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
-            $type = ($request->excel) ? '.xlsx' : '.pdf';
-            $headings = [ "id","fecha_registro", "descripcion", "documento", "tipo_incidente_id" , "persona_id", "created_at"];
-            $query->select($headings);
-            $rows = $query->get()->toArray();
-            $export = new Export($rows,$headings);
-            return Excel::download($export, $name. $type);
+            if ($query->count() > 0) {
+                $result = new IncidenteExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    $name.'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
         }
         return new IncidenteCollection($query->paginate($per_page));
         //return $query->paginate($per_page);

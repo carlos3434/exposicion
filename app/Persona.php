@@ -87,7 +87,15 @@ class Persona extends Model
 
         $this->setTable('personas');
     }
-
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->apellido_paterno} {$this->apellido_materno} {$this->nombres}";
+    }
     /**
      * Get the TipoDocumentoIdentidad
      */

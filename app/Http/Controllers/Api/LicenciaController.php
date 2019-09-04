@@ -6,10 +6,11 @@ use App\Licencia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Licencia as LicenciaRequest;
-use App\Exports\Export;
-use Maatwebsite\Excel\Facades\Excel;
+//use App\Exports\Export;
+//use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Resources\Licencia\LicenciaCollection;
+use App\Http\Resources\Licencia\LicenciaExcelCollection;
 use App\Http\Resources\Licencia\Licencia as LicenciaResource;
 
 class LicenciaController extends Controller
@@ -33,37 +34,21 @@ class LicenciaController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        $query = Licencia::orderBy($sortBy,$direction);
-        if (!empty($request->persona_id)){
-            $query->where('persona_id', $request->persona_id);
-        }
-        if (!empty($request->fecha_inicio)){
-            $query->where('fecha_inicio', $request->fecha_inicio);
-        }
-        if (!empty($request->fecha_fin)){
-            $query->where('fecha_fin', $request->fecha_fin);
-        }
-
-        if (!empty($request->fecha_registro)){
-            if (is_array($request->fecha_registro) && count($request->fecha_registro) > 0) {
-                foreach ( $request->fecha_registro as $fecha_registro) {
-                    if (isset($fecha_registro)) {
-                        $query->orWhere('fecha_registro', $fecha_registro);
-                    }
-                }
-            } elseif (trim($request->fecha_registro) !=='') {
-                $query->where('fecha_registro', $request->fecha_registro);
-            }
-        }
         $name='licencias_'.date('m-d-Y_hia');
-
+        $query = Licencia::filter($request)
+            ->with([
+                'persona',
+        ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
-            $type = ($request->excel) ? '.xlsx' : '.pdf';
-            $headings = [ "id","fecha_registro", "motivo", "documento", "fecha_inicio" , "fecha_fin", "persona_id","created_at"];
-            $query->select($headings);
-            $rows = $query->get()->toArray();
-            $export = new Export($rows,$headings);
-            return Excel::download($export, $name. $type);
+            if ($query->count() > 0) {
+                $result = new LicenciaExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    $name.'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
         }
         return new LicenciaCollection($query->paginate($per_page));
         //return $query->paginate($per_page);

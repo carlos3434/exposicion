@@ -5,6 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Filters\ComiteFilter;
+use Illuminate\Database\Eloquent\Builder;
+
+
 class Comite extends Model
 {
     use SoftDeletes;
@@ -27,5 +31,23 @@ class Comite extends Model
         parent::__construct($attributes);
 
         $this->setTable('comites');
+    }
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new ComiteFilter($request))->filter($builder);
+    }
+    /**
+     * Get the Persona
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
+    }
+    /**
+     * Get the CargoPostulante
+     */
+    public function cargoPostulante()
+    {
+        return $this->belongsTo('App\CargoPostulante', 'cargo_postulante_id');
     }
 }

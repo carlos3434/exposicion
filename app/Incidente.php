@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Filters\IncidenteFilter;
+use Illuminate\Database\Eloquent\Builder;
+
 class Incidente extends Model
 {
     use SoftDeletes;
@@ -26,5 +30,23 @@ class Incidente extends Model
         parent::__construct($attributes);
 
         $this->setTable('incidentes');
+    }
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new IncidenteFilter($request))->filter($builder);
+    }
+    /**
+     * Get the Persona
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
+    }
+    /**
+     * Get the TipoIncidente
+     */
+    public function tipoIncidente()
+    {
+        return $this->belongsTo('App\TipoIncidente','tipo_incidente_id');
     }
 }

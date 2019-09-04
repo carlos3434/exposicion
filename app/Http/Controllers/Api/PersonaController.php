@@ -8,8 +8,12 @@ use App\Http\Requests\Persona as PersonaRequest;
 use Image;
 use Illuminate\Support\Facades\Storage;
 
+//use App\Exports\Export;
+//use Maatwebsite\Excel\Facades\Excel;
+
 use App\Http\Resources\Persona\Persona as PersonaResource;
 use App\Http\Resources\Persona\PersonaCollection;
+use App\Http\Resources\Persona\PersonaExcelCollection;
 
 class PersonaController extends Controller
 {
@@ -32,15 +36,37 @@ class PersonaController extends Controller
         $sortBy = $request->input('sortBy', 'id');
         $direction = $request->input('direction', 'DESC');
 
-        return new PersonaCollection(
-            Persona::filter($request)
-                ->orderBy($sortBy,$direction)
-                ->paginate($per_page)
-        );
-        /*
-        $query = Persona::orderBy($sortBy,$direction);
+        $name='registros_'.date('m-d-Y_hia');
+        $query = Persona::filter($request)
+            ->with([
+                'tipoDocumentoIdentidad',
+                'nacionalidad',
+                'estadoCivil',
+                'ubigeo',
+                'universidadProcedencia',
+                'especialidadPosgrado',
+                'areaEjercicioProfesional',
+                'departamentoColegiado',
+                'estadoRegistroColegiado',
+                'estadoCuentaSistema'
+        ]);
+        if ( !empty($request->excel) || !empty($request->pdf) ){
 
-        return $query->paginate($per_page);*/
+            if ($query->count() > 0) {
+                $result = new PersonaExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    $name.'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
+        }
+
+        return new PersonaCollection(
+            $query->orderBy($sortBy,$direction)
+                  ->paginate($per_page)
+        );
     }
 
     /**
