@@ -33,6 +33,11 @@ Route::prefix('v1')->group(function(){
     Route::post('login', 'Api\AuthController@login');
 
     Route::post('register', 'Api\AuthController@register');
+
+    Route::get('peruconsult/dni/{dni}', 'PeruConsultController@dni');
+    Route::get('peruconsult/ruc/{ruc}', 'PeruConsultController@ruc');
+    Route::get('peruconsult/sol/{ruc}/{u}', 'PeruConsultController@sol');
+
     Route::group(['middleware' => 'auth:api'], function(){
         Route::post('getUser', 'Api\AuthController@getUser');
         Route::post('logout', 'Api\AuthController@logout');
@@ -69,6 +74,8 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('estadoRegistroColegiado','Api\Tipos\EstadoRegistroColegiadoController');
 
         Route::apiResource('ubigeos','Api\Tipos\UbigeoController');
+
+
 
     });
 
