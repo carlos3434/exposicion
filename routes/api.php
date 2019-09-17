@@ -57,6 +57,8 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('resultadoElecciones','Api\ResultadoEleccionController');
         Route::apiResource('personas','Api\PersonaController');
 
+        Route::apiResource('colegiados','Api\ColegiadoController');
+
         //Tipos
         Route::apiResource('tipoIncidentes','Api\Tipos\TipoIncidenteController');
         Route::apiResource('sanciones','Api\Tipos\SancionController');
@@ -75,6 +77,16 @@ Route::prefix('v1')->group(function(){
 
         Route::apiResource('ubigeos','Api\Tipos\UbigeoController');
 
+        //FFEE
+        Route::apiResource('clientes','Api\FFEE\ClienteController');
+        Route::apiResource('empresas','Api\FFEE\EmpresaController');
+        Route::apiResource('invoices','Api\FFEE\InvoiceController');
+        Route::apiResource('series','Api\FFEE\SerieController');
+        Route::apiResource('tipoInvoice','Api\FFEE\TipoInvoiceController');
+
+        Route::apiResource('tipoOperacion','Api\FFEE\TipoOperacionController');
+        Route::apiResource('conceptoPago','Api\FFEE\ConceptoPagoController');
+        Route::apiResource('invoiceDetail','Api\FFEE\InvoiceDetailController');
 
 
     });

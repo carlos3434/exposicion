@@ -29,11 +29,6 @@ class EntregaDiplomaController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'entrega_diplomas.id');
-        $direction = $request->input('direction', 'DESC');
-
-        $name='entrega_diplomas_'.date('m-d-Y_hia');
         $query = EntregaDiploma::filter($request)
             ->with([
                 'departamento'
@@ -43,14 +38,13 @@ class EntregaDiplomaController extends Controller
                 $result = new EntregaDiplomaExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'entrega_diplomas_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new EntregaDiplomaCollection($query->paginate($per_page));
-        //return $query->paginate($per_page);
+        return new EntregaDiplomaCollection($query->sort()->paginate());
     }
     /**
      * Store a newly created resource in storage.

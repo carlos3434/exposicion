@@ -35,7 +35,6 @@ class RoleController extends Controller
         if(!empty($request->name)){
             $query->where('name', 'like', '%'.$request->name.'%');
         }
-        $name='roles_'.date('m-d-Y_hia');
 
         if ( !empty($request->excel) || !empty($request->pdf) ){
             $type = ($request->excel) ? '.xlsx' : '.pdf';
@@ -43,7 +42,7 @@ class RoleController extends Controller
             $query->select($headings);
             $rows = $query->get()->toArray();
             $export = new Export($rows,$headings);
-            return Excel::download($export, $name. $type);
+            return Excel::download($export, 'roles_'.date('m-d-Y_hia'). $type);
         }
         return new RoleCollection($query->paginate($per_page));
         //return Role::orderBy($sortBy,$direction)->paginate($per_page);

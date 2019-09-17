@@ -30,31 +30,25 @@ class ProcesoDisciplinarioController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
         $query = ProcesoDisciplinario::filter($request)
             ->with([
                 'persona',
                 'sancion',
                 'tipoProcesoDisciplinario',
-        ])->orderBy($sortBy,$direction);
-
-        $name='procesos_disciplinarios_'.date('m-d-Y_hia');
+        ]);
 
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {
                 $result = new ProcesoDisciplinarioExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'procesos_disciplinarios_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new ProcesoDisciplinarioCollection($query->paginate($per_page));
+        return new ProcesoDisciplinarioCollection($query->sort()->paginate());
         //return $query->paginate($per_page);
     }
 

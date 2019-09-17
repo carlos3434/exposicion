@@ -30,11 +30,6 @@ class ResultadoEleccionController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
-        $name='resultados_'.date('m-d-Y_hia');
         $query = ResultadoEleccion::filter($request)
             ->with([
                 'departamento'
@@ -44,13 +39,13 @@ class ResultadoEleccionController extends Controller
                 $result = new ResultadoEleccionExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'resultados_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new ResultadoEleccionCollection($query->paginate($per_page));
+        return new ResultadoEleccionCollection($query->sort()->paginate());
         //return $query->paginate($per_page);
     }
     /**

@@ -30,11 +30,6 @@ class ListaGanadoraController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
-        $name='listas_'.date('m-d-Y_hia');
         $query = ListaGanadora::filter($request)
             ->with([
                 'cargoPostulante',
@@ -46,13 +41,13 @@ class ListaGanadoraController extends Controller
                 $result = new ListaGanadoraExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'listas_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new ListaGanadoraCollection($query->paginate($per_page));
+        return new ListaGanadoraCollection($query->sort()->paginate());
         //return $query->paginate($per_page);
     }
 

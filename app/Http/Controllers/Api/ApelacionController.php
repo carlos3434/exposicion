@@ -30,11 +30,6 @@ class ApelacionController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
-        $name='apelaciones_'.date('m-d-Y_hia');
         $query = Apelacion::filter($request)
             ->with([
                 'persona',
@@ -45,14 +40,13 @@ class ApelacionController extends Controller
                 $result = new ApelacionExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'apelaciones_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new ApelacionCollection($query->paginate($per_page));
-        //return $query->paginate($per_page);
+        return new ApelacionCollection($query->sort()->paginate());
     }
 
 

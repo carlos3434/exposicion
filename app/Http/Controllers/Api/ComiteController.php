@@ -30,11 +30,6 @@ class ComiteController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
-        $name='comites_'.date('m-d-Y_hia');
         $query = Comite::filter($request)
             ->with([
                 'persona',
@@ -45,14 +40,13 @@ class ComiteController extends Controller
                 $result = new ComiteExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'comites_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new ComiteCollection($query->paginate($per_page));
-        //return $query->paginate($per_page);
+        return new ComiteCollection($query->sort()->paginate());
     }
 
 

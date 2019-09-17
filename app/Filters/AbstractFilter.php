@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class AbstractFilter
 {
     protected $request;
+    protected $builder;
 
     protected $filters = [];
 
@@ -23,9 +24,15 @@ abstract class AbstractFilter
         {
             $this->resolveFilter($filter)->filter($builder, $value);
         }
-        return $builder;
+        $this->setBuilder($builder);
+        return $this;
+        //return $builder;
     }
 
+    protected function setBuilder($builder)
+    {
+        $this->builder = $builder;
+    }
     protected function getFilters()
     {
         return array_filter($this->request->only(array_keys($this->filters)));
@@ -35,4 +42,30 @@ abstract class AbstractFilter
     {
         return new $this->filters[$filter];
     }
+
+    public function sort()
+    {
+        $sortBy = $this->request->input('sortBy', 'id');
+        $direction = $this->request->input('direction', 'DESC');
+        $this->builder->orderBy($sortBy,$direction);
+        return $this;
+    }
+    public function with($arg)
+    {
+        $this->builder->with($arg);
+        return $this;
+    }
+    public function paginate()
+    {
+        return $this->builder->paginate( $this->request->input('per_page',25) );
+    }
+    public function get()
+    {
+        return $this->builder->get();
+    }
+    public function count()
+    {
+        return $this->builder->count();
+    }
+
 }

@@ -32,11 +32,6 @@ class PersonaController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
-        $name='registros_'.date('m-d-Y_hia');
         $query = Persona::filter($request)
             ->with([
                 'tipoDocumentoIdentidad',
@@ -56,17 +51,14 @@ class PersonaController extends Controller
                 $result = new PersonaExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'registros_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
 
-        return new PersonaCollection(
-            $query->orderBy($sortBy,$direction)
-                  ->paginate($per_page)
-        );
+        return new PersonaCollection( $query->sort()->paginate() );
     }
 
     /**

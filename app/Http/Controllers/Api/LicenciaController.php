@@ -30,11 +30,6 @@ class LicenciaController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
-        $name='licencias_'.date('m-d-Y_hia');
         $query = Licencia::filter($request)
             ->with([
                 'persona',
@@ -44,13 +39,13 @@ class LicenciaController extends Controller
                 $result = new LicenciaExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'licencias_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new LicenciaCollection($query->paginate($per_page));
+        return new LicenciaCollection($query->sort()->paginate());
         //return $query->paginate($per_page);
     }
     /**

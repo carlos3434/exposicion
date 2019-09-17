@@ -29,31 +29,24 @@ class TransladoController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
         $query = Translado::filter($request)->with([
             'origenDepartamento',
             'destinoDepartamento',
             'persona'
-        ])->orderBy($sortBy,$direction);
-
-        $name='translados_'.date('m-d-Y_hia');
+        ]);
 
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {
                 $result = new TransladoExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'translados_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new TransladoCollection($query->paginate($per_page));
-        //return $query->paginate($per_page);
+        return new TransladoCollection($query->sort()->paginate());
     }
 
     /**

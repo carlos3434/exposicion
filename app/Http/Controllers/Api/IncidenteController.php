@@ -30,11 +30,6 @@ class IncidenteController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
-        $name='incidentes_'.date('m-d-Y_hia');
         $query = Incidente::filter($request)
             ->with([
                 'persona',
@@ -45,14 +40,13 @@ class IncidenteController extends Controller
                 $result = new IncidenteExcelCollection( $query->get() );
 
                 return $result->downloadExcel(
-                    $name.'.xlsx',
+                    'incidentes_'.date('m-d-Y_hia').'.xlsx',
                     $writerType = null,
                     $headings = true
                 );
             }
         }
-        return new IncidenteCollection($query->paginate($per_page));
-        //return $query->paginate($per_page);
+        return new IncidenteCollection($query->sort()->paginate() );
     }
 
     /**
