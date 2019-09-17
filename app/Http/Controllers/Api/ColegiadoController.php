@@ -22,7 +22,7 @@ class ColegiadoController extends Controller
      */
     public function index(Request $request)
     {
-        return Persona::filter($request)->sort()->get();
+         return  Persona::filter($request)->first();
     }
 
 }

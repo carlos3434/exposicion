@@ -59,6 +59,10 @@ abstract class AbstractFilter
     {
         return $this->builder->paginate( $this->request->input('per_page',25) );
     }
+    public function first()
+    {
+        return $this->builder->first();
+    }
     public function get()
     {
         return $this->builder->get();
