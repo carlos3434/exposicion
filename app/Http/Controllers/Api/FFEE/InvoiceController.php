@@ -11,10 +11,15 @@ use App\Http\Resources\Invoice\InvoiceCollection;
 use App\Http\Resources\Invoice\InvoiceExcelCollection;
 use App\Http\Resources\Invoice\Invoice as InvoiceResource;
 
+//repositories
+use App\Repositories\ClienteRepository;
+
 class InvoiceController extends Controller
 {
-    public function __construct()
+    private $clienteRepository;
+    public function __construct(ClienteRepository $clienteRepository)
     {
+        $this->clienteRepository = $clienteRepository;
         $this->middleware('can:CREATE_INVOICE')->only(['create','store']);
         $this->middleware('can:READ_INVOICE')->only('index');
         $this->middleware('can:UPDATE_INVOICE')->only(['edit','update']);
@@ -59,6 +64,9 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
+        $cliente = $this->clienteRepository->newOne($request->cliente);
+
+        $invoice = $request->request->add(['cliente_id' => $cliente->id]);
         $invoice = Invoice::create($request->all());
         return response()->json($invoice, 201);
     }

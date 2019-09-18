@@ -28,7 +28,15 @@ class Invoice extends FormRequest
             'tipo_invoice_id'       => 'required|exists:tipo_invoice,id',
             'serie_id'              => 'required|exists:series,id',
             'numero'                => 'string',
-            'cliente_id'            => 'required|exists:clientes,id',
+            //'cliente_id'            => 'required|exists:clientes,id',
+            /*'cliente_tipo_documento_identidad_id'        => 'required|integer',
+            'cliente_numero_documento_identidad'         => 'required|integer',
+            'cliente_razon_social'                       => 'required|string',
+            'cliente_direccion'                          => 'string',
+            'cliente_telefono'                           => 'string',
+            'cliente_celular'                            => 'string',
+            'cliente_email'                              => 'email',*/
+
             'tipo_moneda'           => 'required|string',
             'fecha_emision'         => 'required|date_format:Y-m-d',
             'fecha_vencimiento'     => 'required|date_format:Y-m-d',
