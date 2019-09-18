@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Cliente;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Persona\TipoDocumentoIdentidadCollection;
 
 class ClienteExcel extends JsonResource
 {
@@ -16,15 +17,16 @@ class ClienteExcel extends JsonResource
     {
         return [
             'id'                            => $this->id,
-            'fecha_registro'                => $this->fecha_registro,
-            'resolucion'                    => $this->resolucion,
-            'is_titular'                    => $this->is_titular,
-            'representanteNombres'          => $this->representanteNombres,
-            'representanteApellidoPaterno'  => $this->representanteApellidoPaterno,
-            'representanteApellidoMaterno'  => $this->representanteApellidoMaterno,
+            'razon_social'                  => $this->razon_social,
+            'direccion'                     => $this->direccion,
 
-            'documento'                     => isset( $this->documento->documento) ? $this->documento->documento : '',
-            'persona'                       => isset( $this->persona->full_name) ? $this->persona->full_name : '',
+            'tipo_documento_identidad'      => isset( $this->tipoDocumentoIdentidad->id) ? : '',
+            'numero_documento_identidad'    => isset( $this->tipoDocumentoIdentidad->name) ? : '',
+
+            'telefono'                      => $this->telefono,
+            'celular'                       => $this->celular,
+            'email'                         => $this->email,
+
             'created_at'                    => $this->created_at->toDateTimeString(),
         ];
     }

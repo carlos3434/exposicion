@@ -30,8 +30,7 @@ class ClienteController extends Controller
     {
         $query = Cliente::filter($request)
             ->with([
-                'persona',
-                'cargoPostulante'
+                'tipoDocumentoIdentidad'
         ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {

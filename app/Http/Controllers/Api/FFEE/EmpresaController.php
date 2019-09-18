@@ -30,8 +30,7 @@ class EmpresaController extends Controller
     {
         $query = Empresa::filter($request)
             ->with([
-                'persona',
-                'cargoPostulante'
+                'ubigeo'
         ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {

@@ -16,7 +16,21 @@ class Empresa extends Model
      *
      * @var array
      */
-    protected $fillable = ['updated_by', 'created_by', 'deleted_by'];
+    protected $fillable = [
+            'ruc',
+            'nombre_comercial',
+            'certificado_digital',
+            'razon_social',
+            'direccion_web',
+            'telefono',
+            'email',
+            'direccion',
+            'logo',
+            'ubigeo_id',
+            'user_sunat',
+            'password_sunat',
+            'entorno',
+            'updated_by', 'created_by', 'deleted_by'];
 
     /**
      * Create a new Permission instance.
@@ -35,10 +49,10 @@ class Empresa extends Model
         return (new EmpresaFilter($request))->filter($builder);
     }
     /**
-     * Get the 
+     * Get the Ubigeo
      */
-    public function persona()
+    public function ubigeo()
     {
-        return $this->belongsTo('App\A');
+        return $this->belongsTo('App\Ubigeo');
     }
 }

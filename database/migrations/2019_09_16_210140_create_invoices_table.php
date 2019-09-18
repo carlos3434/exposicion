@@ -29,7 +29,8 @@ class CreateInvoicesTable extends Migration
             $table->string('tipo_moneda');
             $table->date('fecha_emision');
             $table->date('fecha_vencimiento');
-            $table->string('tipo_operacion');//venta interna
+            $table->unsignedBigInteger('tipo_operacion_id');//venta interna
+            $table->foreign('tipo_operacion_id')->references('id')->on('tipo_operacion')->onDelete('cascade');
 
             $table->decimal('descuento_global')->default(0);
             $table->decimal('descuento_total')->default(0);

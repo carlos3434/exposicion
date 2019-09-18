@@ -28,11 +28,7 @@ class ConceptoPagoController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ConceptoPago::filter($request)
-            ->with([
-                'persona',
-                'cargoPostulante'
-        ]);
+        $query = ConceptoPago::filter($request);
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {
                 $result = new ConceptoPagoExcelCollection( $query->get() );

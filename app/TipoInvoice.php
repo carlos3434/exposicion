@@ -14,7 +14,7 @@ class TipoInvoice extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['name','codigo_sunat'];
 
     /**
      * Create a new Permission instance.
@@ -31,12 +31,5 @@ class TipoInvoice extends Model
     public function scopeFilter(Builder $builder, $request)
     {
         return (new TipoInvoiceFilter($request))->filter($builder);
-    }
-    /**
-     * Get the 
-     */
-    public function persona()
-    {
-        return $this->belongsTo('App\A');
     }
 }

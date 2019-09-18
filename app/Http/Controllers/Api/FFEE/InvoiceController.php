@@ -30,8 +30,11 @@ class InvoiceController extends Controller
     {
         $query = Invoice::filter($request)
             ->with([
-                'persona',
-                'cargoPostulante'
+                'tipoInvoice',
+                'tipoOperacion',
+                'serie',
+                'cliente',
+                'empresa'
         ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {

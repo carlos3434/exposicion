@@ -25,28 +25,22 @@ class Cliente extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro' => 'required|date_format:Y-m-d',
-            'resolucion' => 'required|alpha_num_spaces',
-            'persona_id' => 'required|integer|min:1',
-            'is_titular' => 'required|boolean',
-            'representanteNombres' => 'required|alpha_num_spaces',
-            'representanteApellidoPaterno' => 'required|alpha_num_spaces',
-            'representanteApellidoMaterno' => 'required|alpha_num_spaces',
-            'documento_id' => 'required|exists:proceso_disciplinarios,id',
-            //'clave' => 'required|exists:calendarizaciones,clave'
+            'razon_social'                  => 'required|string',
+            'direccion'                     => 'required|string',
+            'tipo_documento_identidad_id'   => 'required|exists:tipo_documento_identidad,id',
+            'numero_documento_identidad'    => 'required|unique:clientes,numero_documento_identidad,'. (isset($this->cliente->id) ? $this->cliente->id : 0),
+            'telefono'                      => 'integer',
+            'celular'                       => 'integer',
+            'email'                         => 'email',
         ];
     }
     public function messages()
     {
         return [
-            'fecha_registro.required' => 'El :attribute es un campo requerido',
-            'resolucion.required' => 'El :attribute es un campo requerido',
-            'persona_id.required' => 'El :attribute es un campo requerido',
-            'is_titular.required' => 'El :attribute es un campo requerido',
-            'representanteNombres.required' => 'El :attribute es un campo requerido',
-            'representanteApellidoPaterno.required' => 'El :attribute es un campo requerido',
-            'representanteApellidoMaterno.required' => 'El :attribute es un campo requerido',
-            'documento_id.required' => 'El :attribute es un campo requerido',
+            'razon_social.required' => 'El :attribute es un campo requerido',
+            'direccion.required' => 'El :attribute es un campo requerido',
+            'tipo_documento_identidad_id.required' => 'El :attribute es un campo requerido',
+            'numero_documento_identidad.required' => 'El :attribute es un campo requerido',
             // ..
         ];
     }

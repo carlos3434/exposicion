@@ -16,7 +16,16 @@ class Cliente extends Model
      *
      * @var array
      */
-    protected $fillable = ['updated_by', 'created_by', 'deleted_by'];
+    protected $fillable = [
+        'razon_social',
+        'direccion',
+        'tipo_documento_identidad_id',
+        'numero_documento_identidad',
+        'telefono',
+        'celular',
+        'email',
+        'updated_by', 'created_by', 'deleted_by'
+    ];
 
     /**
      * Create a new Permission instance.
@@ -35,10 +44,10 @@ class Cliente extends Model
         return (new ClienteFilter($request))->filter($builder);
     }
     /**
-     * Get the 
+     * Get the TipoDocumentoIdentidad
      */
-    public function persona()
+    public function tipoDocumentoIdentidad()
     {
-        return $this->belongsTo('App\A');
+        return $this->belongsTo('App\TipoDocumentoIdentidad');
     }
 }

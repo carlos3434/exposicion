@@ -28,11 +28,7 @@ class TipoOperacionController extends Controller
      */
     public function index(Request $request)
     {
-        $query = TipoOperacion::filter($request)
-            ->with([
-                'persona',
-                'cargoPostulante'
-        ]);
+        $query = TipoOperacion::filter($request);
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {
                 $result = new TipoOperacionExcelCollection( $query->get() );

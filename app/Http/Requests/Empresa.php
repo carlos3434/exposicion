@@ -25,28 +25,35 @@ class Empresa extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro' => 'required|date_format:Y-m-d',
-            'resolucion' => 'required|alpha_num_spaces',
-            'persona_id' => 'required|integer|min:1',
-            'is_titular' => 'required|boolean',
-            'representanteNombres' => 'required|alpha_num_spaces',
-            'representanteApellidoPaterno' => 'required|alpha_num_spaces',
-            'representanteApellidoMaterno' => 'required|alpha_num_spaces',
-            'documento_id' => 'required|exists:proceso_disciplinarios,id',
-            //'clave' => 'required|exists:calendarizaciones,clave'
+
+            'ruc'                       => 'required|digits:11|unique:empresas,ruc,'. (isset($this->empresa->id) ? $this->empresa->id : 0),
+
+            'nombre_comercial'          => 'required|string',
+            'certificado_digital'       => 'string',
+            'razon_social'              => 'required|string',
+            'direccion_web'             => 'required|url',
+            'telefono'                  => 'required|integer',
+            'email'                     => 'email',
+            'direccion'                 => 'required|string',
+            'logo'                      => 'string',
+            'ubigeo_id'                 => 'required|exists:ubigeos,id',
+            'user_sunat'                => 'string',
+            'password_sunat'            => 'string',
+            'entorno'                   => 'in:0,1',
+
         ];
     }
     public function messages()
     {
         return [
-            'fecha_registro.required' => 'El :attribute es un campo requerido',
-            'resolucion.required' => 'El :attribute es un campo requerido',
-            'persona_id.required' => 'El :attribute es un campo requerido',
-            'is_titular.required' => 'El :attribute es un campo requerido',
-            'representanteNombres.required' => 'El :attribute es un campo requerido',
-            'representanteApellidoPaterno.required' => 'El :attribute es un campo requerido',
-            'representanteApellidoMaterno.required' => 'El :attribute es un campo requerido',
-            'documento_id.required' => 'El :attribute es un campo requerido',
+            'ruc.required' => 'El :attribute es un campo requerido',
+            'nombre_comercial.required' => 'El :attribute es un campo requerido',
+            'razon_social.required' => 'El :attribute es un campo requerido',
+            'direccion_web.required' => 'El :attribute es un campo requerido',
+            'telefono.required' => 'El :attribute es un campo requerido',
+            'direccion.required' => 'El :attribute es un campo requerido',
+            'ubigeo_id.required' => 'El :attribute es un campo requerido',
+            
             // ..
         ];
     }

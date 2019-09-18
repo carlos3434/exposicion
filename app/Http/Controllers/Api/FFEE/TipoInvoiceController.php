@@ -28,11 +28,7 @@ class TipoInvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $query = TipoInvoice::filter($request)
-            ->with([
-                'persona',
-                'cargoPostulante'
-        ]);
+        $query = TipoInvoice::filter($request);
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {
                 $result = new TipoInvoiceExcelCollection( $query->get() );
