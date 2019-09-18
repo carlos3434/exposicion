@@ -17,7 +17,7 @@ class Invoice extends Model
      * @var array
      */
     protected $fillable = [
-        'tipo_invoice_id',
+        'tipo_documento_pago_id',
         'serie_id',
         'numero',
         'cliente_id',
@@ -55,9 +55,9 @@ class Invoice extends Model
     /**
      * Get the tipo_invoice
      */
-    public function tipoInvoice()
+    public function tipoDocumentoPago()
     {
-        return $this->belongsTo('App\TipoInvoice');
+        return $this->belongsTo('App\TipoDocumentoPago');
     }
     /**
      * Get the TipoOperacion

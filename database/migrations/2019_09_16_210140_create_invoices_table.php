@@ -15,8 +15,9 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('tipo_invoice_id')->index();
-            $table->foreign('tipo_invoice_id')->references('id')->on('tipo_invoice')->onDelete('cascade');
+
+            $table->unsignedBigInteger('tipo_documento_pago_id')->index();
+            $table->foreign('tipo_documento_pago_id')->references('id')->on('tipo_documento_pago')->onDelete('cascade');
 
             $table->unsignedBigInteger('serie_id')->index();
             $table->foreign('serie_id')->references('id')->on('series')->onDelete('cascade');

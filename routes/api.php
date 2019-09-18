@@ -82,7 +82,6 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('empresas','Api\FFEE\EmpresaController');
         Route::apiResource('invoices','Api\FFEE\InvoiceController');
         Route::apiResource('series','Api\FFEE\SerieController');
-        Route::apiResource('tipoInvoice','Api\FFEE\TipoInvoiceController');
 
         Route::apiResource('tipoOperacion','Api\FFEE\TipoOperacionController');
         Route::apiResource('conceptoPago','Api\FFEE\ConceptoPagoController');

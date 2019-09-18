@@ -35,7 +35,7 @@ class InvoiceController extends Controller
     {
         $query = Invoice::filter($request)
             ->with([
-                'tipoInvoice',
+                'tipoDocumentoPago',
                 'tipoOperacion',
                 'serie',
                 'cliente',

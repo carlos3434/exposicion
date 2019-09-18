@@ -25,7 +25,8 @@ class Invoice extends FormRequest
     public function rules()
     {
         return [
-            'tipo_invoice_id'       => 'required|exists:tipo_invoice,id',
+            //'tipo_invoice_id'       => 'required|exists:tipo_invoice,id',
+            'tipo_documento_pago_id'       => 'required|exists:tipo_documento_pago,id',
             'serie_id'              => 'required|exists:series,id',
             'numero'                => 'string',
             //'cliente_id'            => 'required|exists:clientes,id',
@@ -57,7 +58,7 @@ class Invoice extends FormRequest
     public function messages()
     {
         return [
-            'tipo_invoice_id.required' => 'El :attribute es un campo requerido',
+            'tipo_documento_pago_id.required' => 'El :attribute es un campo requerido',
             'serie_id.required' => 'El :attribute es un campo requerido',
             'cliente_id.required' => 'El :attribute es un campo requerido',
             'fecha_emision.required' => 'El :attribute es un campo requerido',

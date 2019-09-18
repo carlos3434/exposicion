@@ -46,7 +46,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('empresas', \App\Empresa::class);
         Route::model('invoices', \App\Invoice::class);
         Route::model('series', \App\Serie::class);
-        Route::model('tipoInvoice', \App\TipoInvoice::class);
 
 
     }
