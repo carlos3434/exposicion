@@ -71,7 +71,7 @@ class Invoice extends Model
      */
     public function serie()
     {
-        return $this->belongsTo('App\Seire');
+        return $this->belongsTo('App\Serie');
     }
     /**
      * Get the cliente
