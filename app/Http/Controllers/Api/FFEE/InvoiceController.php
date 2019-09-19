@@ -11,15 +11,22 @@ use App\Http\Resources\Invoice\InvoiceCollection;
 use App\Http\Resources\Invoice\InvoiceExcelCollection;
 use App\Http\Resources\Invoice\Invoice as InvoiceResource;
 
+use App\Http\Requests\Cliente as ClienteRequest;
 //repositories
-use App\Repositories\ClienteRepository;
+use App\Repositories\Interfaces\ClienteRepositoryInterface;
+use App\Repositories\Interfaces\InvoiceDetailRepositoryInterface;
 
 class InvoiceController extends Controller
 {
     private $clienteRepository;
-    public function __construct(ClienteRepository $clienteRepository)
+    private $invoiceDetailRepository;
+    public function __construct(
+        ClienteRepositoryInterface $clienteRepository,
+        InvoiceDetailRepositoryInterface $invoiceDetailRepository
+    )
     {
         $this->clienteRepository = $clienteRepository;
+        $this->invoiceDetailRepository = $invoiceDetailRepository;
         $this->middleware('can:CREATE_INVOICE')->only(['create','store']);
         $this->middleware('can:READ_INVOICE')->only('index');
         $this->middleware('can:UPDATE_INVOICE')->only(['edit','update']);
@@ -64,10 +71,19 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
-        $cliente = $this->clienteRepository->newOne($request->cliente);
+        $clienteId = $this->clienteRepository->newOne($request->cliente);
 
-        $invoice = $request->request->add(['cliente_id' => $cliente->id]);
+        $request->request->add(['cliente_id' => $clienteId]);
+
         $invoice = Invoice::create($request->all());
+        //$invoice = InvoiceResource::make($request->all());
+
+        foreach($request->get('invoiceDetail') as $key => $detail)
+        {
+            $detail['invoice_id'] = $invoice->id;
+            $invoiceDetailId = $this->invoiceDetailRepository->newOne($detail);
+        }
+
         return response()->json($invoice, 201);
     }
 

@@ -11,10 +11,16 @@ use App\Http\Resources\Cliente\ClienteCollection;
 use App\Http\Resources\Cliente\ClienteExcelCollection;
 use App\Http\Resources\Cliente\Cliente as ClienteResource;
 
+
+use App\Repositories\Interfaces\ClienteRepositoryInterface;
+
 class ClienteController extends Controller
 {
-    public function __construct()
+    private $clienteRepository;
+
+    public function __construct(ClienteRepositoryInterface $clienteRepository)
     {
+        $this->clienteRepository = $clienteRepository;
         $this->middleware('can:CREATE_CLIENTE')->only(['create','store']);
         $this->middleware('can:READ_CLIENTE')->only('index');
         $this->middleware('can:UPDATE_CLIENTE')->only(['edit','update']);

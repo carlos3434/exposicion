@@ -5,12 +5,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Http\Requests\User as UserRequest;
-use App\Repositories\UserRepository;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class UserController extends Controller
 {
     private $userRepository;
-    public function __construct(UserRepository $userRepository)
+
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
         $this->middleware('can:CREATE_USER')->only(['create','store']);
@@ -19,6 +20,7 @@ class UserController extends Controller
         $this->middleware('can:DETAIL_USER')->only('show');
         $this->middleware('can:DELETE_USER')->only('destroy');
     }
+
     /**
      * Display a listing of the resource.
      *

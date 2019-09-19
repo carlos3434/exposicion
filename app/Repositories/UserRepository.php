@@ -5,10 +5,11 @@ use App\User;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\User as UserResource;
 
+use App\Repositories\Interfaces\UserRepositoryInterface;
 /**
  * 
  */
-class UserRepository
+class UserRepository implements UserRepositoryInterface
 {
     public function all($request)
     {
@@ -32,6 +33,11 @@ class UserRepository
         $this->syncRolesAndPermissions($request, $user);
         return $user;
     }
+    public function deleteOne($user)
+    {
+        $user->delete();
+    }
+
     private function syncRolesAndPermissions($request, &$user)
     {
         if ($request->has('roles')) {
@@ -40,9 +46,5 @@ class UserRepository
         if ($request->has('permissions')) {
             $user->permissions()->sync( $request->get('permissions') );
         }
-    }
-    public function deleteOne($user)
-    {
-        $user->delete();
     }
 }

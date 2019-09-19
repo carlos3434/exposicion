@@ -4,11 +4,13 @@ namespace App\Repositories;
 use App\Cliente;
 use App\Http\Resources\Cliente\ClienteCollection;
 use App\Http\Resources\Cliente\Cliente as ClienteResource;
+use App\Http\Requests\Cliente as ClienteRequest;
 
+use App\Repositories\Interfaces\ClienteRepositoryInterface;
 /**
  * 
  */
-class ClienteRepository
+class ClienteRepository implements ClienteRepositoryInterface
 {
     public function all($request)
     {
@@ -16,21 +18,22 @@ class ClienteRepository
             Cliente::filter($request)->sort()->paginate()
         );
     }
-    public function getOne($cliente)
+    public function getOne(Cliente $cliente)
     {
         return new ClienteResource($cliente);
     }
-    public function newOne($cliente)
+    public function newOne( $cliente)
     {
+        //search client with dni or ruc
         $cliente = Cliente::create($cliente);
-        return $cliente;
+        return $cliente->id;
     }
-    public function updateOne($request, $cliente)
+    public function updateOne(ClienteRequest $request, Cliente $cliente)
     {
         $cliente->update( $request->all() );
         return $cliente;
     }
-    public function deleteOne($cliente)
+    public function deleteOne(Cliente $cliente)
     {
         $cliente->delete();
     }

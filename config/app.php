@@ -188,6 +188,8 @@ return [
         Clockwork\Support\Laravel\ClockworkServiceProvider::class,
 
         App\Providers\HelperServiceProvider::class,
+
+        App\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

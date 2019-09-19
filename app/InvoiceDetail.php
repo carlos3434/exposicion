@@ -12,7 +12,21 @@ class InvoiceDetail extends Model
      *
      * @var array
      */
-    protected $fillable = ['fecha_registro'];
+    protected $fillable = [
+        'descripcion',
+        'precio',
+        'cantidad',
+        'descuento_linea',
+        'porcentaje_igv',
+        'igv',
+        'impuestos',
+        'valor_unitario',
+        'precio_unitario',
+        'valor_venta',
+        'base_igv',
+        'invoice_id',
+        'concepto_pago_id',
+    ];
 
     /**
      * Create a new Permission instance.
