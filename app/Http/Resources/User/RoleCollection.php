@@ -21,7 +21,12 @@ class RoleCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection->transform(function ($role) {
-            return $role->id;
+            return [
+                'id' => $role->id,
+                'name' => $role->name,
+                'special' => $role->special,
+            ];
+            //return $role->id;
         });
     }
 }

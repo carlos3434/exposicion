@@ -4,7 +4,7 @@
 </div>
 <div class="form-group">
     {{ Form::label('email','email del usuario') }}
-    {{ Form::text( 'slug' , null , ['class'=> 'form-control']) }}
+    {{ Form::text( 'email' , null , ['class'=> 'form-control']) }}
 </div>
 <hr>
 <h3>Lista de Roles</h3>

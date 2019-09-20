@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\User;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\User as UserResource;
+use App\Http\Resources\User\UserForLogin as UserResourceForLogin;
 
 use App\Repositories\Interfaces\UserRepositoryInterface;
 /**
@@ -16,6 +17,10 @@ class UserRepository implements UserRepositoryInterface
         return new UserCollection(
             User::filter($request)->sort()->paginate()
         );
+    }
+    public function getOneForLogin($user)
+    {
+        return new UserResourceForLogin($user);
     }
     public function getOne($user)
     {

@@ -7,11 +7,18 @@ use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Carbon\Carbon;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class AuthController extends Controller 
 {
     public $successStatus = 200;
+    public $unauthorizedStatus = 401;
+    private $userRepository;
 
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
     public function register(Request $request) {
         $this->validateRegister($request);
         $input = $request->all();
@@ -37,36 +44,19 @@ class AuthController extends Controller
         $this->validateLogin($request);
         if (!Auth::attempt( request(['email', 'password']) )) {
             return response()->json([
-                'message' => 'Unauthorized'], 401);
+                'message' => 'Unauthorized'], $this->unauthorizedStatus);
         }
         $user = Auth::user();
         $tokenResult =  $user->createToken('AppName');
-        $success['token'] =  $tokenResult->accessToken;
-        $success['token_type'] =  'Bearer';
-        $success['expires_at'] = Carbon::parse($tokenResult->token->expires_at)
+        //$success = $user;
+
+        $user['token'] =  $tokenResult->accessToken;
+        $user['token_type'] =  'Bearer';
+        $user['expires_at'] = Carbon::parse($tokenResult->token->expires_at)
                                 ->toDateTimeString();
-
-        $permissions = $roles =[];
-        foreach($user->roles as $role)
-        {
-            foreach($role->permissions as $permission)
-            {
-                array_push($permissions, $permission->slug);
-            }
-            $rol = ['name'=>$role->name,'special'=>$role->special];
-            array_push($roles, $rol);
-        }
-
-        foreach( $user->permissions as $permission)
-        {
-            array_push($permissions, $permission->slug);
-        }
-
-        $success['rol'] = $roles;
-        $success['permissions'] = $permissions;
+        $success = $this->userRepository->getOneForLogin($user);
 
         return response()->json(['success' => $success], $this->successStatus);
-
     }
 
     public function logout( Request $request ) {
@@ -75,6 +65,7 @@ class AuthController extends Controller
     }
     public function getUser() {
         $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+        $success = $this->userRepository->getOne($user);
+        return response()->json(['success' => $success], $this->successStatus);
     }
 }

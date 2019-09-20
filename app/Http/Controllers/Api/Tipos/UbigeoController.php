@@ -25,20 +25,9 @@ class UbigeoController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 25);
-        $sortBy = $request->input('sortBy', 'id');
-        $direction = $request->input('direction', 'DESC');
-
         return new UbigeoCollection(
-            Ubigeo::filter($request)
-                ->get()
-                //->orderBy($sortBy,$direction)
-                //->paginate($per_page)
+            Ubigeo::filter($request)->get()
         );
-
-        $query = Ubigeo::orderBy($sortBy,$direction);
-
-        return $query->paginate($per_page);
     }
 
     /**

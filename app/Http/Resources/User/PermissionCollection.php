@@ -21,7 +21,12 @@ class PermissionCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection->transform(function ($permission) {
-            return $permission->id;
+            return [
+                'id' => $permission->id,
+                'name' => $permission->name,
+                'slug' => $permission->slug,
+            ];
+            //return $role->id;
         });
     }
 
