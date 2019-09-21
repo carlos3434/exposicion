@@ -44,11 +44,12 @@ class InvoiceDetail extends Model
     {
         return (new InvoiceDetailFilter($request))->filter($builder);
     }
+
     /**
      * Get the Persona
      */
-    public function persona()
+    public function conceptoPago()
     {
-        return $this->belongsTo('App\A');
+        return $this->belongsTo('App\ConceptoPago');
     }
 }

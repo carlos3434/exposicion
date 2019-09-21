@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Invoice;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class EmpresaCollection extends ResourceCollection
+class EmpresaCollection extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -14,6 +14,11 @@ class EmpresaCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'ruc' => $this->ruc,
+            'nombre_comercial' => $this->nombre_comercial,
+            'razon_social' => $this->razon_social,
+        ];
     }
 }

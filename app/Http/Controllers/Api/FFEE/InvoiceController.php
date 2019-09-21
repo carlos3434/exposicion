@@ -73,6 +73,7 @@ class InvoiceController extends Controller
     public function store(InvoiceRequest $request)
     {
         //validate cliente
+        /*
         $cliente = json_decode($request->cliente,true);
         Validator::make( $cliente , [
             'tipo_documento_identidad_id'        => 'required|integer',
@@ -95,7 +96,11 @@ class InvoiceController extends Controller
                 'descuento_linea'   => 'integer',
                 'concepto_pago_id'  => 'required|exists:concepto_pago,id',
             ])->validate();
-        }
+        }*/
+        //$cliente = $this->clienteRepository->newOne($request->cliente);
+        $invoiceDetail = $request->invoiceDetail;
+        $cliente = $request->cliente;
+
         $clienteDB = $this->clienteRepository->getByDni($cliente);
         $clienteId = $clienteDB['id'];
         if ( empty($clienteDB) ) {
@@ -109,7 +114,7 @@ class InvoiceController extends Controller
         foreach($invoiceDetail as $key => $detail)
         {
             $detail['invoice_id'] = $invoice->id;
-            $invoiceDetailId = $this->invoiceDetailRepository->newOne($detail);
+            $this->invoiceDetailRepository->newOne($detail);
         }
         return new InvoiceResource($invoice);
         //return response()->json($invoice, 201);

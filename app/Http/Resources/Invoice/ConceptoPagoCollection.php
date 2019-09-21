@@ -4,7 +4,7 @@ namespace App\Http\Resources\Invoice;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TipoDocumentoPagoCollection extends JsonResource
+class ConceptoPagoCollection extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -15,8 +15,8 @@ class TipoDocumentoPagoCollection extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'                    => $this->id,
+            'name'           => $this->name,
         ];
     }
 }

@@ -11,6 +11,7 @@ interface ClienteRepositoryInterface
 {
     public function all($request);
     public function getOne(Cliente $cliente);
+    public function getByDni( $cliente);
     public function newOne(ClienteRequest $request);
     public function updateOne(ClienteRequest $request, Cliente $cliente);
     public function deleteOne(Cliente $cliente);

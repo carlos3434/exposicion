@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Invoice;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ClienteCollection extends ResourceCollection
+class ClienteCollection extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -14,6 +14,14 @@ class ClienteCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'razon_social' => $this->razon_social,
+            'direccion' => $this->direccion,
+            'numero_documento_identidad' => $this->numero_documento_identidad,
+            'telefono' => $this->telefono,
+            'celular' => $this->celular,
+            'email' => $this->email,
+        ];
     }
 }

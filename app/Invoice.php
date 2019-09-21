@@ -55,6 +55,13 @@ class Invoice extends Model
     /**
      * Get the tipo_invoice
      */
+    public function invoiceDetail()
+    {
+        return $this->hasMany('App\InvoiceDetail');
+    }
+    /**
+     * Get the tipo_invoice
+     */
     public function tipoDocumentoPago()
     {
         return $this->belongsTo('App\TipoDocumentoPago');

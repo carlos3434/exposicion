@@ -29,11 +29,12 @@ class Invoice extends JsonResource
             'fecha_vencimiento'         => $this->fecha_vencimiento,
             'tipo_moneda'               => $this->tipo_moneda,
 
-            //'empresa_id'                => new EmpresaCollection($this->empresa_id),
-            /*'tipo_operacion'         => new TipoOperacionCollection($this->tipoOperacion),
-            'cliente'                => new ClienteCollection($this->cliente),
-            'tipo_documento_pago'    => new TipoDocumentoPagoCollection($this->tipoDocumentoPago),
-            'serie'                  => new SerieCollection($this->serie),*/
+            'empresa'                   => new EmpresaCollection($this->empresa),
+            'tipo_operacion'            => new TipoOperacionCollection($this->tipoOperacion),
+            'cliente'                   => new ClienteCollection($this->cliente),
+            'tipo_documento_pago'       => new TipoDocumentoPagoCollection($this->tipoDocumentoPago),
+            'serie'                     => new SerieCollection($this->serie),
+            'invoice_detail'            => new InvoiceDetailCollection($this->invoiceDetail),
             'created_at'                => $this->created_at->toDateTimeString(),
 
         ];
