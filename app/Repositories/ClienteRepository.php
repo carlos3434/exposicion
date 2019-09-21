@@ -22,6 +22,13 @@ class ClienteRepository implements ClienteRepositoryInterface
     {
         return new ClienteResource($cliente);
     }
+    public function getByDni( $cliente)
+    {
+        return Cliente::where('tipo_documento_identidad_id',$cliente['tipo_documento_identidad_id'])
+        ->where('numero_documento_identidad',$cliente['numero_documento_identidad'])
+        ->first();
+        //return Cliente::filter($cliente);
+    }
     public function newOne( $cliente)
     {
         //search client with dni or ruc

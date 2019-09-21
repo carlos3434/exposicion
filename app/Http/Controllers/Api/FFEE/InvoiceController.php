@@ -12,6 +12,7 @@ use App\Http\Resources\Invoice\InvoiceExcelCollection;
 use App\Http\Resources\Invoice\Invoice as InvoiceResource;
 
 use App\Http\Requests\Cliente as ClienteRequest;
+use Illuminate\Support\Facades\Validator;
 //repositories
 use App\Repositories\Interfaces\ClienteRepositoryInterface;
 use App\Repositories\Interfaces\InvoiceDetailRepositoryInterface;
@@ -71,20 +72,47 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
-        $clienteId = $this->clienteRepository->newOne($request->cliente);
+        //validate cliente
+        $cliente = json_decode($request->cliente,true);
+        Validator::make( $cliente , [
+            'tipo_documento_identidad_id'        => 'required|integer',
+            'numero_documento_identidad'         => 'required|integer',
+            'razon_social'                       => 'required|string',
+            'direccion'                          => 'required|string',
+            'telefono'                           => 'integer',
+            'celular'                            => 'integer',
+            'email'                              => 'email',
+        ])->validate();
+
+        //validate detail
+        $invoiceDetail = json_decode($request->invoiceDetail,true);
+        foreach($invoiceDetail as $key => $detail)
+        {
+            Validator::make( $detail , [
+                'descripcion'       => 'required|string',
+                'precio'            => 'required|integer',
+                'cantidad'          => 'required|integer',
+                'descuento_linea'   => 'integer',
+                'concepto_pago_id'  => 'required|exists:concepto_pago,id',
+            ])->validate();
+        }
+        $clienteDB = $this->clienteRepository->getByDni($cliente);
+        $clienteId = $clienteDB['id'];
+        if ( empty($clienteDB) ) {
+            $clienteId = $this->clienteRepository->newOne( $cliente );
+        }
 
         $request->request->add(['cliente_id' => $clienteId]);
 
         $invoice = Invoice::create($request->all());
-        //$invoice = InvoiceResource::make($request->all());
 
-        foreach($request->get('invoiceDetail') as $key => $detail)
+        foreach($invoiceDetail as $key => $detail)
         {
             $detail['invoice_id'] = $invoice->id;
             $invoiceDetailId = $this->invoiceDetailRepository->newOne($detail);
         }
-
-        return response()->json($invoice, 201);
+        return new InvoiceResource($invoice);
+        //return response()->json($invoice, 201);
     }
 
     /**
