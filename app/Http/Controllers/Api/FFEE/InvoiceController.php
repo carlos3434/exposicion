@@ -72,44 +72,12 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
-        //validate cliente
-        /*
-        $cliente = json_decode($request->cliente,true);
-        Validator::make( $cliente , [
-            'tipo_documento_identidad_id'        => 'required|integer',
-            'numero_documento_identidad'         => 'required|integer',
-            'razon_social'                       => 'required|string',
-            'direccion'                          => 'required|string',
-            'telefono'                           => 'integer',
-            'celular'                            => 'integer',
-            'email'                              => 'email',
-        ])->validate();
-
-        //validate detail
-        $invoiceDetail = json_decode($request->invoiceDetail,true);
-        foreach($invoiceDetail as $key => $detail)
-        {
-            Validator::make( $detail , [
-                'descripcion'       => 'required|string',
-                'precio'            => 'required|integer',
-                'cantidad'          => 'required|integer',
-                'descuento_linea'   => 'integer',
-                'concepto_pago_id'  => 'required|exists:concepto_pago,id',
-            ])->validate();
-        }*/
-        //$cliente = $this->clienteRepository->newOne($request->cliente);
         $invoiceDetail = $request->invoiceDetail;
         $cliente = $request->cliente;
 
         $clienteDB = $this->clienteRepository->getByDni($cliente);
-        /*$clienteId = $clienteDB['id'];
-        if ( empty($clienteDB) ) {
-            $clienteId = $this->clienteRepository->newOne( $cliente );
-        }*/
-        //dd($clienteDB->id);
 
-        $request->request->add(['cliente_id' => $clienteDB->id]);
-
+        $request->merge([ 'cliente_id' => $clienteDB->id ]);
         $invoice = Invoice::create($request->all());
 
         foreach($invoiceDetail as $key => $detail)
