@@ -62,14 +62,14 @@ class Invoice extends FormRequest
             'fecha_emision'         => 'required|date_format:Y-m-d',
             'fecha_vencimiento'     => 'required|date_format:Y-m-d',
             'tipo_operacion_id'     => 'exists:tipo_operacion,id',
-            'descuento_global'      => 'numeric',
-            'descuento_total'       => 'numeric',
-            'monto_exogerado'       => 'numeric',
-            'monto_inafecta'        => 'numeric',
-            'monto_gravada'         => 'numeric',
-            'monto_gratuito'        => 'numeric',
-            'igv_total'             => 'numeric',
-            'monto_total'           => 'numeric',
+            'descuento_global'      => 'numeric|between:0,99.99',
+            'descuento_total'       => 'numeric|between:0,99.99',
+            'monto_exogerado'       => 'numeric|between:0,99.99',
+            'monto_inafecta'        => 'numeric|between:0,99.99',
+            'monto_gravada'         => 'numeric|between:0,99.99',
+            'monto_gratuito'        => 'numeric|between:0,99.99',
+            'igv_total'             => 'numeric|between:0,99.99',
+            'monto_total'           => 'numeric|between:0,99.99',
             'empresa_id'            => 'required|exists:empresas,id',
 
             'cliente.tipo_documento_identidad_id'        => 'required|integer',
@@ -86,9 +86,9 @@ class Invoice extends FormRequest
         foreach($this->request->get('invoiceDetail') as $key => $val)
         {
             $rules['invoiceDetail.'.$key.'.descripcion']        = 'required|string';
-            $rules['invoiceDetail.'.$key.'.precio']             = 'required|string';
+            $rules['invoiceDetail.'.$key.'.precio']             = 'required|numeric|between:0,99.99';
             $rules['invoiceDetail.'.$key.'.cantidad']           = 'required|integer';
-            $rules['invoiceDetail.'.$key.'.descuento_linea']    = 'integer';
+            $rules['invoiceDetail.'.$key.'.descuento_linea']    = 'numeric|between:0,99.99';
             $rules['invoiceDetail.'.$key.'.concepto_pago_id']   = 'required|exists:concepto_pago,id';
         }
         return $rules;
