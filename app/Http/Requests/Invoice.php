@@ -83,13 +83,15 @@ class Invoice extends FormRequest
             'tipo_moneda'           => 'required|string',
             'fecha_emision'         => 'required|date_format:Y-m-d',
         ];
-        foreach($this->request->get('invoiceDetail') as $key => $val)
-        {
-            $rules['invoiceDetail.'.$key.'.descripcion']        = 'required|string';
-            $rules['invoiceDetail.'.$key.'.precio']             = 'required|numeric|between:0,99.99';
-            $rules['invoiceDetail.'.$key.'.cantidad']           = 'required|integer';
-            $rules['invoiceDetail.'.$key.'.descuento_linea']    = 'numeric|between:0,99.99';
-            $rules['invoiceDetail.'.$key.'.concepto_pago_id']   = 'required|exists:concepto_pago,id';
+        if ($this->request->has('invoiceDetail')) {
+            foreach($this->request->get('invoiceDetail') as $key => $val)
+            {
+                $rules['invoiceDetail.'.$key.'.descripcion']        = 'required|string';
+                $rules['invoiceDetail.'.$key.'.precio']             = 'required|numeric|between:0,99.99';
+                $rules['invoiceDetail.'.$key.'.cantidad']           = 'required|integer';
+                $rules['invoiceDetail.'.$key.'.descuento_linea']    = 'numeric|between:0,99.99';
+                $rules['invoiceDetail.'.$key.'.concepto_pago_id']   = 'required|exists:concepto_pago,id';
+            }
         }
         return $rules;
     }

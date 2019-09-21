@@ -102,12 +102,13 @@ class InvoiceController extends Controller
         $cliente = $request->cliente;
 
         $clienteDB = $this->clienteRepository->getByDni($cliente);
-        $clienteId = $clienteDB['id'];
+        /*$clienteId = $clienteDB['id'];
         if ( empty($clienteDB) ) {
             $clienteId = $this->clienteRepository->newOne( $cliente );
-        }
+        }*/
+        //dd($clienteDB->id);
 
-        $request->request->add(['cliente_id' => $clienteId]);
+        $request->request->add(['cliente_id' => $clienteDB->id]);
 
         $invoice = Invoice::create($request->all());
 
