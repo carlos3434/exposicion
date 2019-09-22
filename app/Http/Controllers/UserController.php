@@ -49,7 +49,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->request->add(['password' => bcrypt(12345678)]);
+        $request->merge(['password' => bcrypt(12345678)]);
+        //$request->request->add(['password' => bcrypt(12345678)]);
         $user = User::create( $request->all() );
         $success['token'] =  $user->createToken('AppName')->accessToken;
         $user->roles()->sync( $request->get('roles') );
