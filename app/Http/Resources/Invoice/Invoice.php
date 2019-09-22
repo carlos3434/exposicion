@@ -29,6 +29,14 @@ class Invoice extends JsonResource
             'fecha_vencimiento'         => $this->fecha_vencimiento,
             'tipo_moneda'               => $this->tipo_moneda,
 
+            'descuento_total'           => $this->descuento_total,
+            'monto_inafecta'            => $this->monto_inafecta,
+            'monto_gravada'             => $this->monto_gravada,
+            'igv_total'                 => $this->igv_total,
+            'monto_total'               => $this->monto_total,
+            'monto_exogerado'           => $this->monto_exogerado,
+            'monto_gratuito'            => $this->monto_gratuito,
+
             'empresa'                   => new EmpresaCollection($this->empresa),
             'tipo_operacion'            => new TipoOperacionCollection($this->tipoOperacion),
             'cliente'                   => new ClienteCollection($this->cliente),
