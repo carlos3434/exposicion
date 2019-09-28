@@ -12,7 +12,7 @@
 */
 
 Route::get('greenter/envio','GreenterExampleController@envio');
-Route::get('greenter/factura','GreenterExampleController@factura');
+Route::get('greenter/factura/{numero}','GreenterExampleController@factura');
 Route::get('greenter/boleta','GreenterExampleController@boleta');
 Route::get('greenter/nota','GreenterExampleController@nota');
 Route::get('greenter/resumen','GreenterExampleController@resumen');

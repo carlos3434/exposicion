@@ -108,7 +108,7 @@ class GreenterExampleController extends Controller
         file_put_contents('R-'.$invoice->getName().'.zip', $result->getCdrZip());
 
     }
-    public function factura(){
+    public function factura($numero){
 
         $util = Util::getInstance();
         // Cliente
@@ -123,7 +123,7 @@ class GreenterExampleController extends Controller
             ->setTipoOperacion('0101')
             ->setTipoDoc('03')
             ->setSerie('B001')
-            ->setCorrelativo('0003')
+            ->setCorrelativo($numero)//'0003'
             ->setFechaEmision(new \DateTime())
             ->setTipoMoneda('PEN')
             ->setCompany($util->shared->getCompany())
