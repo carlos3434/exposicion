@@ -82,7 +82,7 @@ HTML;
     }
     public function getPdf(DocumentInterface $document)
     {
-        $cache_dir = base_path() . '/cache_html';
+        $cache_dir = base_path() . '/storage/cache_html';
         if ( !is_dir( $cache_dir ) ) {
             mkdir( $cache_dir , 0777, true );
         }
