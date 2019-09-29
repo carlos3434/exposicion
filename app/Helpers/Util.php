@@ -76,7 +76,7 @@ HTML;
         if (getenv('GREENTER_NO_FILES')) {
             return;
         }
-        $files_dir = base_path() . '/public/files_sunat/';
+        $files_dir = base_path() . '/storage/files_sunat';
         if ( !is_dir( $files_dir ) ) {
             mkdir( $files_dir , 0777, true );
         }
