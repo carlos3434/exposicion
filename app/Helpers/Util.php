@@ -76,7 +76,11 @@ HTML;
         if (getenv('GREENTER_NO_FILES')) {
             return;
         }
-        file_put_contents(base_path() . '/public/files_sunat/'.$filename, $content);
+        $files_dir = base_path() . '/public/files_sunat/';
+        if ( !is_dir( $files_dir ) ) {
+            mkdir( $files_dir , 0777, true );
+        }
+        file_put_contents($files_dir.$filename, $content);
         //file_put_contents(__DIR__.'/../public/files/'.$filename, $content);
         //file_put_contents(__DIR__.'/../files/'.$filename, $content);
     }
