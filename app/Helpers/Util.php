@@ -90,7 +90,7 @@ HTML;
         $template = $resolver->getTemplate($document);
         $html->setTemplate($template);
         $render = new PdfReport($html);
-        $tmpFolder = 'tmpJuan';
+        $tmpFolder = base_path() . '/storage/tmpJuan/';
 
         if ( !is_dir( $tmpFolder ) ) {
             mkdir( $tmpFolder , 0777, true );
