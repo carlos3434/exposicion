@@ -80,7 +80,7 @@ HTML;
         if ( !is_dir( $files_dir ) ) {
             mkdir( $files_dir , 0777, true );
         }
-        file_put_contents($files_dir.$filename, $content);
+        file_put_contents($files_dir.'/'.$filename, $content);
         //file_put_contents(__DIR__.'/../public/files/'.$filename, $content);
         //file_put_contents(__DIR__.'/../files/'.$filename, $content);
     }
