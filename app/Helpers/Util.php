@@ -82,8 +82,13 @@ HTML;
     }
     public function getPdf(DocumentInterface $document)
     {
+        $cache_dir = base_path() . '/cache_html';
+        if ( !is_dir( $cache_dir ) ) {
+            mkdir( $cache_dir , 0777, true );
+        }
+
         $html = new HtmlReport('', [
-            'cache' => base_path() . '/cache_html',
+            'cache' => $cache_dir,
             'strict_variables' => true,
         ]);
         $resolver = new DefaultTemplateResolver();
