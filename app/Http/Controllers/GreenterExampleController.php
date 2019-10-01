@@ -167,7 +167,7 @@ class GreenterExampleController extends Controller
             ->setTipoOperacion('0101')
             ->setTipoDoc('03')
             ->setSerie('B001')
-            ->setCorrelativo('0012')//'0003'
+            ->setCorrelativo('0013')//'0003'
             ->setFechaEmision(new \DateTime())
             ->setTipoMoneda('PEN')
             ->setCompany( $company )
