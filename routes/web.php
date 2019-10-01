@@ -11,6 +11,7 @@
 |
 */
 
+Route::get('greenter/test','GreenterExampleController@test');
 Route::get('greenter/envio','GreenterExampleController@envio');
 Route::get('greenter/factura/{numero}','GreenterExampleController@factura');
 Route::get('greenter/boleta','GreenterExampleController@boleta');
@@ -39,6 +40,18 @@ Route::get('email', function() {
 
 Auth::routes(['verify' => true]);
 
+Route::get('files_sunat/{path}', function ($path) {
+    $pathToFile = storage_path('app/uploads/files_sunat/'.$path);
+    return response()->file($pathToFile);
+});
+Route::get('logos/{path}', function ($path) {
+    $pathToFile = storage_path('app/uploads/logos/'.$path);
+    return response()->file($pathToFile);
+});
+Route::get('photos/{path}', function ($path) {
+    $pathToFile = storage_path('app/uploads/photos/'.$path);
+    return response()->file($pathToFile);
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -54,6 +67,7 @@ Route::middleware(['auth' => true ])->group(function(){
     Route::resource('permissions','PermissionController');
     Route::resource('roles','RoleController');
     Route::resource('users','UserController');
+    Route::resource('empresas','EmpresaController');
     
 });
 

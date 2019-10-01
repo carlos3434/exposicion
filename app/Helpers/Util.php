@@ -6,17 +6,19 @@ use Greenter\Report\HtmlReport;
 use Greenter\Report\PdfReport;
 use Greenter\Report\Resolver\DefaultTemplateResolver;
 use Greenter\See;
+
+use Illuminate\Support\Facades\Storage;
+use File;
+
+
 final class Util
 {
     private static $current;
     /**
      * @var SharedStore
      */
-    public $shared;
-    private function __construct()
-    {
-        $this->shared = new SharedStore();
-    }
+    public $empresa;
+
     public static function getInstance()
     {
         if (!self::$current instanceof self) {
@@ -24,6 +26,10 @@ final class Util
         }
         return self::$current;
     }
+    public function setEmpresa($empresa){
+        $this->empresa = $empresa;
+    }
+
     /**
      * @param string $endpoint
      * @return See
@@ -32,15 +38,10 @@ final class Util
     {
         $see = new See();
         $see->setService($endpoint);
-//        $see->setCodeProvider(new XmlErrorCodeProvider());
-        $see->setCertificate(file_get_contents(base_path() . '/storage/cmvp.pem'));
-        /**
-         * Clave SOL
-         * Ruc     = 20000000001
-         * Usuario = MODDATOS
-         * Clave   = moddatos
-         */
-        $see->setCredentials('20144793413MODDATOS', 'MODDATOS');
+        // Storage::get('public/'.$this->empresa->certificado_digital);
+        //Storage::get('uploads/'.$this->empresa->certificado_digital);
+        $see->setCertificate( Storage::get('uploads/'.$this->empresa->certificado_digital) );
+        $see->setCredentials($this->empresa->user_sunat, $this->empresa->password_sunat );
         //$see->setCachePath(__DIR__ . '/../cache');
         $see->setCachePath(false);
         return $see;
@@ -76,13 +77,11 @@ HTML;
         if (getenv('GREENTER_NO_FILES')) {
             return;
         }
-        $files_dir = base_path() . '/storage/files_sunat';
-        if ( !is_dir( $files_dir ) ) {
+        $files_dir = 'uploads/files_sunat/';
+        /*if ( !is_dir( $files_dir ) ) {
             mkdir( $files_dir , 0777, true );
-        }
-        file_put_contents($files_dir.'/'.$filename, $content);
-        //file_put_contents(__DIR__.'/../public/files/'.$filename, $content);
-        //file_put_contents(__DIR__.'/../files/'.$filename, $content);
+        }*/
+        Storage::put($files_dir.$filename, $content, 'public');
     }
     public function getPdf(DocumentInterface $document)
     {
@@ -118,7 +117,7 @@ HTML;
             $render->setBinPath($binPath);
         }
         $hash = $this->getHash($document);
-        $params = self::getParametersPdf();
+        $params = $this->getParametersPdf();
         $params['system']['hash'] = $hash;
         $params['user']['footer'] = '<div>consulte en <a href="https://github.com/giansalex/sufel">sufel.com</a></div>';
         $pdf = $render->render($document, $params);
@@ -195,9 +194,10 @@ HTML;
         $hash = (new \Greenter\Report\XmlUtils())->getHashSign($xml);
         return $hash;
     }
-    private static function getParametersPdf()
+    private function getParametersPdf()
     {
-        $logo = file_get_contents(base_path() . '/storage/logo_cmvp.png');
+        //$logo = file_get_contents(base_path() . '/storage/logo_cmvp.png');
+        $logo = Storage::get('uploads/'.$this->empresa->logo);
         return [
             'system' => [
                 'logo' => $logo,

@@ -29,16 +29,16 @@ class Empresa extends FormRequest
             'ruc'                       => 'required|digits:11|unique:empresas,ruc,'. (isset($this->empresa->id) ? $this->empresa->id : 0),
 
             'nombre_comercial'          => 'required|string',
-            'certificado_digital'       => 'string',
+            'certificado_digital'       => 'required|file|max:2048',
             'razon_social'              => 'required|string',
             'direccion_web'             => 'required|url',
             'telefono'                  => 'required|integer',
             'email'                     => 'email',
             'direccion'                 => 'required|string',
-            'logo'                      => 'string',
+            'logo'                      => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'ubigeo_id'                 => 'required|exists:ubigeos,id',
             'user_sunat'                => 'string',
-            'password_sunat'            => 'string',
+            //'password_sunat'            => 'string',
             'entorno'                   => 'in:0,1',
 
         ];

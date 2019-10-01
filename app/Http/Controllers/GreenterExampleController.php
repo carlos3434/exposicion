@@ -14,22 +14,25 @@ use Greenter\Model\Sale\Invoice;
 use Greenter\Model\Sale\SaleDetail;
 use Greenter\Model\Sale\Legend;
 use App\Helpers\Util;
+use App\Empresa;
+use App\Cliente;
 
+use DB;
 
 class GreenterExampleController extends Controller
 {
     private $see;
+    private $util;/*
     public function __construct()
     {
         $see = new See();
         $see->setService(SunatEndpoints::NUBEACT_BETA);
-        
-        //$see->setCertificate(file_get_contents(__DIR__.'/cmvp.pem'));
         $see->setCertificate(file_get_contents(base_path() . '/storage/cmvp.pem'));
-        $see->setCredentials('20144793413MODDATOS'/*ruc+usuario*/, 'MODDATOS');
+        $see->setCredentials('20144793413MODDATOS', 'MODDATOS');
         $this->see = $see;
+        $this->util = Util::getInstance();
     }
-
+*/
     public function envio(){
         // Cliente
         $client = new Client();
@@ -107,6 +110,118 @@ class GreenterExampleController extends Controller
         // Guardar CDR
         file_put_contents('R-'.$invoice->getName().'.zip', $result->getCdrZip());
 
+    }
+
+    public function test(){
+        
+
+        $empresa = Empresa::find(1);
+        $ubigeo = DB::table('ubigeos as dep')
+        ->join('ubigeos as dis','dep.id', '=','dis.parent_id')
+        ->join('ubigeos as prov','dis.id', '=','prov.parent_id')
+        ->select(
+            DB::raw('concat(dep.code , dis.code , prov.code ) as ubigeo'),
+            'prov.id',
+            'dep.name as departamento',
+            'dis.name as distrito',
+            'prov.name as provincia'
+        )
+        ->where('prov.id',$empresa->ubigeo_id) // 3967
+        ->where('prov.level', 4)
+        ->where('dis.level', 3)
+        ->where('dep.level', 2)
+        ->first();
+
+        $company = (new Company())
+            ->setRuc( $empresa->ruc )
+            ->setNombreComercial( $empresa->nombre_comercial )
+            ->setRazonSocial( $empresa->razon_social )
+            ->setEmail( $empresa->email )
+            ->setTelephone( $empresa->telefono )
+            ->setAddress((new Address())
+                ->setUbigueo( $ubigeo->ubigeo )
+                ->setDistrito( $ubigeo->distrito )
+                ->setProvincia( $ubigeo->provincia )
+                ->setDepartamento( $ubigeo->departamento )
+                //->setUrbanizacion('CASUARINAS')
+                ->setCodLocal('0000')
+                ->setDireccion( $empresa->direccion ));
+
+        $cliente = Cliente::find(1);
+
+        $client = new Client();
+        $client->setTipoDoc('6')
+            ->setNumDoc('20000000001')
+            ->setRznSocial('EMPRESA 1 S.A.C.')
+            ->setAddress((new Address())
+                ->setDireccion('JR. NIQUEL MZA. F LOTE. 3 URB.  INDUSTRIAL INFANTAS - LIMA - LIMA -PERU'));
+
+
+        $util = Util::getInstance();
+        $util->setEmpresa($empresa);
+
+        // Venta
+        $invoice = new Invoice();
+        $invoice
+            ->setUblVersion('2.1')
+            ->setTipoOperacion('0101')
+            ->setTipoDoc('03')
+            ->setSerie('B001')
+            ->setCorrelativo('0012')//'0003'
+            ->setFechaEmision(new \DateTime())
+            ->setTipoMoneda('PEN')
+            ->setCompany( $company )
+            ->setClient($client)
+            ->setMtoOperGravadas(100)
+            ->setMtoIGV(18)
+            ->setTotalImpuestos(18)
+            ->setValorVenta(100)
+            ->setMtoImpVenta(118)
+            ;
+        $item1 = new SaleDetail();
+        $item1->setCodProducto('C023')
+            ->setUnidad('NIU')
+            ->setCantidad(2)
+            ->setDescripcion('PROD 1')
+            ->setMtoBaseIgv(100)
+            ->setPorcentajeIgv(18)
+            ->setIgv(18)
+            ->setTipAfeIgv('10')
+            ->setTotalImpuestos(18)
+            ->setMtoValorVenta(100)
+            ->setMtoValorUnitario(50)
+            ->setMtoPrecioUnitario(59);
+        $legend = new Legend();
+        $legend->setCode('1000')
+            ->setValue('SON CIENTO DIECIOCHO CON 00/100 SOLES');
+        $invoice->setDetails([$item1])
+            ->setLegends([$legend]);
+        //write pdf
+        try {
+            $pdf = $util->getPdf($invoice);
+            $util->writePdf( $invoice , $pdf );
+        } catch (Exception $e) {
+            var_dump($e);
+        }
+        // Envio a SUNAT.
+        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
+        $res = $see->send($invoice);
+        $util->writeXml($invoice, $see->getFactory()->getLastXml());
+        if ($res->isSuccess()) {
+            /**@var $res \Greenter\Model\Response\BillResult*/
+            $cdr = $res->getCdrResponse();
+            $util->writeCdr($invoice, $res->getCdrZip());
+            $util->showResponse($invoice, $cdr);
+        } else {
+            echo $util->getErrorResponse($res->getError());
+        }
+
+
+
+
+
+
+        //$see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
     }
     public function factura($numero){
 

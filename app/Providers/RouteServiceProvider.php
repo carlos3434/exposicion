@@ -42,10 +42,10 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('resultadoEleccione', \App\ResultadoEleccion::class);
         Route::model('persona', \App\Persona::class);
 
-        Route::model('clientes', \App\Cliente::class);
-        Route::model('empresas', \App\Empresa::class);
-        Route::model('invoices', \App\Invoice::class);
-        Route::model('series', \App\Serie::class);
+        Route::model('cliente', \App\Cliente::class);
+        Route::model('empresa', \App\Empresa::class);
+        Route::model('invoice', \App\Invoice::class);
+        Route::model('serie', \App\Serie::class);
 
 
     }
