@@ -68,7 +68,8 @@ class RoleController extends Controller
     public function show( $id )
     {
         //return new RoleResource($role);
-        return Role::with([ 'permissions'])->find($id)->first();
+        return new RoleCollection( Role::with([ 'permissions'])->find($id) );
+        //return Role::with([ 'permissions'])->find($id)->first();
     }
     /**
      * Update the specified resource in storage.
