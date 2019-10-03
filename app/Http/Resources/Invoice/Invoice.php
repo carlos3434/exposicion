@@ -36,6 +36,9 @@ class Invoice extends JsonResource
             'monto_total'               => $this->monto_total,
             'monto_exogerado'           => $this->monto_exogerado,
             'monto_gratuito'            => $this->monto_gratuito,
+            'xml_path'                  => $this->xml_path,
+            'pdf_path'                  => $this->pdf_path,
+            'cdr_path'                  => $this->cdr_path,
 
             'empresa'                   => new EmpresaCollection($this->empresa),
             'tipo_operacion'            => new TipoOperacionCollection($this->tipoOperacion),

@@ -89,6 +89,11 @@ Route::prefix('v1')->group(function(){
 
         Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceController@envioSunat');
 
+        Route::get('sunat/files/{path}', function ($path) {
+            $pathToFile = storage_path('app/uploads/files_sunat/'.$path);
+            return response()->file($pathToFile);
+        });
+
     });
 
     
