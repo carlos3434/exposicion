@@ -113,6 +113,11 @@ class InvoiceController extends Controller
         $invoice->update( $request->all() );
         return response()->json($invoice, 200);
     }
+    public function envioSunat(request $request, $invoiceId)
+    {
+        
+        return response()->json($invoiceId, 200);
+    }
 
     /**
      * Remove the specified resource from storage.
