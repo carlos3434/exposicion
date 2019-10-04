@@ -7,7 +7,7 @@ use App\Filters\AbstractFilter;
 class IncidenteFilter extends AbstractFilter
 {
     protected $filters = [
-        'persona'     => Common\PersonaFilter::class,
+        'persona_id'     => Common\PersonaFilter::class,
         'tipo_incidente'     => Incidente\TipoIncidenteFilter::class,
         'fecha_registro'     => Common\FechaRegistroFilter::class,
     ];
