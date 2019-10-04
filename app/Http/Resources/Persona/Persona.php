@@ -49,7 +49,9 @@ class Persona extends JsonResource
             "conyuge_nombres"               => $this->conyuge_nombres,
             "numero_hijos"                  => $this->numero_hijos,
 
-            'ubigeo'                        => new UbigeoCollection($this->ubigeo),
+            'departamento'                  => new UbigeoCollection($this->departamento),
+            'distrito'                      => new UbigeoCollection($this->distrito),
+            'provincia'                     => new UbigeoCollection($this->provincia),
 
             "direccion"                     => $this->direccion,
             "telefono_fijo"                 => $this->telefono_fijo,

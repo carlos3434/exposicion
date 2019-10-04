@@ -1,10 +1,10 @@
 <?php
 namespace App\Filters\Persona;
 
-class UbigeoFilter
+class DistritoFilter
 {
     public function filter($builder, $value)
     {
-        return $builder->where('ubigeo_id', $value);
+        return $builder->where('distrito_id', $value);
     }
 }

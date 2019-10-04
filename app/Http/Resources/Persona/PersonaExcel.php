@@ -49,7 +49,9 @@ class PersonaExcel extends JsonResource
             "conyuge_nombres"               => $this->conyuge_nombres,
             "numero_hijos"                  => $this->numero_hijos,
 
-            'ubigeo'                        => isset( $this->ubigeo->name) ? $this->ubigeo->name : '',
+            'departamento'                  => isset( $this->departamento->name) ? $this->departamento->name : '',
+            'distrito'                      => isset( $this->distrito->name) ? $this->distrito->name : '',
+            'provincia'                     => isset( $this->provincia->name) ? $this->provincia->name : '',
 
             "direccion"                     => $this->direccion,
             "telefono_fijo"                 => $this->telefono_fijo,

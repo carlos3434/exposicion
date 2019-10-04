@@ -31,7 +31,9 @@ class Persona extends Model
         'conyuge_apellido_materno',
         'conyuge_nombres',
         'numero_hijos',
-        'ubigeo_id',
+        'departamento_id',
+        'distrito_id',
+        'provincia_id',
         'direccion',
         'telefono_fijo',
         'celular_uno',
@@ -120,9 +122,23 @@ class Persona extends Model
     /**
      * Get the EstadoCivil
      */
-    public function ubigeo()
+    public function departamento()
     {
-        return $this->belongsTo('App\Ubigeo','ubigeo_id');
+        return $this->belongsTo('App\Ubigeo','departamento_id');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function distrito()
+    {
+        return $this->belongsTo('App\Ubigeo','distrito_id');
+    }
+    /**
+     * Get the EstadoCivil
+     */
+    public function provincia()
+    {
+        return $this->belongsTo('App\Ubigeo','provincia_id');
     }
 
     /**
