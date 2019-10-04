@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Translado as TransladoRequest;
 //use App\Exports\Export;
 //use Maatwebsite\Excel\Facades\Excel;
-
+use App\Persona;
 use App\Http\Resources\Translado\TransladoCollection;
 use App\Http\Resources\Translado\TransladoExcelCollection;
 use App\Http\Resources\Translado\Translado as TransladoResource;
@@ -58,6 +58,11 @@ class TransladoController extends Controller
     public function store(TransladoRequest $request)
     {
         $translado = Translado::create($request->all());
+        if ($translado) {
+            $persona = Persona::find($request->persona_id);
+            $data = ['departamento_colegiado_id' => $request->destino_departamento_id];
+            $persona->update( $data );
+        }
         return response()->json($translado, 201);
     }
 
