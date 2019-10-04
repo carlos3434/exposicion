@@ -7,14 +7,14 @@ use App\Http\Requests\TipoIncidente as TipoIncidenteRequest;
 
 class TipoIncidenteController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('can:CREATE_TIPOINCIDENTE')->only(['create','store']);
         $this->middleware('can:READ_TIPOINCIDENTE')->only('index');
         $this->middleware('can:UPDATE_TIPOINCIDENTE')->only(['edit','update']);
         $this->middleware('can:DETAIL_TIPOINCIDENTE')->only('show');
         $this->middleware('can:DELETE_TIPOINCIDENTE')->only('destroy');
-    }
+    }*/
     /**
      * Display a listing of the resource.
      *

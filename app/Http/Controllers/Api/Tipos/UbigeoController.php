@@ -10,14 +10,14 @@ use App\Http\Resources\Ubigeo\UbigeoCollection;
 
 class UbigeoController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('can:CREATE_UBIGEO')->only(['create','store']);
         $this->middleware('can:READ_UBIGEO')->only('index');
         $this->middleware('can:UPDATE_UBIGEO')->only(['edit','update']);
         $this->middleware('can:DETAIL_UBIGEO')->only('show');
         $this->middleware('can:DELETE_UBIGEO')->only('destroy');
-    }
+    }*/
     /**
      * Display a listing of the resource.
      *

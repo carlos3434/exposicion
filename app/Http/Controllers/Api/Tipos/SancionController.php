@@ -8,14 +8,14 @@ use App\Http\Controllers\Controller;
 
 class SancionController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('can:CREATE_TIPOPROCESODISCIPLINARIO')->only(['create','store']);
         $this->middleware('can:READ_TIPOPROCESODISCIPLINARIO')->only('index');
         $this->middleware('can:UPDATE_TIPOPROCESODISCIPLINARIO')->only(['edit','update']);
         $this->middleware('can:DETAIL_TIPOPROCESODISCIPLINARIO')->only('show');
         $this->middleware('can:DELETE_TIPOPROCESODISCIPLINARIO')->only('destroy');
-    }
+    }*/
     /**
      * Display a listing of the resource.
      *

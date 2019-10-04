@@ -8,14 +8,14 @@ use App\Http\Controllers\Controller;
 
 class CargoPostulanteController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('can:CREATE_CARGOPOSTULANTE')->only(['create','store']);
         $this->middleware('can:READ_CARGOPOSTULANTE')->only('index');
         $this->middleware('can:UPDATE_CARGOPOSTULANTE')->only(['edit','update']);
         $this->middleware('can:DETAIL_CARGOPOSTULANTE')->only('show');
         $this->middleware('can:DELETE_CARGOPOSTULANTE')->only('destroy');
-    }
+    }*/
     /**
      * Display a listing of the resource.
      *

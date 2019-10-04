@@ -8,14 +8,14 @@ use App\Http\Controllers\Controller;
 
 class EstadoCivilController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('can:CREATE_TRANSLADO')->only(['create','store']);
         $this->middleware('can:READ_TRANSLADO')->only('index');
         $this->middleware('can:UPDATE_TRANSLADO')->only(['edit','update']);
         $this->middleware('can:DETAIL_TRANSLADO')->only('show');
         $this->middleware('can:DELETE_TRANSLADO')->only('destroy');
-    }
+    }*/
     /**
      * Display a listing of the resource.
      *
