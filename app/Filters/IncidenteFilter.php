@@ -10,5 +10,6 @@ class IncidenteFilter extends AbstractFilter
         'persona_id'     => Common\PersonaFilter::class,
         'tipo_incidente'     => Incidente\TipoIncidenteFilter::class,
         'fecha_registro'     => Common\FechaRegistroFilter::class,
+        'documento'     => Incidente\DocumentoFilter::class,
     ];
 }
