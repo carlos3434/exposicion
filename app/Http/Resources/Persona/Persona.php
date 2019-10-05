@@ -85,9 +85,9 @@ class Persona extends JsonResource
 
             "estado_registro_colegiado"     => new EstadoRegistroColegiadoCollection($this->estadoRegistroColegiado),
 
-            "fecha_colegiatura"             => $this->is_habilitado,
-            "fecha_aprovacion_consejo"      => $this->is_habilitado,
-            "url_foto"                      => $this->is_habilitado,
+            "fecha_colegiatura"             => $this->fecha_colegiatura,
+            "fecha_aprovacion_consejo"      => $this->fecha_aprovacion_consejo,
+            "url_foto"                      => $this->url_foto,
 
             "estado_cuenta_sistema"         => new EstadoCuentaSistemaCollection($this->estadoCuentaSistema),
 
