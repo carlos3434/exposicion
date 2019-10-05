@@ -14,6 +14,13 @@ class Comite extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'                            => $this->id,
+            'fecha_registro'                => $this->fecha_registro,
+            'observacion'                   => $this->observacion,
+            'cargo_postulante'              => new CargoPostulanteCollection( $this->cargoPostulante),
+            'persona'                       => new PersonaCollection( $this->persona),
+            'created_at'                    => $this->created_at->toDateTimeString(),
+        ];
     }
 }
