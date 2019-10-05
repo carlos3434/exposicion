@@ -25,7 +25,7 @@ class Persona extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro'                    => 'required|date_format:Y-m-d',
+            'fecha_registro'                    => 'date_format:Y-m-d',
             'tipo_documento_identidad_id'       => 'required|exists:tipo_documento_identidad,id',
             'numero_documento_identidad'        => 'required|integer',
             'nacionalidad_id'                   => 'required|integer',
@@ -83,7 +83,6 @@ class Persona extends FormRequest
     public function messages()
     {
         return [
-            'fecha_registro.required' => 'El :attribute es un campo requerido',
             'observacion.required' => 'El :attribute es un campo requerido',
             'cargo_postulante_id.required' => 'El :attribute es un campo requerido',
             'persona_id.required' => 'El :attribute es un campo requerido',
