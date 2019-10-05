@@ -150,8 +150,8 @@ class GreenterExampleController extends Controller
         $cliente = Cliente::find(1);
 
         $client = new Client();
-        $client->setTipoDoc('6')
-            ->setNumDoc('20000000001')
+        $client->setTipoDoc('1')
+            ->setNumDoc('45531656')
             ->setRznSocial('EMPRESA 1 S.A.C.')
             ->setAddress((new Address())
                 ->setDireccion('JR. NIQUEL MZA. F LOTE. 3 URB.  INDUSTRIAL INFANTAS - LIMA - LIMA -PERU'));
@@ -206,7 +206,7 @@ class GreenterExampleController extends Controller
         }
 
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
+        $see = $util->getSee(SunatEndpoints::FE_BETA);
         $res = $see->send($invoice);
         $util->writeXml($invoice, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {

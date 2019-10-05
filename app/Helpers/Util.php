@@ -72,7 +72,7 @@ final class Util
             ->setUblVersion('2.1')
             ->setTipoOperacion( $comprobantePago->tipoOperacion->codigo_sunat )
             ->setTipoDoc( $comprobantePago->tipoDocumentoPago->codigo_sunat )
-            ->setSerie( ($comprobantePago->tipoDocumentoPago->id==1)? 'F':'B'. $comprobantePago->serie->name)
+            ->setSerie( (($comprobantePago->tipoDocumentoPago->id==1)? 'F':'B'). $comprobantePago->serie->name)
             ->setCorrelativo( $comprobantePago->numero )//'0003'
             ->setFechaEmision(new \DateTime( $comprobantePago->fecha_emision ))
             //->setTipoMoneda( $comprobantePago->tipo_moneda ) //'PEN'

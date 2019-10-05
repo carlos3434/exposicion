@@ -45,6 +45,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     }
     public function updatePaths($comprobantePago , DocumentInterface $invoice)
     {
+        $comprobantePago = Invoice::find($comprobantePago->id);
         $comprobantePago->xml_path = $invoice->getName().'.xml';
         $comprobantePago->pdf_path = $invoice->getName().'.pdf';
         $comprobantePago->cdr_path = 'R-'.$invoice->getName().'.zip';
