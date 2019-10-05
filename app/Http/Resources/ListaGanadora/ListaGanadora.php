@@ -14,6 +14,15 @@ class ListaGanadora extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'                            => $this->id,
+            'fecha_registro'                => $this->fecha_registro,
+            'periodo'                       => $this->periodo,
+
+            'cargo_postulante'              => new CargoPostulanteCollection( $this->cargoPostulante),
+            'departamento'                  => new DepartamentoCollection( $this->departamento),
+            'persona'                       => new PersonaCollection( $this->persona),
+            'created_at'                    => $this->created_at->toDateTimeString(),
+        ];
     }
 }

@@ -14,6 +14,18 @@ class ResultadoEleccion extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'                            => $this->id,
+            'fecha_registro'                => $this->fecha_registro,
+            'lista_ganadora'                => $this->lista_ganadora,
+            'numero_votantes'               => $this->numero_votantes,
+            'numero_novotantes'             => $this->numero_novotantes,
+            'numero_votos'                  => $this->numero_votos,
+            'observacion'                   => $this->observacion,
+            'departamento'                  => new DepartamentoCollection( $this->departamento),
+            //'departamento'                  => isset( $this->departamento->name) ? $this->departamento->name : '',
+            'created_at'                    => $this->created_at->toDateTimeString(),
+
+        ];
     }
 }

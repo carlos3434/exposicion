@@ -17,7 +17,9 @@ class ListaPostulanteExcel extends JsonResource
         return [
             'id'                            => $this->id,
             'fecha_registro'                => $this->fecha_registro,
-            'periodo'                       => $this->periodo,
+            'lista'                         => $this->lista,
+            'proceso'                       => $this->proceso,
+            'observacion'                   => $this->observacion,
 
             'cargo_postulante'              => isset( $this->cargoPostulante->name) ? $this->cargoPostulante->name : '',
             'departamento'                  => isset( $this->departamento->name) ? $this->departamento->name : '',

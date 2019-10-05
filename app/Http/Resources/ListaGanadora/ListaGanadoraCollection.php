@@ -14,6 +14,8 @@ class ListaGanadoraCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return $this->collection->transform(function ($persona) {
+            return new ListaGanadora($persona);
+        });
     }
 }
