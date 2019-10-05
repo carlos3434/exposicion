@@ -20,6 +20,8 @@ use Caffeinated\Shinobi\Models\Role;
 use App\Cliente;
 use App\Empresa;
 use App\Invoice;
+use App\TipoDocumentoPago;
+use App\TipoDocumentoIdentidad;
 
 use App\Observers\IncidenteObserver;
 use App\Observers\TransladoObserver;
@@ -76,6 +78,21 @@ class AppServiceProvider extends ServiceProvider
         });
         Validator::extend('alpha_num_spaces', function ($attribute, $value) {
             return preg_match('/^([-a-z0-9_ ])+$/i', $value);
+        });
+        Validator::extend('tipo_documento_identidad', function ($attribute, $value) {
+            if (request()->get('tipo_documento_pago_id') == TipoDocumentoPago::FACTURA && $value <> TipoDocumentoIdentidad::RUC ) {
+                return false;
+            }
+            return true;
+        });
+        Validator::extend('numero_documento_identidad', function ($attribute, $value) {
+            if ( request()->get('cliente')['tipo_documento_identidad_id'] == TipoDocumentoIdentidad::DNI && strlen($value) == 8 ) {
+                return true;
+            }
+            if ( request()->get('cliente')['tipo_documento_identidad_id'] == TipoDocumentoIdentidad::RUC && strlen($value) == 11 ) {
+                return true;
+            }
+            return false;
         });
         Schema::defaultStringLength(191);
         Resource::withoutWrapping();

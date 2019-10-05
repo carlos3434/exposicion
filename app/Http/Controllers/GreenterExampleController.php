@@ -150,8 +150,8 @@ class GreenterExampleController extends Controller
         $cliente = Cliente::find(1);
 
         $client = new Client();
-        $client->setTipoDoc('1')
-            ->setNumDoc('45531656')
+        $client->setTipoDoc('6')
+            ->setNumDoc('10455316567')
             ->setRznSocial('EMPRESA 1 S.A.C.')
             ->setAddress((new Address())
                 ->setDireccion('JR. NIQUEL MZA. F LOTE. 3 URB.  INDUSTRIAL INFANTAS - LIMA - LIMA -PERU'));
@@ -165,8 +165,8 @@ class GreenterExampleController extends Controller
         $invoice
             ->setUblVersion('2.1')
             ->setTipoOperacion('0101') //0101
-            ->setTipoDoc('03')
-            ->setSerie('B001')
+            ->setTipoDoc('01')// 01 factura , 03 boleta
+            ->setSerie('F001')
             ->setCorrelativo('0015')//'0003'
             ->setFechaEmision(new \DateTime())
             ->setTipoMoneda('PEN')

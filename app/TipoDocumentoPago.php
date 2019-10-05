@@ -12,7 +12,12 @@ class TipoDocumentoPago extends Model
      * @var array
      */
     protected $fillable = ['name','codigo_sunat'];
-
+    const FACTURA = 1;
+    const BOLETA = 2;
+    const NOTA_CREDITO = 3;
+    const NOTA_DEBITO = 4;
+    const GUIA_REMOSION = 5;
+    const TICKET = 6;
     /**
      * Create a new Permission instance.
      * 

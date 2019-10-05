@@ -12,7 +12,12 @@ class TipoDocumentoIdentidad extends Model
      * @var array
      */
     protected $fillable = ['name','codigo_sunat'];
-
+    const SINRUC = 1;
+    const DNI = 2;
+    const CARNET_EXTRANJERIA = 3;
+    const RUC = 4;
+    const PASSAPORTE = 5;
+    const CEDULA = 6;
     /**
      * Create a new Permission instance.
      * 
