@@ -49,7 +49,8 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         $comprobantePago->xml_path = $invoice->getName().'.xml';
         $comprobantePago->pdf_path = $invoice->getName().'.pdf';
         $comprobantePago->cdr_path = 'R-'.$invoice->getName().'.zip';
-        return $comprobantePago->save();
+        $comprobantePago->save();
+        return $comprobantePago;
     }
     public function envioSunat($invoiceId)
     {

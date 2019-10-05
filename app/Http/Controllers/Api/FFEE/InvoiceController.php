@@ -168,7 +168,7 @@ class InvoiceController extends Controller
             return response()->json( $error, 500);
         }
 
-        $this->invoiceRepository->updatePaths($comprobantePago, $invoice);
+        $comprobantePago = $this->invoiceRepository->updatePaths($comprobantePago, $invoice);
         //actualizar envio sunat
         //$invoice = $this->invoiceRepository->envioSunat($invoiceId);
         return response()->json($comprobantePago, 200);
