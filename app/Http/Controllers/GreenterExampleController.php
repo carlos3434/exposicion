@@ -164,10 +164,10 @@ class GreenterExampleController extends Controller
         $invoice = new Invoice();
         $invoice
             ->setUblVersion('2.1')
-            ->setTipoOperacion('0101')
+            ->setTipoOperacion('0101') //0101
             ->setTipoDoc('03')
             ->setSerie('B001')
-            ->setCorrelativo('0013')//'0003'
+            ->setCorrelativo('0015')//'0003'
             ->setFechaEmision(new \DateTime())
             ->setTipoMoneda('PEN')
             ->setCompany( $company )
@@ -196,6 +196,7 @@ class GreenterExampleController extends Controller
             ->setValue('SON CIENTO DIECIOCHO CON 00/100 SOLES');
         $invoice->setDetails([$item1])
             ->setLegends([$legend]);
+    ///dd($invoice);
         //write pdf
         try {
             $pdf = $util->getPdf($invoice);
@@ -203,6 +204,7 @@ class GreenterExampleController extends Controller
         } catch (Exception $e) {
             var_dump($e);
         }
+
         // Envio a SUNAT.
         $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
         $res = $see->send($invoice);
@@ -214,6 +216,7 @@ class GreenterExampleController extends Controller
             $util->showResponse($invoice, $cdr);
         } else {
             echo $util->getErrorResponse($res->getError());
+            //echo SunatEndpoints::NUBEACT_BETA;
         }
 
 

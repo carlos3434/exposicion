@@ -7,6 +7,13 @@ use Greenter\Report\PdfReport;
 use Greenter\Report\Resolver\DefaultTemplateResolver;
 use Greenter\See;
 
+use Greenter\Model\Client\Client;
+use Greenter\Model\Company\Company;
+use Greenter\Model\Company\Address;
+use Greenter\Model\Sale\Invoice;
+use Greenter\Model\Sale\SaleDetail;
+use Greenter\Model\Sale\Legend;
+
 use Illuminate\Support\Facades\Storage;
 use File;
 
@@ -26,8 +33,100 @@ final class Util
         }
         return self::$current;
     }
-    public function setEmpresa($empresa){
+    public function setEmpresa($empresa){ //dd($empresa);
         $this->empresa = $empresa;
+    }
+    public function setCompany($empresa){
+        $company = (new Company())
+            ->setRuc( $empresa['ruc'] )
+            ->setNombreComercial( $empresa['nombre_comercial'] )
+            ->setRazonSocial( $empresa['razon_social'] )
+            ->setEmail( $empresa['email'] )
+            ->setTelephone( $empresa['telefono'] )
+            ->setAddress((new Address())
+                ->setUbigueo( $empresa['ubigeo'] )
+                ->setDistrito( $empresa['distrito'] )
+                ->setProvincia( $empresa['provincia'] )
+                ->setDepartamento( $empresa['departamento'] )
+                //->setUrbanizacion('CASUARINAS')
+                ->setCodLocal('0000')
+                ->setDireccion( $empresa['direccion'] ));
+        return $company;
+    }
+    public function setClient($cliente){
+
+        $client = new Client();
+        $client->setTipoDoc( $cliente->tipoDocumentoIdentidad->codigo_sunat )
+            ->setNumDoc( $cliente->numero_documento_identidad )
+            ->setRznSocial( $cliente->razon_social )
+            ->setEmail( $cliente->email )
+            ->setTelephone( $cliente->telefono )
+            ->setAddress((new Address())
+                ->setDireccion( $cliente->direccion ));
+        return $client;
+    }
+    public function setInvoice($comprobantePago , $company , $client ){
+
+        $invoice = new Invoice();
+        $invoice
+            ->setUblVersion('2.1')
+            ->setTipoOperacion( $comprobantePago->tipoOperacion->codigo_sunat )
+            ->setTipoDoc( $comprobantePago->tipoDocumentoPago->codigo_sunat )
+            ->setSerie( ($comprobantePago->tipoDocumentoPago->id==1)? 'F':'B'. $comprobantePago->serie->name)
+            ->setCorrelativo( $comprobantePago->numero )//'0003'
+            ->setFechaEmision(new \DateTime( $comprobantePago->fecha_emision ))
+            //->setTipoMoneda( $comprobantePago->tipo_moneda ) //'PEN'
+            ->setTipoMoneda( 'PEN' ) //'PEN'
+            ->setCompany( $company )
+            ->setClient( $client )
+            ->setMtoOperGravadas( $comprobantePago->monto_gravada )
+            ->setMtoOperInafectas( $comprobantePago->monto_inafecta )
+            ->setMtoOperExoneradas( $comprobantePago->monto_exogerado )
+            ->setMtoOperGratuitas( $comprobantePago->monto_gratuito )
+            ->setMtoIGV( $comprobantePago->igv_total )
+            ->setTotalImpuestos( $comprobantePago->igv_total )
+            ->setValorVenta( $comprobantePago->monto_total )
+            ->setMtoImpVenta( $comprobantePago->monto_total )
+            ->setMtoDescuentos( $comprobantePago->descuento_total )//descuento_global
+            ->setLegends( [
+                (new Legend())
+                    ->setCode('1000')
+                    ->setValue( NumberLetter::convertToLetter( $comprobantePago->monto_total ) )
+            ]);
+
+        $detalles = [];
+        foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
+
+            $item = new SaleDetail();
+            $item->setCodProducto( $invoiceDetail->conceptoPago->codigo )
+                ->setCodProdSunat( $invoiceDetail->conceptoPago->codigo_sunat )
+                ->setUnidad( $invoiceDetail->conceptoPago->unidad_medida )
+                ->setCantidad( $invoiceDetail->cantidad )
+                ->setDescripcion( $invoiceDetail->descripcion )
+                ->setMtoBaseIgv( $invoiceDetail->base_igv )
+                ->setPorcentajeIgv(18)
+                ->setIgv( $invoiceDetail->igv )
+                ->setTipAfeIgv('10')/////////////////////////////////
+                ->setTotalImpuestos( $invoiceDetail->igv )
+                ->setMtoValorVenta( $invoiceDetail->valor_venta )
+                ->setMtoValorUnitario( $invoiceDetail->valor_unitario )
+                ->setMtoPrecioUnitario( $invoiceDetail->precio_unitario );
+
+            if ($invoiceDetail->descuento_linea > 0) {
+                /*$item->setDescuentos([(
+                    new Charge())
+                    ->setCodTipo('00')
+                    ->setFactor( $invoiceDetail->factor )
+                    ->setMonto( $invoiceDetail->montoDescuento )
+                    ->setMontoBase( $invoiceDetail->montoBase )
+                ]);*/
+            }
+            array_push($detalles, $item);
+
+        }
+        $invoice->setDetails($detalles);
+
+        return $invoice;
     }
 
     /**

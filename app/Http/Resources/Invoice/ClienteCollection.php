@@ -19,6 +19,7 @@ class ClienteCollection extends JsonResource
             'razon_social' => $this->razon_social,
             'direccion' => $this->direccion,
             'numero_documento_identidad' => $this->numero_documento_identidad,
+            //'tipo_documento_identidad' => $this->tipo_documento_identidad,
             'telefono' => $this->telefono,
             'celular' => $this->celular,
             'email' => $this->email,
