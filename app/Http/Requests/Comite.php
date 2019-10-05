@@ -28,7 +28,7 @@ class Comite extends FormRequest
             'fecha_registro' => 'required|date_format:Y-m-d',
             'observacion' => 'required|alpha_num_spaces',
             'cargo_postulante_id' => 'required|exists:cargo_postulantes,id',
-            'persona_id' => 'required|integer|min:1',
+            'persona_id' => 'required|exists:personas,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }

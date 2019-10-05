@@ -30,7 +30,7 @@ class ProcesoDisciplinario extends FormRequest
             'documento' => 'required|alpha_num_spaces',
             'sancion_id' => 'required|exists:sancions,id',
             'tipo_proceso_disciplinario_id' => 'required|exists:tipo_proceso_disciplinarios,id',
-            'persona_id' => 'required|integer|min:1',
+            'persona_id' => 'required|exists:personas,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }

@@ -30,7 +30,7 @@ class Translado extends FormRequest
             'documento' => 'required|alpha_num_spaces',
             'origen_departamento_id' => 'required|exists:ubigeos,id',
             'destino_departamento_id' => 'required|exists:ubigeos,id',
-            'persona_id' => 'required|integer|min:1',
+            'persona_id' => 'required|exists:personas,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }

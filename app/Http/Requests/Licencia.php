@@ -30,7 +30,7 @@ class Licencia extends FormRequest
             'documento' => 'required|alpha_num_spaces',
             'fecha_inicio' => 'required|date_format:Y-m-d',
             'fecha_fin' => 'required|date_format:Y-m-d',
-            'persona_id' => 'required|integer|min:1',
+            'persona_id' => 'required|exists:personas,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }

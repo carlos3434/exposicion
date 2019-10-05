@@ -29,7 +29,7 @@ class ListaGanadora extends FormRequest
             'periodo' => 'required|alpha_num_spaces',
             'cargo_postulante_id' => 'required|exists:cargo_postulantes,id',
             'departamento_id' => 'required|exists:ubigeos,id',
-            'persona_id' => 'required|integer|min:1',
+            'persona_id' => 'required|exists:personas,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }

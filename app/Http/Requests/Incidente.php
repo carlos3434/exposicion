@@ -29,7 +29,7 @@ class Incidente extends FormRequest
             'descripcion' => 'required|alpha_num_spaces',
             'documento' => 'required|alpha_num_spaces',
             'tipo_incidente_id' => 'required|exists:tipo_incidentes,id',
-            'persona_id' => 'required|integer|min:1',
+            'persona_id' => 'required|exists:personas,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }

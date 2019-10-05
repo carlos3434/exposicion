@@ -27,7 +27,7 @@ class InvoiceDetail extends FormRequest
         return [
             'fecha_registro' => 'required|date_format:Y-m-d',
             'resolucion' => 'required|alpha_num_spaces',
-            'persona_id' => 'required|integer|min:1',
+            'persona_id' => 'required|exists:personas,id',
             'is_titular' => 'required|boolean',
             'representanteNombres' => 'required|alpha_num_spaces',
             'representanteApellidoPaterno' => 'required|alpha_num_spaces',
