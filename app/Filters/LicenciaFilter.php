@@ -7,6 +7,7 @@ use App\Filters\AbstractFilter;
 class LicenciaFilter extends AbstractFilter
 {
     protected $filters = [
+        'documento' => Common\DocumentoFilter::class,
         'persona_id'            => Common\PersonaFilter::class,
         'fecha_registro'        => Common\FechaRegistroFilter::class,
         'fecha_inicio'          => Licencia\FechaInicioFilter::class,

@@ -1,5 +1,5 @@
 <?php
-namespace App\Filters\Translado;
+namespace App\Filters\Apelacion;
 
 class DocumentoFilter // ProcesoDisciplinario
 {
