@@ -29,9 +29,9 @@ class Apelacion extends FormRequest
             'resolucion' => 'required|alpha_num_spaces',
             'persona_id' => 'required|exists:personas,id',
             'is_titular' => 'required|boolean',
-            'representanteNombres' => 'required|alpha_num_spaces',
-            'representanteApellidoPaterno' => 'required|alpha_num_spaces',
-            'representanteApellidoMaterno' => 'required|alpha_num_spaces',
+            'representanteNombres' => 'required_if:is_titular,0|alpha_num_spaces',
+            'representanteApellidoPaterno' => 'required_if:is_titular,0|alpha_num_spaces',
+            'representanteApellidoMaterno' => 'required_if:is_titular,0|alpha_num_spaces',
             'documento_id' => 'required|exists:proceso_disciplinarios,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
         ];
