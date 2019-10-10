@@ -83,8 +83,7 @@ class CreatePersonasTable extends Migration
             $table->boolean('estado_solicitud')->nullable();//Aprovado / Denegado
             $table->boolean('is_solicitud')->default(0);
             $table->boolean('is_carnet')->default(0);
-            //$table->boolean('is_faf')->default(0);
-            //$table->boolean('is_juramentacion')->default(0);
+
             $table->boolean('is_pago_cuota_mensual')->default(0);
 
             $table->boolean('is_habilitado')->default(0);//registrar cuando se ingresa el campo is juramentacion.

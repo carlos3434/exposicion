@@ -72,7 +72,7 @@ class Persona extends JsonResource
             "direccion_centro_laboral"      => $this->direccion_centro_laboral,
             "telefono_centro_laboral"       => $this->telefono_centro_laboral,
             "numero_cmvp"                   => $this->numero_cmvp,
-            "fecha_registro_consejo"        => $this->fecha_registro_consejo,
+            //"fecha_registro_consejo"        => $this->fecha_registro_consejo,
             "url_cv"                        => $this->url_cv,
             "is_voluntario"                 => $this->is_voluntario,
             "grupo_sanguineo"               => $this->grupo_sanguineo,
@@ -82,11 +82,15 @@ class Persona extends JsonResource
             "is_habilitado"                 => $this->is_habilitado,
             "is_incidencia"                 => $this->is_incidencia,
             "is_carnet"                     => $this->is_carnet,
+            'is_pago_colegiatura'           => $this->is_pago_colegiatura,
+            'is_inscripcion'                => $this->is_inscripcion,
+            'is_solicitud'                  => $this->is_solicitud,
+            'is_pago_cuota_mensual'         => $this->is_pago_cuota_mensual,
 
             "estado_registro_colegiado"     => new EstadoRegistroColegiadoCollection($this->estadoRegistroColegiado),
 
-            "fecha_colegiatura"             => $this->fecha_colegiatura,
-            "fecha_aprovacion_consejo"      => $this->fecha_aprovacion_consejo,
+            //"fecha_colegiatura"             => $this->fecha_colegiatura,
+            //"fecha_aprovacion_consejo"      => $this->fecha_aprovacion_consejo,
             "url_foto"                      => $this->url_foto,
 
             "estado_cuenta_sistema"         => new EstadoCuentaSistemaCollection($this->estadoCuentaSistema),
@@ -101,6 +105,14 @@ class Persona extends JsonResource
             "total_consejo"                 => $this->total_consejo,
             "multa_pendiente"               => $this->multa_pendiente,
             "multa_pagadas"                 => $this->multa_pagadas,
+
+            'fecha_inscripcion'             => $this->fecha_inscripcion,
+            'fecha_presentacion_solicitud'  => $this->fecha_presentacion_solicitud,
+            'fecha_sesion'                  => $this->fecha_sesion,
+            'fecha_llegada_solicitud'       => $this->fecha_llegada_solicitud,
+            'fecha_registro_carnet'         => $this->fecha_registro_carnet,
+            'fecha_emision_carnet'          => $this->fecha_emision_carnet,
+            'fecha_caducidad_carnet'        => $this->fecha_caducidad_carnet,
 
             'created_at'                    => $this->created_at->toDateTimeString(),
             /*'roles' => new RolesByPersonaCollection($this->roles),

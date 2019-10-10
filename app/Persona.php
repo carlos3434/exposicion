@@ -49,7 +49,7 @@ class Persona extends Model
         'direccion_centro_laboral',
         'telefono_centro_laboral',
         'numero_cmvp',
-        'fecha_registro_consejo',
+        //'fecha_registro_consejo',
         'url_cv',
         'is_voluntario',
         'grupo_sanguineo',
@@ -58,8 +58,8 @@ class Persona extends Model
         'is_incidencia',
         'is_carnet',
         'estado_registro_colegiado_id',
-        'fecha_colegiatura',
-        'fecha_aprovacion_consejo',
+        //'fecha_colegiatura',
+        //'fecha_aprovacion_consejo',
         'estado_cuenta_sistema_id',
         'ultimo_mes_pago',
         'numero_meses_deuda',
@@ -70,7 +70,15 @@ class Persona extends Model
         'total_departamental',
         'total_consejo',
         'multa_pendiente',
-        'multa_pagadas'
+        'multa_pagadas',
+        
+        'fecha_inscripcion',
+        'fecha_presentacion_solicitud',
+        'fecha_sesion',//fecha a evaluar la solicitud
+        'fecha_llegada_solicitud',
+        'fecha_registro_carnet',
+        'fecha_emision_carnet',
+        'fecha_caducidad_carnet'
     ];
     //protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
     public function scopeFilter(Builder $builder, $request)
