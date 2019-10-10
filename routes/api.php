@@ -89,6 +89,12 @@ Route::prefix('v1')->group(function(){
 
         Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceController@envioSunat');
 
+        Route::post('procesoColegiado/inscripcion','Api\ProcesoColegiadoController@inscripcion');
+        Route::post('procesoColegiado/solicitarColegiatura','Api\ProcesoColegiadoController@solicitarColegiatura');
+        Route::post('procesoColegiado/completarSolicitud','Api\ProcesoColegiadoController@completarSolicitud');
+        Route::post('procesoColegiado/validarSolicitud','Api\ProcesoColegiadoController@validarSolicitud');
+        Route::post('procesoColegiado/generarCarnet','Api\ProcesoColegiadoController@generarCarnet');
+
         Route::get('sunat/files/{path}', function ($path) {
             $pathToFile = storage_path('app/uploads/files_sunat/'.$path);
             return response()->file($pathToFile);

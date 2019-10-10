@@ -15,7 +15,7 @@ class CreatePersonasTable extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('fecha_registro');
+            $table->date('fecha_registro')->nullable();
 
             $table->integer('tipo_documento_identidad_id');
             $table->string('numero_documento_identidad',11);
@@ -67,16 +67,16 @@ class CreatePersonasTable extends Migration
 
             $table->string('numero_operacion')->nullable();
             $table->string('banco_operacion')->nullable();
-            $table->date('fecha_operacion');
+            $table->date('fecha_operacion')->nullable();
             $table->string('monto_operacion')->default(0);
 
-            $table->date('fecha_inscripcion');
-            $table->date('fecha_presentacion_solicitud');
-            $table->date('fecha_sesion');//fecha a evaluar la solicitud
-            $table->date('fecha_llegada_solicitud');
-            $table->date('fecha_registro_carnet');
-            $table->date('fecha_emision_carnet');
-            $table->date('fecha_caducidad_carnet');
+            $table->date('fecha_inscripcion')->nullable();
+            $table->date('fecha_presentacion_solicitud')->nullable();
+            $table->date('fecha_sesion')->nullable();//fecha a evaluar la solicitud
+            $table->date('fecha_llegada_solicitud')->nullable();
+            $table->date('fecha_registro_carnet')->nullable();
+            $table->date('fecha_emision_carnet')->nullable();
+            $table->date('fecha_caducidad_carnet')->nullable();
 
             $table->boolean('is_pago_colegiatura')->default(0);
             $table->boolean('is_inscripcion')->default(0);
