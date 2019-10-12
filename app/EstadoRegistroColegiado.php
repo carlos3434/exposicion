@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class EstadoRegistroColegiado extends Model
 {
+    const NUEVO = 1;
+    const INSCRITO = 2;
+    const SOLICITUD_PENDIENTE = 3;
+    const SOLICITUD_RESUELTA = 4;
+    const SOLICITUD_VALIDADA = 5;
+    const CARNET_GENERADO = 6;
     /**
      * The attributes that are fillable via mass assignment.
      *

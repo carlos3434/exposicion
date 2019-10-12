@@ -12,6 +12,7 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
+    'acentos'         => 'The :attribute may only contain acentos.',
     'alpha_spaces'         => 'The :attribute may only contain letters and spaces.',
     'tipo_documento_identidad'       => 'The :attribute solo puede ser Ruc cuando el tipo de Documento Pago es Factura.',
     'numero_documento_identidad'       => 'La longitud de :attribute no concide con el tipo de documento de identidad.',

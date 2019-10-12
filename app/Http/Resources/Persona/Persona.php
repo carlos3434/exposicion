@@ -82,18 +82,20 @@ class Persona extends JsonResource
             "is_habilitado"                 => $this->is_habilitado,
             "is_incidencia"                 => $this->is_incidencia,
             "is_carnet"                     => $this->is_carnet,
+            "is_resuelve_consejo"           => $this->is_resuelve_consejo,
             'is_pago_colegiatura'           => $this->is_pago_colegiatura,
             'is_inscripcion'                => $this->is_inscripcion,
             'is_solicitud'                  => $this->is_solicitud,
             'is_pago_cuota_mensual'         => $this->is_pago_cuota_mensual,
 
-            "estado_registro_colegiado"     => new EstadoRegistroColegiadoCollection($this->estadoRegistroColegiado),
+            "estado_registro"               => new EstadoRegistroColegiadoCollection($this->estadoRegistroColegiado),
 
             //"fecha_colegiatura"             => $this->fecha_colegiatura,
-            //"fecha_aprovacion_consejo"      => $this->fecha_aprovacion_consejo,
+            "fecha_resuelve_consejo"        => $this->fecha_resuelve_consejo,
             "url_foto"                      => $this->url_foto,
 
-            "estado_cuenta_sistema"         => new EstadoCuentaSistemaCollection($this->estadoCuentaSistema),
+            "estado_cuenta"                 => new EstadoCuentaSistemaCollection($this->estadoCuentaSistema),
+            "estado_solicitud"              => $this->estado_solicitud,
 
             "ultimo_mes_pago"               => $this->ultimo_mes_pago,
             "numero_meses_deuda"            => $this->numero_meses_deuda,
@@ -106,6 +108,11 @@ class Persona extends JsonResource
             "multa_pendiente"               => $this->multa_pendiente,
             "multa_pagadas"                 => $this->multa_pagadas,
 
+            'numero_operacion'              => $this->numero_operacion,
+            'banco_operacion'               => $this->banco_operacion,
+            'fecha_operacion'               => $this->fecha_operacion,
+            'monto_operacion'               => $this->monto_operacion,
+
             'fecha_inscripcion'             => $this->fecha_inscripcion,
             'fecha_presentacion_solicitud'  => $this->fecha_presentacion_solicitud,
             'fecha_sesion'                  => $this->fecha_sesion,
@@ -113,6 +120,7 @@ class Persona extends JsonResource
             'fecha_registro_carnet'         => $this->fecha_registro_carnet,
             'fecha_emision_carnet'          => $this->fecha_emision_carnet,
             'fecha_caducidad_carnet'        => $this->fecha_caducidad_carnet,
+            'fecha_juramentacion'           => $this->fecha_caducidad_carnet,
 
             'created_at'                    => $this->created_at->toDateTimeString(),
             /*'roles' => new RolesByPersonaCollection($this->roles),

@@ -77,23 +77,25 @@ class CreatePersonasTable extends Migration
             $table->date('fecha_registro_carnet')->nullable();
             $table->date('fecha_emision_carnet')->nullable();
             $table->date('fecha_caducidad_carnet')->nullable();
+            $table->date('fecha_juramentacion')->nullable();
 
             $table->boolean('is_pago_colegiatura')->default(0);
             $table->boolean('is_inscripcion')->default(0);
             $table->boolean('estado_solicitud')->nullable();//Aprovado / Denegado
             $table->boolean('is_solicitud')->default(0);
             $table->boolean('is_carnet')->default(0);
+            $table->boolean('is_resuelve_consejo')->default(0);
 
             $table->boolean('is_pago_cuota_mensual')->default(0);
 
             $table->boolean('is_habilitado')->default(0);//registrar cuando se ingresa el campo is juramentacion.
             $table->boolean('is_incidencia')->default(0);
-            $table->integer('estado_registro_id')->default(1);
+            $table->integer('estado_registro_colegiado_id')->default(1);
 
             //$table->date('fecha_colegiatura')->nullable();
-            //$table->date('fecha_aprovacion_consejo')->nullable();
+            $table->date('fecha_resuelve_consejo')->nullable();
             $table->string('url_foto')->nullable();
-            $table->integer('estado_cuenta_id')->default(1);
+            $table->integer('estado_cuenta_sistema_id')->default(1);
 
             $table->string('ultimo_mes_pago')->nullable();
             $table->string('numero_meses_deuda')->nullable();

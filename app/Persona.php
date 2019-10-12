@@ -57,9 +57,11 @@ class Persona extends Model
         'is_habilitado',
         'is_incidencia',
         'is_carnet',
+        'is_inscripcion',
+        'is_resuelve_consejo',
         'estado_registro_colegiado_id',
         //'fecha_colegiatura',
-        //'fecha_aprovacion_consejo',
+        'fecha_resuelve_consejo',
         'estado_cuenta_sistema_id',
         'ultimo_mes_pago',
         'numero_meses_deuda',
@@ -71,6 +73,11 @@ class Persona extends Model
         'total_consejo',
         'multa_pendiente',
         'multa_pagadas',
+
+        'numero_operacion',
+        'banco_operacion',
+        'fecha_operacion',
+        'monto_operacion',
         
         'fecha_inscripcion',
         'fecha_presentacion_solicitud',
@@ -78,6 +85,7 @@ class Persona extends Model
         'fecha_llegada_solicitud',
         'fecha_registro_carnet',
         'fecha_emision_carnet',
+        'fecha_juramentacion',
         'fecha_caducidad_carnet'
     ];
     //protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];

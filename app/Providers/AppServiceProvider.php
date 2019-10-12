@@ -77,7 +77,10 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^[\pL\s]+$/u', $value); 
         });
         Validator::extend('alpha_num_spaces', function ($attribute, $value) {
-            return preg_match('/^([-a-z0-9_ ])+$/i', $value);
+            return preg_match('/^([-a-z0-9_0-9áéíóúüñÁÉÍÓÚÜÑ ])+$/i', $value);
+        });
+        Validator::extend('acentos', function ($attribute, $value) {
+            return preg_match('/^[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜÑ ]+$/', $value);
         });
         Validator::extend('tipo_documento_identidad', function ($attribute, $value) {
             if (request()->get('tipo_documento_pago_id') == TipoDocumentoPago::FACTURA && $value <> TipoDocumentoIdentidad::RUC ) {
