@@ -29,6 +29,7 @@ class UserRepository implements UserRepositoryInterface
     public function newOne($request)
     {
         $user = User::create($request->all());
+        $user->createToken('AppName')->accessToken;
         $this->syncRolesAndPermissions($request, $user);
         return $user;
     }
