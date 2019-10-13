@@ -81,7 +81,7 @@ class Persona extends FormRequest
             'grupo_sanguineo'                   => 'string',
             'departamento_colegiado_id'         => 'required|exists:ubigeos,id',
             'is_habilitado'                     => 'boolean',
-            'is_incidencia'                     => 'boolean',
+            'numero_incidencias'                => 'integer',
             'is_carnet'                         => 'boolean',
             'is_resuelve_consejo'               => 'boolean',
             'estado_registro_colegiado_id'      => 'exists:estado_registro_colegiado,id',

@@ -39,6 +39,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        $request->merge(['password' => bcrypt(12345678)]);
         $user = $this->userRepository->newOne($request);
         return response()->json($user, 201);
     }

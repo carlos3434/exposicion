@@ -80,7 +80,7 @@ class Persona extends JsonResource
             "departamento_colegiado"        => new DepartamentoColegiadoCollection($this->departamentoColegiado),
             
             "is_habilitado"                 => $this->is_habilitado,
-            "is_incidencia"                 => $this->is_incidencia,
+            "numero_incidencias"            => $this->numero_incidencias,
             "is_carnet"                     => $this->is_carnet,
             "is_resuelve_consejo"           => $this->is_resuelve_consejo,
             'is_pago_colegiatura'           => $this->is_pago_colegiatura,

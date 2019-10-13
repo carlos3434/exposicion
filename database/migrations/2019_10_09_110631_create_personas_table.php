@@ -89,7 +89,7 @@ class CreatePersonasTable extends Migration
             $table->boolean('is_pago_cuota_mensual')->default(0);
 
             $table->boolean('is_habilitado')->default(0);//registrar cuando se ingresa el campo is juramentacion.
-            $table->boolean('is_incidencia')->default(0);
+            $table->integer('numero_incidencias')->default(0);
             $table->integer('estado_registro_colegiado_id')->default(1);
 
             //$table->date('fecha_colegiatura')->nullable();

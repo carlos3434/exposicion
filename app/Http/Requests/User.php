@@ -27,7 +27,7 @@ class User extends FormRequest
         return [
             'name' => 'required|alpha_num_spaces',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
+            //'password' => 'required|min:8',
             'roles' => 'exists:roles,id',
             'permissions' => 'exists:permissions,id'
         ];

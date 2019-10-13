@@ -58,6 +58,7 @@ class IncidenteController extends Controller
     public function store(IncidenteRequest $request)
     {
         $incidente = Incidente::create($request->all());
+        $incidente->persona->save(['numero_incidencias'=>$incidente->persona->numero_incidencias++]);
         return response()->json($incidente, 201);
     }
 
