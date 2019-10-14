@@ -108,9 +108,9 @@ final class Util
                 ->setIgv( $invoiceDetail->igv )
                 ->setTipAfeIgv('10')/////////////////////////////////
                 ->setTotalImpuestos( $invoiceDetail->igv )
-                ->setMtoValorVenta( $invoiceDetail->valor_venta )
                 ->setMtoValorUnitario( $invoiceDetail->valor_unitario )
-                ->setMtoPrecioUnitario( $invoiceDetail->precio_unitario );
+                ->setMtoPrecioUnitario( $invoiceDetail->precio_unitario )
+                ->setMtoValorVenta( $invoiceDetail->valor_venta );
 
             if ($invoiceDetail->descuento_linea > 0) {
                 /*$item->setDescuentos([(

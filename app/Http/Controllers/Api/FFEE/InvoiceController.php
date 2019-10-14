@@ -97,8 +97,25 @@ class InvoiceController extends Controller
         $request->merge([ 'cliente_id' => $clienteDB->id ]);
         $invoice = Invoice::create($request->all());
 
+        // si el gravada el igv es 0.18
+        $porcentajeIGV = 0;
+        if ($request->monto_gravada>0) {
+            $porcentajeIGV = 0.18;
+        }
+
         foreach($invoiceDetail as $key => $detail)
         {
+            $descuentoLinea = 0;
+            $igvL = $porcentajeIGV * ( ( $detail['precio']  * $detail['cantidad']) - $descuentoLinea);
+
+            $detail['valor_unitario']   = $detail['precio'] ;
+
+            // precio  + (igvL - descuentoL)/cantidad
+            $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $descuentoLinea)/ $detail['cantidad'] ;
+
+            //restar descuento de linea : //precio * cantidad - descuentoL
+            $detail['valor_venta']      = $detail['precio']  * $detail['cantidad'] - $descuentoLinea;
+            //$invoice->invoiceDetail->save( $detail );
             $detail['invoice_id'] = $invoice->id;
             $this->invoiceDetailRepository->newOne($detail);
         }
