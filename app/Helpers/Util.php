@@ -104,9 +104,9 @@ final class Util
                 ->setCantidad( $invoiceDetail->cantidad )
                 ->setDescripcion( $invoiceDetail->descripcion )
                 ->setMtoBaseIgv( $invoiceDetail->base_igv )
-                ->setPorcentajeIgv(18)
+                ->setPorcentajeIgv( $invoiceDetail->porcentaje_igv )
                 ->setIgv( $invoiceDetail->igv )
-                ->setTipAfeIgv('10')/////////////////////////////////
+                ->setTipAfeIgv($invoiceDetail->conceptoPago->tipo_afecta_igv)
                 ->setTotalImpuestos( $invoiceDetail->igv )
                 ->setMtoValorUnitario( $invoiceDetail->valor_unitario )
                 ->setMtoPrecioUnitario( $invoiceDetail->precio_unitario )

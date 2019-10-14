@@ -12,7 +12,7 @@ class ConceptoPago extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','codigo_sunat','unidad_medida','codigo'];
+    protected $fillable = ['name','codigo_sunat','unidad_medida','codigo','tipo_afecta_igv'];
 
     /**
      * Create a new Permission instance.
