@@ -106,7 +106,9 @@ class InvoiceController extends Controller
         $igvTotal = $descuentoTotal = 0;
         foreach($invoiceDetail as $key => $detail)
         {
-            //$descuentoLinea = 0;
+            if (!isset($detail['descuento_linea'])) {
+                $detail['descuento_linea'] = 0;
+            }
             $descuentoTotal += $detail['descuento_linea'];
 
             $igvL = $porcentajeIGV/100 * ( ( $detail['precio']  * $detail['cantidad']) - $detail['descuento_linea']);
