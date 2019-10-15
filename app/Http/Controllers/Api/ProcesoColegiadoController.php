@@ -37,7 +37,7 @@ class ProcesoColegiadoController extends Controller
     protected function validateCompletarSolicitud(Request $request){
         $this->validate($request,[
             'fecha_resuelve_consejo'        => 'required|date_format:Y-m-d',
-            'estado_solicitud'              => 'required|in:Aprovado,Denegado', ////Aprovado / Denegado
+            'estado_solicitud'              => 'required|in:Aprobado,Denegado', ////Aprovado / Denegado
             'persona_id'                    => 'required|exists:personas,id',
         ]);
     }
