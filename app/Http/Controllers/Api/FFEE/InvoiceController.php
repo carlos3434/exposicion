@@ -99,26 +99,24 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::create($request->all());
 
-        // si el gravada el igv es 0.18
-        //DEPRECATED
-        $porcentajeIGV = 0;
-        if ($request->monto_gravada>0) {
-            $porcentajeIGV = 18;
-        }
-        //DEPRECATED
-        $igvTotal = $descuentoTotal = 0;
+        $porcentajeIGV = 18;
+        $igvTotal = $descuentoTotal = $valorVentaTotal = 0;
         $montoGravada = $montoGratuito = $montoExogerado = $montoInafecta = 0;
         foreach($invoiceDetail as $key => $detail)
         {
             if (!isset($detail['descuento_linea'])) {
                 $detail['descuento_linea'] = 0;
             }
-
+            $igvL = 0;
             $conceptoPago = ConceptoPago::find($detail['concepto_pago_id']);
-            $porcentajeIGV = 0;
+            $detail['porcentaje_igv'] = 0;
+            $valorVenta = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'] ;
+
             if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::GRAVADA) {
-                $porcentajeIGV = 18;
                 $montoGravada += $detail['precio'] * $detail['cantidad'];
+                $igvL = $porcentajeIGV/100 * $valorVenta;
+                $igvTotal += $igvL;
+                $detail['porcentaje_igv']   = $porcentajeIGV;
             }
             if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::GRATUITA) {
                 $montoGratuito += $detail['precio'] * $detail['cantidad'];
@@ -130,24 +128,20 @@ class InvoiceController extends Controller
                 $montoInafecta += $detail['precio'] * $detail['cantidad'];
             }
             $descuentoTotal += $detail['descuento_linea'];
+            $valorVentaTotal += $valorVenta;
 
-            $igvL = $porcentajeIGV/100 * ( ( $detail['precio']  * $detail['cantidad']) - $detail['descuento_linea']);
-            $igvTotal += $igvL;
             $detail['valor_unitario']   = $detail['precio'] ;
-
-            $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $detail['descuento_linea'])/ $detail['cantidad'] ;
-
-            $detail['valor_venta']      = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'];
-
-            $detail['porcentaje_igv']   = $porcentajeIGV;
-            //$detail['descuento_linea']  = $descuentoLinea;
+            $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $detail['descuento_linea']) / $detail['cantidad'] ;
+            $detail['valor_venta']      = $valorVenta;
             $detail['igv']              = $igvL;
             $detail['impuestos']        = $igvL;
-            $detail['base_igv']         = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'];
+            $detail['base_igv']         = $valorVenta;
             //$invoice->invoiceDetail->save( $detail );
-            $detail['invoice_id'] = $invoice->id;
+            $detail['invoice_id']       = $invoice->id;
             $this->invoiceDetailRepository->newOne($detail);
         }
+        $invoice->valor_venta = $valorVentaTotal;
+        $invoice->monto_importe_total_venta = $valorVentaTotal + $igvTotal;
         $invoice->monto_gravada = $montoGravada;
         $invoice->monto_gratuito = $montoGratuito;
         $invoice->monto_exogerado = $montoExogerado;

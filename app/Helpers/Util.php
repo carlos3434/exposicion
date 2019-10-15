@@ -86,12 +86,12 @@ final class Util
             ->setMtoOperGratuitas( $comprobantePago->monto_gratuito )
             ->setMtoIGV( $comprobantePago->igv_total )
             ->setTotalImpuestos( $comprobantePago->igv_total )
-            ->setValorVenta( $comprobantePago->monto_total - $comprobantePago->igv_total - $comprobantePago->descuento_total )//monto-descuentoTotalLinea
-            ->setMtoImpVenta( $comprobantePago->monto_total - $comprobantePago->descuento_total )//monto + igv - descuentoTotalLinea
+            ->setValorVenta( $comprobantePago->valor_venta )//monto-descuentoTotalLinea
+            ->setMtoImpVenta( $comprobantePago->monto_importe_total_venta )//monto + igv - descuentoTotalLinea
             ->setLegends( [
                 (new Legend())
                     ->setCode('1000')
-                    ->setValue( NumberLetter::convertToLetter( $comprobantePago->monto_total - $comprobantePago->descuento_total ) )
+                    ->setValue( NumberLetter::convertToLetter( $comprobantePago->monto_importe_total_venta ) )
             ]);
 
         //->setMtoDescuentos        Total Descuento Global
