@@ -7,6 +7,10 @@ use App\Filters\ConceptoPagoFilter;
 use Illuminate\Database\Eloquent\Builder;
 class ConceptoPago extends Model
 {
+    const GRAVADA = 10;
+    const GRATUITA = 11;
+    const EXONERADA = 20;
+    const INAFECTA = 30;
     /**
      * The attributes that are fillable via mass assignment.
      *

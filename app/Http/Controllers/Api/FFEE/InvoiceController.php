@@ -24,6 +24,7 @@ use App\Repositories\Interfaces\EmpresaRepositoryInterface;
 use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 
 use App\Helpers\Util;
+use App\ConceptoPago;
 
 class InvoiceController extends Controller
 {
@@ -99,15 +100,34 @@ class InvoiceController extends Controller
         $invoice = Invoice::create($request->all());
 
         // si el gravada el igv es 0.18
+        //DEPRECATED
         $porcentajeIGV = 0;
         if ($request->monto_gravada>0) {
             $porcentajeIGV = 18;
         }
+        //DEPRECATED
         $igvTotal = $descuentoTotal = 0;
+        $montoGravada = $montoGratuito = $montoExogerado = $montoInafecta = 0;
         foreach($invoiceDetail as $key => $detail)
         {
             if (!isset($detail['descuento_linea'])) {
                 $detail['descuento_linea'] = 0;
+            }
+
+            $conceptoPago = ConceptoPago::find($detail['concepto_pago_id']);
+            $porcentajeIGV = 0;
+            if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::GRAVADA) {
+                $porcentajeIGV = 18;
+                $montoGravada += $detail['precio'] * $detail['cantidad'];
+            }
+            if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::GRATUITA) {
+                $montoGratuito += $detail['precio'] * $detail['cantidad'];
+            }
+            if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::EXONERADA) {
+                $montoExogerado += $detail['precio'] * $detail['cantidad'];
+            }
+            if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::INAFECTA) {
+                $montoInafecta += $detail['precio'] * $detail['cantidad'];
             }
             $descuentoTotal += $detail['descuento_linea'];
 
@@ -128,6 +148,10 @@ class InvoiceController extends Controller
             $detail['invoice_id'] = $invoice->id;
             $this->invoiceDetailRepository->newOne($detail);
         }
+        $invoice->monto_gravada = $montoGravada;
+        $invoice->monto_gratuito = $montoGratuito;
+        $invoice->monto_exogerado = $montoExogerado;
+        $invoice->monto_inafecta = $montoInafecta;
         $invoice->descuento_total = $descuentoTotal;
         $invoice->igv_total = $igvTotal;
         $invoice->save();
