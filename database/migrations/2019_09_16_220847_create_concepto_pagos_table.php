@@ -19,6 +19,7 @@ class CreateConceptoPagosTable extends Migration
             $table->string('unidad_medida');//ZZ
             $table->string('codigo');
             $table->string('codigo_sunat');
+            $table->decimal('precio')->default(0);
             $table->string('tipo_afecta_igv',5)->default(30);
             $table->timestamps();
         });

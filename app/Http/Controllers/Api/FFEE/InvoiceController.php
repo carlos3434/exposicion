@@ -95,6 +95,7 @@ class InvoiceController extends Controller
         $clienteDB = $this->clienteRepository->getByDni($cliente);
 
         $request->merge([ 'cliente_id' => $clienteDB->id ]);
+
         $invoice = Invoice::create($request->all());
 
         // si el gravada el igv es 0.18
@@ -102,27 +103,32 @@ class InvoiceController extends Controller
         if ($request->monto_gravada>0) {
             $porcentajeIGV = 18;
         }
-
+        $igvTotal = $descuentoTotal = 0;
         foreach($invoiceDetail as $key => $detail)
         {
-            $descuentoLinea = 0;
-            $igvL = $porcentajeIGV/100 * ( ( $detail['precio']  * $detail['cantidad']) - $descuentoLinea);
+            //$descuentoLinea = 0;
+            $descuentoTotal += $detail['descuento_linea'];
 
+            $igvL = $porcentajeIGV/100 * ( ( $detail['precio']  * $detail['cantidad']) - $detail['descuento_linea']);
+            $igvTotal += $igvL;
             $detail['valor_unitario']   = $detail['precio'] ;
 
-            $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $descuentoLinea)/ $detail['cantidad'] ;
+            $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $detail['descuento_linea'])/ $detail['cantidad'] ;
 
-            $detail['valor_venta']      = $detail['precio']  * $detail['cantidad'] - $descuentoLinea;
+            $detail['valor_venta']      = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'];
 
             $detail['porcentaje_igv']   = $porcentajeIGV;
-            $detail['descuento_linea']  = $descuentoLinea;
+            //$detail['descuento_linea']  = $descuentoLinea;
             $detail['igv']              = $igvL;
             $detail['impuestos']        = $igvL;
-            $detail['base_igv']         = $detail['precio']  * $detail['cantidad'] - $descuentoLinea;
+            $detail['base_igv']         = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'];
             //$invoice->invoiceDetail->save( $detail );
             $detail['invoice_id'] = $invoice->id;
             $this->invoiceDetailRepository->newOne($detail);
         }
+        $invoice->descuento_total = $descuentoTotal;
+        $invoice->igv_total = $igvTotal;
+        $invoice->save();
         return new InvoiceResource($invoice);
         //return response()->json($invoice, 201);
     }

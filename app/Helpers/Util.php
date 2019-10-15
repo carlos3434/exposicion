@@ -75,6 +75,7 @@ final class Util
             ->setSerie( $comprobantePago->tipoDocumentoPago->prefijo. $comprobantePago->serie->name )
             ->setCorrelativo( $comprobantePago->numero )//'0003'
             ->setFechaEmision(new \DateTime( $comprobantePago->fecha_emision ))
+            ->setFecVencimiento( new \DateTime( $comprobantePago->fecha_vencimiento  ) )
             //->setTipoMoneda( $comprobantePago->tipo_moneda ) //'PEN'
             ->setTipoMoneda( 'PEN' ) //'PEN'
             ->setCompany( $company )
@@ -85,14 +86,16 @@ final class Util
             ->setMtoOperGratuitas( $comprobantePago->monto_gratuito )
             ->setMtoIGV( $comprobantePago->igv_total )
             ->setTotalImpuestos( $comprobantePago->igv_total )
-            ->setValorVenta( $comprobantePago->monto_total )
-            ->setMtoImpVenta( $comprobantePago->monto_total )
-            ->setMtoDescuentos( $comprobantePago->descuento_total )//descuento_global
+            ->setValorVenta( $comprobantePago->monto_total - $comprobantePago->igv_total - $comprobantePago->descuento_total )//monto-descuentoTotalLinea
+            ->setMtoImpVenta( $comprobantePago->monto_total - $comprobantePago->descuento_total )//monto + igv - descuentoTotalLinea
             ->setLegends( [
                 (new Legend())
                     ->setCode('1000')
-                    ->setValue( NumberLetter::convertToLetter( $comprobantePago->monto_total ) )
+                    ->setValue( NumberLetter::convertToLetter( $comprobantePago->monto_total - $comprobantePago->descuento_total ) )
             ]);
+
+        //->setMtoDescuentos        Total Descuento Global
+        //->setDescuentos           Descuento Global
 
         $detalles = [];
         foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
@@ -113,13 +116,14 @@ final class Util
                 ->setMtoValorVenta( $invoiceDetail->valor_venta );
 
             if ($invoiceDetail->descuento_linea > 0) {
-                /*$item->setDescuentos([(
+                $montoBase = $invoiceDetail->cantidad * $invoiceDetail->precio;
+                $item->setDescuentos([(
                     new Charge())
                     ->setCodTipo('00')
-                    ->setFactor( $invoiceDetail->factor )
-                    ->setMonto( $invoiceDetail->montoDescuento )
-                    ->setMontoBase( $invoiceDetail->montoBase )
-                ]);*/
+                    ->setFactor( $invoiceDetail->descuento_linea / $montoBase )
+                    ->setMonto( $invoiceDetail->descuento_linea )
+                    ->setMontoBase( $montoBase )
+                ]);
             }
             array_push($detalles, $item);
 
