@@ -76,7 +76,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('estadoRegistroColegiado','Api\Tipos\EstadoRegistroColegiadoController');
 
         Route::apiResource('ubigeos','Api\Tipos\UbigeoController');
-        Route::apiResource('beneficiarios', 'BeneficiarioController');
+        Route::apiResource('beneficiarios', 'Api\BeneficiarioController');
         //FFEE
         Route::apiResource('clientes','Api\FFEE\ClienteController');
         Route::apiResource('empresas','Api\FFEE\EmpresaController');
