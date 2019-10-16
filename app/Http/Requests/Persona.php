@@ -59,6 +59,9 @@ class Persona extends FormRequest
             'fecha_emision_carnet'              => 'date_format:Y-m-d',
             'fecha_caducidad_carnet'            => 'date_format:Y-m-d',
             'fecha_juramentacion'               => 'date_format:Y-m-d',
+            'fecha_solicitud_faf'               => 'date_format:Y-m-d',
+            'fecha_recepcion_faf'               => 'date_format:Y-m-d',
+            'fecha_firma_consejo'               => 'date_format:Y-m-d',
 
             'numero_operacion'                  => 'string',
             'banco_operacion'                   => 'string',

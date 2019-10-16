@@ -121,6 +121,9 @@ class Persona extends JsonResource
             'fecha_emision_carnet'          => $this->fecha_emision_carnet,
             'fecha_caducidad_carnet'        => $this->fecha_caducidad_carnet,
             'fecha_juramentacion'           => $this->fecha_caducidad_carnet,
+            'fecha_solicitud_faf'           => $this->fecha_solicitud_faf,
+            'fecha_recepcion_faf'           => $this->fecha_recepcion_faf,
+            'fecha_firma_consejo'           => $this->fecha_firma_consejo,
 
             'created_at'                    => $this->created_at->toDateTimeString(),
             /*'roles' => new RolesByPersonaCollection($this->roles),

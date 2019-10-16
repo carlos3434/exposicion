@@ -78,6 +78,10 @@ class CreatePersonasTable extends Migration
             $table->date('fecha_emision_carnet')->nullable();
             $table->date('fecha_caducidad_carnet')->nullable();
             $table->date('fecha_juramentacion')->nullable();
+            
+            $table->date('fecha_solicitud_faf')->nullable();
+            $table->date('fecha_recepcion_faf')->nullable();
+            $table->date('fecha_firma_consejo')->nullable();
 
             $table->boolean('is_pago_colegiatura')->default(0);
             $table->boolean('is_inscripcion')->default(0);

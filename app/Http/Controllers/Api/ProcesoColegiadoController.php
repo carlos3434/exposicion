@@ -55,6 +55,14 @@ class ProcesoColegiadoController extends Controller
             'persona_id'                    => 'required|exists:personas,id',
         ]);
     }
+    protected function validateSolicitudFAF(Request $request){
+        $this->validate($request,[
+            'fecha_solicitud_faf'           => 'required|date_format:Y-m-d',
+            'fecha_recepcion_faf'           => 'required|date_format:Y-m-d',
+            'fecha_firma_consejo'           => 'required|date_format:Y-m-d',
+            'persona_id'                    => 'required|exists:personas,id',
+        ]);
+    }
     public function inscripcion(Request $request)
     {
         $this->validateInscripcion($request);
@@ -101,6 +109,14 @@ class ProcesoColegiadoController extends Controller
         $persona = Persona::find($request->persona_id);
         $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::CARNET_GENERADO ]);
         $request->merge(['is_carnet' => 1 ]);
+        $persona->update( $request->all() );
+        return new PersonaResource($persona);
+    }
+    public function solicitudFAF(Request $request)
+    {
+        $this->validateSolicitudFAF($request);
+
+        $persona = Persona::find($request->persona_id);
         $persona->update( $request->all() );
         return new PersonaResource($persona);
     }

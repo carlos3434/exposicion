@@ -102,6 +102,18 @@ class PersonaExcel extends JsonResource
             "multa_pendiente"               => $this->multa_pendiente,
             "multa_pagadas"                 => $this->multa_pagadas,
 
+            'fecha_inscripcion'             => $this->fecha_inscripcion,
+            'fecha_presentacion_solicitud'  => $this->fecha_presentacion_solicitud,
+            'fecha_sesion'                  => $this->fecha_sesion,
+            'fecha_llegada_solicitud'       => $this->fecha_llegada_solicitud,
+            'fecha_registro_carnet'         => $this->fecha_registro_carnet,
+            'fecha_emision_carnet'          => $this->fecha_emision_carnet,
+            'fecha_caducidad_carnet'        => $this->fecha_caducidad_carnet,
+            'fecha_juramentacion'           => $this->fecha_juramentacion,
+            'fecha_solicitud_faf'           => $this->fecha_solicitud_faf,
+            'fecha_recepcion_faf'           => $this->fecha_recepcion_faf,
+            'fecha_firma_consejo'           => $this->fecha_firma_consejo,
+
             'created_at'                    => $this->created_at->toDateTimeString(),
             /*'roles' => new RolesByPersonaCollection($this->roles),
             'permissions' => new PermissionsByPersonaCollection($this->permissions)*/
