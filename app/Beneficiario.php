@@ -45,7 +45,7 @@ class Beneficiario extends Model
 
     public function scopeFilter(Builder $builder, $request)
     {
-        return (new ApelacionFilter($request))->filter($builder);
+        return (new BeneficiarioFilter($request))->filter($builder);
     }
     /**
      * Get the TipoDocumentoIdentidad
