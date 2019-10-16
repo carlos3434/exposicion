@@ -81,6 +81,7 @@ class Persona extends JsonResource
             
             "is_habilitado"                 => $this->is_habilitado,
             "numero_incidencias"            => $this->numero_incidencias,
+            "numero_procesos_disciplinarios"=> $this->numero_procesos_disciplinarios,
             "is_carnet"                     => $this->is_carnet,
             "is_resuelve_consejo"           => $this->is_resuelve_consejo,
             'is_pago_colegiatura'           => $this->is_pago_colegiatura,

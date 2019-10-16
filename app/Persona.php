@@ -56,6 +56,7 @@ class Persona extends Model
         'departamento_colegiado_id',
         'is_habilitado',
         'numero_incidencias',
+        'numero_procesos_disciplinarios',
         'is_carnet',
         'is_inscripcion',
         'is_resuelve_consejo',

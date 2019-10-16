@@ -85,6 +85,7 @@ class Persona extends FormRequest
             'departamento_colegiado_id'         => 'required|exists:ubigeos,id',
             'is_habilitado'                     => 'boolean',
             'numero_incidencias'                => 'integer',
+            'numero_procesos_disciplinarios'    => 'integer',
             'is_carnet'                         => 'boolean',
             'is_resuelve_consejo'               => 'boolean',
             'estado_registro_colegiado_id'      => 'exists:estado_registro_colegiado,id',
