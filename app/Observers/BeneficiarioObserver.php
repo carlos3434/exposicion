@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Beneficiario;
+use Illuminate\Support\Facades\Auth;
 
 class BeneficiarioObserver
 {
