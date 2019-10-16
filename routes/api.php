@@ -94,6 +94,7 @@ Route::prefix('v1')->group(function(){
         Route::post('procesoColegiado/completarSolicitud','Api\ProcesoColegiadoController@completarSolicitud');
         Route::post('procesoColegiado/validarSolicitud','Api\ProcesoColegiadoController@validarSolicitud');
         Route::post('procesoColegiado/generarCarnet','Api\ProcesoColegiadoController@generarCarnet');
+        Route::post('procesoColegiado/solicitudFAF','Api\ProcesoColegiadoController@solicitudFAF');
 
         Route::get('sunat/files/{path}', function ($path) {
             $pathToFile = storage_path('app/uploads/files_sunat/'.$path);
