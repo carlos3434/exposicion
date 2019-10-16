@@ -15,6 +15,7 @@ use App\Http\Resources\Persona\Persona as PersonaResource;
 use App\Http\Resources\Persona\PersonaCollection;
 use App\Http\Resources\Persona\PersonaExcelCollection;
 
+use File;
 class PersonaController extends Controller
 {
     public function __construct()
@@ -72,14 +73,40 @@ class PersonaController extends Controller
     public function store(PersonaRequest $request)
     {
         $this->savePhoto($request);
-        $persona = Persona::create($request->all());
+        $all = $request->all();
+        if ( $request->has('url_cv') ) {
+            $urlCV = $this->saveFile( $request->file('url_cv'), 'cvs');
+        }
+        if ( $request->has('url_foto') ) {
+            $urlFoto = $this->saveFile( $request->file('url_foto'), 'photos');
+        }
+        //$urlFoto = $this->saveFile( 'url_foto', 'photos');
+
+        $all['url_cv'] = $urlCV;
+        //$all['url_foto'] = $urlFoto;
+        $persona = Persona::create( $all );
+
         return response()->json($persona, 201);
     }
+    /**
+     * File input
+     */
+    private function saveFile($file, $fileFolder)
+    {
+        $image_extension = $file->getClientOriginalExtension();
+        $fileName = time().'.'.$image_extension;
+        Storage::put('uploads/'.$fileFolder.'/'.$fileName, File::get($file), 'public');
+
+        return $fileName;
+    }
+    /**
+     * Base64
+     */
     private function savePhoto(&$request)
     {
         if ($request->has('url_foto')) {
             $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$request->url_foto));
-            //Image::make($image)->resize(300,300)->save($s3);
+
             $profileImg= Image::make($image)->stream();
 
             $fileName = time().'.png';
@@ -110,7 +137,16 @@ class PersonaController extends Controller
     public function update(PersonaRequest $request, Persona $persona)
     {
         $this->savePhoto($request);
-        $persona->update( $request->all() );
+
+        $all = $request->all();
+        $urlCV = $this->saveFile( 'url_cv', 'cvs');
+        //$urlFoto = $this->saveFile( 'url_foto', 'photos');
+
+        $all['url_cv'] = $urlCV;
+        //$all['url_foto'] = $urlFoto;
+
+        $persona->update( $all );
+        //$persona->update( $request->all() );
         return response()->json($persona, 200);
     }
 

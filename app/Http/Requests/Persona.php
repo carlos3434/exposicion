@@ -75,7 +75,7 @@ class Persona extends FormRequest
             'telefono_centro_laboral'           => 'integer',
             'numero_cmvp'                       => 'alpha_num_spaces',
             //'fecha_registro_consejo'            => 'date_format:Y-m-d',
-            'url_cv'                            => 'alpha_num',
+            'url_cv'                            => 'file|max:8096',
             'is_voluntario'                     => 'boolean',
             'is_pago_colegiatura'               => 'boolean',
             'is_inscripcion'                    => 'boolean',

@@ -100,6 +100,10 @@ Route::prefix('v1')->group(function(){
             $pathToFile = storage_path('app/uploads/files_sunat/'.$path);
             return response()->file($pathToFile);
         });
+        Route::get('colegiados/cvs/{path}', function ($path) {
+            $pathToFile = storage_path('app/uploads/cvs/'.$path);
+            return response()->file($pathToFile);
+        });
 
     });
 
