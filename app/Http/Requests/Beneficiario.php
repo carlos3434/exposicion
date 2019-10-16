@@ -30,7 +30,7 @@ class Beneficiario extends FormRequest
             'apellido_materno'                  => 'required|alpha_num_spaces',
             'tipo_documento_identidad_id'       => 'required|exists:tipo_documento_identidad,id',
             'numero_documento_identidad'        => 'required|integer|numero_documento_identidad',
-            'persona_id'                        => 'required|exists:persona,id',
+            'persona_id'                        => 'required|exists:personas,id',
             'direccion'                         => 'alpha_num_spaces',
             'telefono'                          => 'integer',
             'email'                             => 'email'
