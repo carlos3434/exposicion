@@ -86,7 +86,10 @@ class Persona extends Model
         'fecha_registro_carnet',
         'fecha_emision_carnet',
         'fecha_juramentacion',
-        'fecha_caducidad_carnet'
+        'fecha_caducidad_carnet',
+        'fecha_solicitud_faf',
+        'fecha_recepcion_faf',
+        'fecha_firma_consejo',
     ];
     //protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
     public function scopeFilter(Builder $builder, $request)
