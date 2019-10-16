@@ -61,7 +61,7 @@ class ProcesoDisciplinarioController extends Controller
     public function store(ProcesoDisciplinarioRequest $request)
     {
         $procesoDisciplinario = ProcesoDisciplinario::create($request->all());
-        $incidente->persona->save(['numero_procesos_disciplinarios'=>$incidente->persona->numero_procesos_disciplinarios++]);
+        $procesoDisciplinario->persona->save(['numero_procesos_disciplinarios'=>$procesoDisciplinario->persona->numero_procesos_disciplinarios++]);
         return response()->json($procesoDisciplinario, 201);
     }
     /**
