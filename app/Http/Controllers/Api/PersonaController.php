@@ -76,14 +76,13 @@ class PersonaController extends Controller
         $all = $request->all();
         if ( $request->has('url_cv') ) {
             $urlCV = $this->saveFile( $request->file('url_cv'), 'cvs');
+            $all['url_cv'] = $urlCV;
         }
         if ( $request->has('url_foto') ) {
             $urlFoto = $this->saveFile( $request->file('url_foto'), 'photos');
+            $all['url_foto'] = $urlFoto;
         }
-        //$urlFoto = $this->saveFile( 'url_foto', 'photos');
 
-        $all['url_cv'] = $urlCV;
-        //$all['url_foto'] = $urlFoto;
         $persona = Persona::create( $all );
 
         return response()->json($persona, 201);
