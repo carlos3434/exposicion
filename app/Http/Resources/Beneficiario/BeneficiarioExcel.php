@@ -19,7 +19,7 @@ class BeneficiarioExcel extends JsonResource
             'nombres'                       => $this->nombres,
             'apellido_paterno'              => $this->apellido_paterno,
             'apellido_materno'              => $this->apellido_materno,
-            'tipo_documento_identidad_id'   => $this->tipo_documento_identidad_id,
+            //'tipo_documento_identidad_id'   => $this->tipo_documento_identidad_id,
             'numero_documento_identidad'    => $this->numero_documento_identidad,
             'direccion'                     => $this->direccion,
             'telefono'                      => $this->telefono,

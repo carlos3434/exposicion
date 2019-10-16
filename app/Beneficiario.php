@@ -52,7 +52,7 @@ class Beneficiario extends Model
      */
     public function tipoDocumentoIdentidad()
     {
-        return $this->hasMany('App\TipoDocumentoIdentidad');
+        return $this->belongsTo('App\TipoDocumentoIdentidad');
     }
 
     /**
