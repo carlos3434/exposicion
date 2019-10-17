@@ -20,11 +20,11 @@ class PersonaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_REGISTRO')->only(['create','store']);
-        $this->middleware('can:READ_REGISTRO')->only('index');
-        $this->middleware('can:UPDATE_REGISTRO')->only(['edit','update']);
-        $this->middleware('can:DETAIL_REGISTRO')->only('show');
-        $this->middleware('can:DELETE_REGISTRO')->only('destroy');
+        $this->middleware('can:CREATE_COLEGIADO')->only(['create','store']);
+        $this->middleware('can:READ_COLEGIADO')->only('index');
+        $this->middleware('can:UPDATE_COLEGIADO')->only(['edit','update']);
+        $this->middleware('can:DETAIL_COLEGIADO')->only('show');
+        $this->middleware('can:DELETE_COLEGIADO')->only('destroy');
     }
     /**
      * Display a listing of the resource.
