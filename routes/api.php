@@ -93,6 +93,8 @@ Route::prefix('v1')->group(function(){
         Route::post('procesoColegiado/solicitarColegiatura','Api\ProcesoColegiadoController@solicitarColegiatura');
         Route::post('procesoColegiado/completarSolicitud','Api\ProcesoColegiadoController@completarSolicitud');
         Route::post('procesoColegiado/validarSolicitud','Api\ProcesoColegiadoController@validarSolicitud');
+        Route::post('procesoColegiado/programarJuramentacion','Api\ProcesoColegiadoController@programarJuramentacion');
+        Route::post('procesoColegiado/validarJuramentacion','Api\ProcesoColegiadoController@validarJuramentacion');
         Route::post('procesoColegiado/generarCarnet','Api\ProcesoColegiadoController@generarCarnet');
         Route::post('procesoColegiado/solicitudFAF','Api\ProcesoColegiadoController@solicitudFAF');
 
