@@ -80,6 +80,8 @@ class Persona extends JsonResource
             "departamento_colegiado"        => new DepartamentoColegiadoCollection($this->departamentoColegiado),
             
             "is_habilitado"                 => $this->is_habilitado,
+            "is_juramentacion_programada"   => $this->is_juramentacion_programada,
+            "is_juramentacion_validada"     => $this->is_juramentacion_validada,
             "numero_incidencias"            => $this->numero_incidencias,
             "numero_procesos_disciplinarios"=> $this->numero_procesos_disciplinarios,
             "is_carnet"                     => $this->is_carnet,
@@ -121,7 +123,7 @@ class Persona extends JsonResource
             'fecha_registro_carnet'         => $this->fecha_registro_carnet,
             'fecha_emision_carnet'          => $this->fecha_emision_carnet,
             'fecha_caducidad_carnet'        => $this->fecha_caducidad_carnet,
-            'fecha_juramentacion'           => $this->fecha_caducidad_carnet,
+            'fecha_juramentacion'           => $this->fecha_juramentacion,
             'fecha_solicitud_faf'           => $this->fecha_solicitud_faf,
             'fecha_recepcion_faf'           => $this->fecha_recepcion_faf,
             'fecha_firma_consejo'           => $this->fecha_firma_consejo,

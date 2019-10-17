@@ -47,6 +47,18 @@ class ProcesoColegiadoController extends Controller
             'persona_id'                    => 'required|exists:personas,id',
         ]);
     }
+    protected function validateProgramarJuramentacion(Request $request){
+        $this->validate($request,[
+            'fecha_juramentacion'           => 'required|date_format:Y-m-d',
+            'persona_id'                    => 'required|exists:personas,id',
+        ]);
+    }
+    protected function validateValidarJuramentacion(Request $request){
+        $this->validate($request,[
+            'persona_id'                    => 'required|exists:personas,id',
+        ]);
+    }
+
     protected function validateGenerarCarnet(Request $request){
         $this->validate($request,[
             'fecha_registro_carnet'         => 'required|date_format:Y-m-d',
@@ -99,6 +111,24 @@ class ProcesoColegiadoController extends Controller
         $persona = Persona::find($request->persona_id);
         $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::SOLICITUD_VALIDADA ]);
         $request->merge(['is_solicitud' => 1 ]);
+        $persona->update( $request->all() );
+        return new PersonaResource($persona);
+    }
+    public function programarJuramentacion(Request $request)
+    {
+        $this->validateProgramarJuramentacion($request);
+        $persona = Persona::find($request->persona_id);
+        $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::JURAMENTACION_PROGRAMADA ]);
+        $request->merge(['is_juramentacion_programada' => 1 ]);
+        $persona->update( $request->all() );
+        return new PersonaResource($persona);
+    }
+    public function validarJuramentacion(Request $request)
+    {
+        $this->validateValidarJuramentacion($request);
+        $persona = Persona::find($request->persona_id);
+        $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::JURAMENTACION_VALIDADA ]);
+        $request->merge(['is_juramentacion_validada' => 1 ]);
         $persona->update( $request->all() );
         return new PersonaResource($persona);
     }

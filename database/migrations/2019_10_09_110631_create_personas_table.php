@@ -89,6 +89,8 @@ class CreatePersonasTable extends Migration
             $table->boolean('is_solicitud')->default(0);
             $table->boolean('is_carnet')->default(0);
             $table->boolean('is_resuelve_consejo')->default(0);
+            $table->boolean('is_juramentacion_programada')->default(0);
+            $table->boolean('is_juramentacion_validada')->default(0);
 
             $table->boolean('is_pago_cuota_mensual')->default(0);
 

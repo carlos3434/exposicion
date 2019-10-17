@@ -55,6 +55,8 @@ class Persona extends Model
         'grupo_sanguineo',
         'departamento_colegiado_id',
         'is_habilitado',
+        'is_juramentacion_programada',
+        'is_juramentacion_validada',
         'numero_incidencias',
         'numero_procesos_disciplinarios',
         'is_carnet',

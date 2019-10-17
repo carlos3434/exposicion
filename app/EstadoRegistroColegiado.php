@@ -11,7 +11,9 @@ class EstadoRegistroColegiado extends Model
     const SOLICITUD_PENDIENTE = 3;
     const SOLICITUD_RESUELTA = 4;
     const SOLICITUD_VALIDADA = 5;
-    const CARNET_GENERADO = 6;
+    const JURAMENTACION_PROGRAMADA = 6;
+    const JURAMENTACION_VALIDADA = 7;
+    const CARNET_GENERADO = 8;
     /**
      * The attributes that are fillable via mass assignment.
      *

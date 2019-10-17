@@ -80,6 +80,8 @@ class PersonaExcel extends JsonResource
             "departamento_colegiado"        => isset( $this->departamentoColegiado->name) ? $this->departamentoColegiado->name : '',
             
             "is_habilitado"                 => $this->is_habilitado,
+            "is_juramentacion_programada"   => $this->is_juramentacion_programada,
+            "is_juramentacion_validada"     => $this->is_juramentacion_validada,
             "is_incidencia"                 => $this->is_incidencia,
             "is_carnet"                     => $this->is_carnet,
 
