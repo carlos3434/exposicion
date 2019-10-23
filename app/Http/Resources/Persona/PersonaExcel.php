@@ -40,6 +40,7 @@ class PersonaExcel extends JsonResource
             "apellido_paterno"              => $this->apellido_paterno,
             "apellido_materno"              => $this->apellido_materno,
             "nombres"                       => $this->nombres,
+            "ruc"                           => $this->ruc,
             "fecha_nacimiento"              => $this->fecha_nacimiento,
 
             'estado_civil'                  => isset( $this->estadoCivil->name) ? $this->estadoCivil->name : '',

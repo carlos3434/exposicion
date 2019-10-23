@@ -7,6 +7,7 @@ use App\Filters\AbstractFilter;
 class PersonaFilter extends AbstractFilter
 {
     protected $filters = [
+        'ruc'                               => Persona\RucFilter::class,
         'full_name'                         => Persona\FullNameFilter::class,
         'nombres'                           => Persona\NombresFilter::class,
         'departamento_colegiado_id'         => Persona\DepartamentoColegiadoFilter::class, //nombre del campo en el request

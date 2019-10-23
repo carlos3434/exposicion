@@ -32,6 +32,7 @@ class Persona extends FormRequest
             'apellido_paterno'                  => 'required|alpha_num_spaces',
             'apellido_materno'                  => 'required|alpha_num_spaces',
             'nombres'                           => 'required|alpha_num_spaces',
+            'ruc'                               => 'required|integer|digits:11',
             'fecha_nacimiento'                  => 'required|date_format:Y-m-d',
             'estado_civil_id'                   => 'required|exists:estado_civil,id',
             'conyuge_apellido_paterno'          => 'alpha_num_spaces',

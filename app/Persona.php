@@ -27,6 +27,7 @@ class Persona extends Model
         'apellido_paterno',
         'apellido_materno',
         'nombres',
+        'ruc',
         'fecha_nacimiento',
         'estado_civil_id',
         'conyuge_apellido_paterno',
