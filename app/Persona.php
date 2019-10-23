@@ -115,7 +115,6 @@ class Persona extends Model
         $this->setTable('personas');
     }
     protected $is_upper = [
-        'url_foto',
         'apellido_paterno',
         'apellido_materno',
         'nombres',
