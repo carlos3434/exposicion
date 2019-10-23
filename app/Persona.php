@@ -79,6 +79,7 @@ class Persona extends Model
         'total_consejo',
         'multa_pendiente',
         'multa_pagadas',
+        'estado_solicitud',
 
         'numero_operacion',
         'banco_operacion',
