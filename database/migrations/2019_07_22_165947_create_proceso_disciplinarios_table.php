@@ -26,7 +26,7 @@ class CreateProcesoDisciplinariosTable extends Migration
             $table->softDeletes();
             $table->unsignedBigInteger('sancion_id')->index();
             $table->foreign('sancion_id')->references('id')->on('sancions')->onDelete('cascade');
-
+            $table->boolean('is_apelacion')->default(0);
             $table->unsignedBigInteger('tipo_proceso_disciplinario_id')->index();
             $table->foreign('tipo_proceso_disciplinario_id')->references('id')->on('tipo_proceso_disciplinarios')->onDelete('cascade');
 

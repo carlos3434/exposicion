@@ -22,6 +22,7 @@ class ProcesoDisciplinarioExcel extends JsonResource
             'descripcion'                   => $this->descripcion,
             'documento'                     => $this->documento,
             'sancion'                       => isset( $this->sancion->name) ? $this->sancion->name : '',
+            'is_apelacion'                  => $this->is_apelacion,
             'tipo_proceso_disciplinario'    => isset( $this->tipoProcesoDisciplinario->name) ? $this->tipoProcesoDisciplinario->name : '',
             'persona'                       => isset( $this->persona->full_name) ? $this->persona->full_name : '',
 

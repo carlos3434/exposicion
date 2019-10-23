@@ -18,7 +18,7 @@ class ProcesoDisciplinario extends Model
      */
     protected $fillable = ['fecha_registro', 'descripcion', 'documento', 
     'persona_id','updated_by', 'created_by',
-    'deleted_by','sancion_id','tipo_proceso_disciplinario_id'];
+    'deleted_by','sancion_id','is_apelacion','tipo_proceso_disciplinario_id'];
 
     /**
      * Create a new Permission instance.
