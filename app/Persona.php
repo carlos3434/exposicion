@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Filters\PersonaFilter;
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Traits\SaveToUpper;
+
 class Persona extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, SaveToUpper;
     /**
      * The attributes that are fillable via mass assignment.
      *
@@ -111,6 +113,27 @@ class Persona extends Model
 
         $this->setTable('personas');
     }
+    protected $is_upper = [
+        'url_foto',
+        'apellido_paterno',
+        'apellido_materno',
+        'nombres',
+        'conyuge_apellido_paterno',
+        'conyuge_apellido_materno',
+        'conyuge_nombres',
+        'direccion',
+        'nombre_centro_laboral',
+        'direccion_centro_laboral',
+        'banco_operacion',
+    ];
+    /*public function __get($key)
+    {
+        if (is_string($this->getAttribute($key))) {
+            return strtoupper( $this->getAttribute($key) );
+        } else {
+            return $this->getAttribute($key);
+        }
+    }*/
     /**
      * Get the user's full name.
      *
