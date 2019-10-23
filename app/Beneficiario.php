@@ -26,6 +26,7 @@ class Beneficiario extends Model
         'telefono',
         'email',
         'persona_id',
+        'is_baja',
         'updated_by',
         'created_by',
         'deleted_by'

@@ -27,6 +27,7 @@ class CreateBeneficiariosTable extends Migration
             $table->string('direccion')->nullable();
             $table->string('telefono')->nullable();
             $table->string('email')->nullable();
+            $table->boolean('is_baja')->default(0);
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('deleted_by')->nullable();

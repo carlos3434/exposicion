@@ -24,6 +24,7 @@ class BeneficiarioExcel extends JsonResource
             'direccion'                     => $this->direccion,
             'telefono'                      => $this->telefono,
             'email'                         => $this->email,
+            'is_baja'                       => $this->is_baja,
             'persona'                       => isset( $this->persona->full_name) ? $this->persona->full_name : '',
             'tipo_documento_identidad'      => isset( $this->tipoDocumentoIdentidad->name) ? $this->tipoDocumentoIdentidad->name : '',
 

@@ -33,7 +33,8 @@ class Beneficiario extends FormRequest
             'persona_id'                        => 'required|exists:personas,id',
             'direccion'                         => 'alpha_num_spaces',
             'telefono'                          => 'integer',
-            'email'                             => 'email'
+            'email'                             => 'email',
+            'is_baja'                           => 'boolean'
         ];
     }
     public function messages()

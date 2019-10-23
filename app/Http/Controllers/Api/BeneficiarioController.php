@@ -95,7 +95,8 @@ class BeneficiarioController extends Controller
      */
     public function destroy(Beneficiario $beneficiario)
     {
-        $beneficiario->delete();
+        $beneficiario->update( ['is_baja'=>1] );
+        //$beneficiario->delete();
         return response()->json(null, 204);
     }
 }
