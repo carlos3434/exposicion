@@ -59,6 +59,9 @@ class ApelacionController extends Controller
     public function store(ApelacionRequest $request)
     {
         $apelacion = Apelacion::create($request->all());
+        //update: proceso_disciplinarios con documento_id
+        $apelacion->documento->is_apelacion = 1;
+        $apelacion->push();
         return response()->json($apelacion, 201);
     }
 
