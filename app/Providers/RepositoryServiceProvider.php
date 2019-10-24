@@ -16,6 +16,8 @@ use App\Repositories\EmpresaRepository;
 use App\Repositories\Interfaces\EmpresaRepositoryInterface;
 use App\Repositories\UbigeoRepository;
 use App\Repositories\Interfaces\UbigeoRepositoryInterface;
+use App\Repositories\PersonaRepository;
+use App\Repositories\Interfaces\PersonaRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind( InvoiceRepositoryInterface::class, InvoiceRepository::class );
         $this->app->bind( EmpresaRepositoryInterface::class, EmpresaRepository::class );
         $this->app->bind( UbigeoRepositoryInterface::class, UbigeoRepository::class );
+        $this->app->bind( PersonaRepositoryInterface::class, PersonaRepository::class );
     }
 
     /**

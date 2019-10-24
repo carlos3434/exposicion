@@ -24,6 +24,7 @@ class PersonaObserver
      */
     public function creating(Persona $persona)
     {
+        $persona->fecha_registro = date("Y-m-d");
         $persona->created_by = Auth::id();
         $persona->updated_by = Auth::id();
     }

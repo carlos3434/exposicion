@@ -73,7 +73,7 @@ class Persona extends JsonResource
             "direccion_centro_laboral"      => $this->direccion_centro_laboral,
             "telefono_centro_laboral"       => $this->telefono_centro_laboral,
             "numero_cmvp"                   => $this->numero_cmvp,
-            //"fecha_registro_consejo"        => $this->fecha_registro_consejo,
+            "fecha_aprobacion_consejo"      => $this->fecha_aprobacion_consejo,
             "url_cv"                        => $this->url_cv,
             "is_voluntario"                 => $this->is_voluntario,
             "grupo_sanguineo"               => $this->grupo_sanguineo,
@@ -94,7 +94,7 @@ class Persona extends JsonResource
 
             "estado_registro"               => new EstadoRegistroColegiadoCollection($this->estadoRegistroColegiado),
 
-            //"fecha_colegiatura"             => $this->fecha_colegiatura,
+            "fecha_colegiatura"             => $this->fecha_colegiatura,
             "fecha_resuelve_consejo"        => $this->fecha_resuelve_consejo,
             "url_foto"                      => $this->url_foto,
 

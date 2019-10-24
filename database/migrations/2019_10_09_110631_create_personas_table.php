@@ -76,6 +76,7 @@ class CreatePersonasTable extends Migration
             $table->date('fecha_sesion')->nullable();//fecha a evaluar la solicitud
             $table->date('fecha_llegada_solicitud')->nullable();
             $table->date('fecha_registro_carnet')->nullable();
+            $table->date('fecha_aprobacion_consejo')->nullable();
             $table->date('fecha_emision_carnet')->nullable();
             $table->date('fecha_caducidad_carnet')->nullable();
             $table->date('fecha_juramentacion')->nullable();
@@ -100,7 +101,7 @@ class CreatePersonasTable extends Migration
             $table->integer('numero_procesos_disciplinarios')->default(0);
             $table->integer('estado_registro_colegiado_id')->default(1);
 
-            //$table->date('fecha_colegiatura')->nullable();
+            $table->date('fecha_colegiatura')->nullable();
             $table->date('fecha_resuelve_consejo')->nullable();
             $table->string('url_foto')->nullable();
             $table->integer('estado_cuenta_sistema_id')->default(1);

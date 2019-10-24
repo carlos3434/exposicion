@@ -117,6 +117,8 @@ class PersonaExcel extends JsonResource
             'fecha_solicitud_faf'           => $this->fecha_solicitud_faf,
             'fecha_recepcion_faf'           => $this->fecha_recepcion_faf,
             'fecha_firma_consejo'           => $this->fecha_firma_consejo,
+            'fecha_aprobacion_consejo'      => $this->fecha_aprobacion_consejo,
+            'fecha_colegiatura'             => $this->fecha_colegiatura,
 
             'created_at'                    => $this->created_at->toDateTimeString(),
             /*'roles' => new RolesByPersonaCollection($this->roles),
