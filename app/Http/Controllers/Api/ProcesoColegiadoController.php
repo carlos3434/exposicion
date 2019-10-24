@@ -141,7 +141,7 @@ class ProcesoColegiadoController extends Controller
         $persona = Persona::find($request->persona_id);
         $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::CARNET_GENERADO ]);
         $request->merge(['is_carnet' => 1 ]);
-        $request->merge(['fecha_registro_carnet' => $request->fecha_aprobacion_consejo ]);
+        $request->merge(['fecha_aprobacion_consejo' => $request->fecha_registro_carnet ]);
         $persona->update( $request->all() );
         return new PersonaResource($persona);
     }
