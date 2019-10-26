@@ -20,7 +20,7 @@ class CreateProcesoDisciplinariosTable extends Migration
             $table->string('documento');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
-            $table->string('monto_deuda',5);
+            $table->string('monto_multa',5);
 
             $table->integer('persona_id');
             $table->integer('updated_by')->nullable();

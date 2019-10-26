@@ -30,7 +30,7 @@ class ProcesoDisciplinario extends FormRequest
             'documento' => 'required|alpha_num_spaces',
             'fecha_inicio' => 'required_if:sancion_id,2|date_format:Y-m-d',
             'fecha_fin' => 'required_if:sancion_id,2|date_format:Y-m-d',
-            'monto_deuda' => 'required_if:sancion_id,3|integer',
+            'monto_multa' => 'required_if:sancion_id,3|integer',
             'sancion_id' => 'required|exists:sancions,id',
             'is_apelacion' => 'boolean',
             'tipo_proceso_disciplinario_id' => 'required|exists:tipo_proceso_disciplinarios,id',
