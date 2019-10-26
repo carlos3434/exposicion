@@ -111,6 +111,8 @@ class Persona extends JsonResource
             "total_consejo"                 => $this->total_consejo,
             "multa_pendiente"               => $this->multa_pendiente,
             "multa_pagadas"                 => $this->multa_pagadas,
+            "numero_meses_adelanto"         => $this->numero_meses_adelanto,
+            "numero_meses_aportado"         => $this->numero_meses_aportado,
 
             'numero_operacion'              => $this->numero_operacion,
             'banco_operacion'               => $this->banco_operacion,

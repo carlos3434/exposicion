@@ -105,6 +105,8 @@ class PersonaExcel extends JsonResource
             "total_consejo"                 => $this->total_consejo,
             "multa_pendiente"               => $this->multa_pendiente,
             "multa_pagadas"                 => $this->multa_pagadas,
+            "numero_meses_adelanto"         => $this->numero_meses_adelanto,
+            "numero_meses_aportado"         => $this->numero_meses_aportado,
 
             'fecha_inscripcion'             => $this->fecha_inscripcion,
             'fecha_presentacion_solicitud'  => $this->fecha_presentacion_solicitud,

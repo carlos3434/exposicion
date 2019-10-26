@@ -104,7 +104,9 @@ class Persona extends FormRequest
             'total_departamental'               => 'numeric|between:0,9999.99',
             'total_consejo'                     => 'numeric|between:0,9999.99',
             'multa_pendiente'                   => 'numeric|between:0,9999.99',
-            'multa_pagadas'                     => 'numeric|between:0,9999.99'
+            'multa_pagadas'                     => 'numeric|between:0,9999.99',
+            'numero_meses_adelanto'             => 'numeric|between:0,9999.99',
+            'numero_meses_aportado'             => 'numeric|between:0,9999.99'
         ];
     }
     public function messages()

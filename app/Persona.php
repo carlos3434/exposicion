@@ -77,6 +77,8 @@ class Persona extends Model
         'total_adelanto',
         'total_departamental',
         'total_consejo',
+        'numero_meses_adelanto',
+        'numero_meses_aportado',
         'multa_pendiente',
         'multa_pagadas',
         'estado_solicitud',
