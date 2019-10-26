@@ -1,7 +1,7 @@
 <?php
 namespace App\Filters\Persona;
 
-class NameFilter
+class RucFilter
 {
     public function filter($builder, $value)
     {
