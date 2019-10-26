@@ -13,16 +13,16 @@ class SancionsTableSeeder extends Seeder
     public function run()
     {
         Sancion::create([
+            'name'          => 'Expulsión'
+        ]);
+        Sancion::create([
+            'name'          => 'Suspensión'
+        ]);
+        Sancion::create([
             'name'          => 'Multa'
         ]);
         Sancion::create([
-            'name'          => 'Amonestacion'
-        ]);
-        Sancion::create([
-            'name'          => 'Sancion'
-        ]);
-        Sancion::create([
-            'name'          => 'Expulsion'
+            'name'          => 'Amonestación'
         ]);
     }
 }

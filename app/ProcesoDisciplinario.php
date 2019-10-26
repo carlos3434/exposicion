@@ -17,6 +17,9 @@ class ProcesoDisciplinario extends Model
      * @var array
      */
     protected $fillable = ['fecha_registro', 'descripcion', 'documento', 
+    'fecha_inicio',
+    'fecha_fin',
+    'monto_deuda',
     'persona_id','updated_by', 'created_by',
     'deleted_by','sancion_id','is_apelacion','tipo_proceso_disciplinario_id'];
 

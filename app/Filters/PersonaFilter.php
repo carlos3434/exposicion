@@ -25,5 +25,6 @@ class PersonaFilter extends AbstractFilter
         'estado_cuenta_sistema_id'          => Persona\EstadoCuentaSistemaFilter::class,
         'numero_cmvp'                       => Persona\NumeroCMVPFilter::class,
         'fecha_registro'                    => Common\FechaRegistroFilter::class,
-    ];  
+        'fecha_colegiatura'                 => Persona\FechaColegiaturaFilter::class,
+    ];
 }
