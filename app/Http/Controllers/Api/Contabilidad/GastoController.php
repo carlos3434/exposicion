@@ -76,7 +76,8 @@ class GastoController extends Controller
         if (isset($gastoDetail)) {
             foreach($gastoDetail as $key => $detail)
             {
-                $gasto-id;
+                //$gasto-id;
+                $detail['gasto_id']       = $gasto->id;
                 $this->gastoDetailRepository->newOne($detail);
             }
         }

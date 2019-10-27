@@ -47,14 +47,21 @@ class Gasto extends FormRequest
         if ($this->request->has('gastoDetail')) {
             foreach($this->request->get('gastoDetail') as $key => $val)
             {
-                $rules['invoiceDetail.'.$key.'.descripcion']        = 'required|string';
-                $rules['invoiceDetail.'.$key.'.descripcion']        = 'required|string';
-                $rules['invoiceDetail.'.$key.'.descripcion']        = 'required|string';
-                $rules['invoiceDetail.'.$key.'.descripcion']        = 'required|string';
-                $rules['invoiceDetail.'.$key.'.precio']             = 'required|numeric|between:0,9999.99';
-                $rules['invoiceDetail.'.$key.'.cantidad']           = 'required|integer';
-                $rules['invoiceDetail.'.$key.'.descuento_linea']    = 'numeric|between:0,9999.99';
-                $rules['invoiceDetail.'.$key.'.concepto_pago_id']   = 'required|exists:concepto_pago,id';
+
+                $rules['gastoDetail.'.$key.'.tipo_gasto_id']              = 'required|exists:tipo_gastos,id';
+                $rules['gastoDetail.'.$key.'.tipo_documento_pago_id']     = 'required|exists:tipo_documento_pago,id';
+                $rules['gastoDetail.'.$key.'.fecha']                      = 'required|date_format:Y-m-d';
+                $rules['gastoDetail.'.$key.'.monto']                      = 'required|numeric|between:0,9999.99';
+                $rules['gastoDetail.'.$key.'.fecha_fin']                  = 'date_format:Y-m-d';
+                $rules['gastoDetail.'.$key.'.detalle']                    = 'string';
+                $rules['gastoDetail.'.$key.'.ruc']                        = 'integer|digits:11';
+                $rules['gastoDetail.'.$key.'.razon_social']               = 'string';
+                $rules['gastoDetail.'.$key.'.serie']                      = 'string';
+                $rules['gastoDetail.'.$key.'.numero']                     = 'string';
+                $rules['gastoDetail.'.$key.'.salida']                     = 'string';
+                $rules['gastoDetail.'.$key.'.llegada']                    = 'string';
+                $rules['gastoDetail.'.$key.'.lugar']                      = 'string';
+
             }
         }
         return $rules;

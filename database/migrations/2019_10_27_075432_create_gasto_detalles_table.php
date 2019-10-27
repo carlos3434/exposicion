@@ -13,7 +13,7 @@ class CreateGastoDetallesTable extends Migration
      */
     public function up()
     {
-        Schema::create('gasto_detalles', function (Blueprint $table) {
+        Schema::create('gasto_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('gasto_id')->index();
@@ -25,16 +25,17 @@ class CreateGastoDetallesTable extends Migration
 
 
             $table->date('fecha');
-            $table->date('fecha_fin');
-            $table->string('detalle',50);//ruta
-            $table->string('ruc',11);
-            $table->string('razon_social',50);
-            $table->string('serie',50);
-            $table->string('numero',50);
+            $table->date('fecha_fin')->nullable();
+            $table->string('detalle',50)->nullable();//ruta
+            $table->string('ruc',11)->nullable();
+            $table->string('razon_social',50)->nullable();
+            $table->string('serie',50)->nullable();
+            $table->string('numero',50)->nullable();
             $table->string('monto',50);
-            $table->string('salida',50);
-            $table->string('llegada',50);
-            $table->string('lugar',50);
+            $table->string('salida',50)->nullable();
+            $table->string('llegada',50)->nullable();
+            $table->string('lugar',50)->nullable();
+            $table->string('ruta',50)->nullable();
 
             $table->timestamps();
         });
@@ -47,6 +48,6 @@ class CreateGastoDetallesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gasto_detalles');
+        Schema::dropIfExists('gasto_detail');
     }
 }
