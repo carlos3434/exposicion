@@ -23,6 +23,7 @@ use App\Invoice;
 use App\TipoDocumentoPago;
 use App\TipoDocumentoIdentidad;
 use App\Beneficiario;
+use App\Gasto;
 
 use App\Observers\IncidenteObserver;
 use App\Observers\TransladoObserver;
@@ -39,6 +40,7 @@ use App\Observers\ClienteObserver;
 use App\Observers\EmpresaObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\BeneficiarioObserver;
+use App\Observers\GastoObserver;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -75,6 +77,7 @@ class AppServiceProvider extends ServiceProvider
         Empresa::observe(EmpresaObserver::class);
         Invoice::observe(InvoiceObserver::class);
         Beneficiario::observe(BeneficiarioObserver::class);
+        Gasto::observe(GastoObserver::class);
 
         Validator::extend('alpha_spaces', function ($attribute, $value) {
             return preg_match('/^[\pL\s]+$/u', $value); 

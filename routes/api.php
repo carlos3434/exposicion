@@ -87,6 +87,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('tipoOperacion','Api\FFEE\TipoOperacionController');
         Route::apiResource('conceptoPago','Api\FFEE\ConceptoPagoController');
         Route::apiResource('invoiceDetail','Api\FFEE\InvoiceDetailController');
+        Route::apiResource('gastos','Api\Contabilidad\GastoController');
 
         Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceController@envioSunat');
 

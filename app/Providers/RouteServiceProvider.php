@@ -41,6 +41,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('listaPostulante', \App\ListaPostulante::class);
         Route::model('resultadoEleccione', \App\ResultadoEleccion::class);
         Route::model('persona', \App\Persona::class);
+        Route::model('gasto', \App\Gasto::class);
 
         Route::model('cliente', \App\Cliente::class);
         Route::model('empresa', \App\Empresa::class);

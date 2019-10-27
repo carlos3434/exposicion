@@ -2,19 +2,64 @@
 
 namespace App\Http\Controllers\API\Contabilidad;
 
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
+use App\Gasto;
+use Illuminate\Http\Request;
+
+
+use App\Http\Requests\Gasto as GastoRequest;
+use App\Http\Resources\Gasto\GastoCollection;
+use App\Http\Resources\Gasto\GastoExcelCollection;
+use App\Http\Resources\Gasto\Gasto as GastoResource;
+
+//repositories
+use App\Repositories\Interfaces\GastoRepositoryInterface;
+use App\Repositories\Interfaces\GastoDetailRepositoryInterface;
+
 
 class GastoController extends Controller
 {
+    private $gastoRepository;
+    private $gastoDetailRepository;
+    public function __construct(
+        gastoRepositoryInterface $gastoRepository,
+        gastoDetailRepositoryInterface $gastoDetailRepository
+    )
+    {
+        $this->gastoRepository = $gastoRepository;
+        $this->gastoDetailRepository = $gastoDetailRepository;
+        $this->middleware('can:CREATE_GASTO')->only(['create','store']);
+        $this->middleware('can:READ_GASTO')->only('index');
+        $this->middleware('can:UPDATE_GASTO')->only(['edit','update']);
+        $this->middleware('can:DETAIL_GASTO')->only('show');
+        $this->middleware('can:DELETE_GASTO')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Gasto::filter($request)
+            ->with([
+                'persona',
+                'cargo',
+                'departamento'
+        ]);
+        if ( !empty($request->excel) || !empty($request->pdf) ){
+            if ($query->count() > 0) {
+                $result = new GastoExcelCollection( $query->get() );
+
+                return $result->downloadExcel(
+                    'gastos_'.date('m-d-Y_hia').'.xlsx',
+                    $writerType = null,
+                    $headings = true
+                );
+            }
+        }
+        return new GastoCollection($query->sort()->paginate());
     }
 
     /**
@@ -23,9 +68,21 @@ class GastoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GastoRequest $request)
     {
-        //
+        $gastoDetail = $request->gastoDetail;
+        $gasto = $this->gastoRepository->newOne($request->all());
+
+        if (isset($gastoDetail)) {
+            foreach($gastoDetail as $key => $detail)
+            {
+                $gasto-id;
+                $this->gastoDetailRepository->newOne($detail);
+            }
+        }
+
+
+        return new GastoResource($gasto);
     }
 
     /**
