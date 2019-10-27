@@ -74,6 +74,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('tipoDocumentoPago','Api\Tipos\TipoDocumentoPagoController');
         Route::apiResource('estadoCuentaSistema','Api\Tipos\EstadoCuentaSistemaController');
         Route::apiResource('estadoRegistroColegiado','Api\Tipos\EstadoRegistroColegiadoController');
+        Route::apiResource('tipoGasto','Api\Tipos\TipoGastoController');
 
         Route::apiResource('ubigeos','Api\Tipos\UbigeoController');
         Route::apiResource('beneficiarios', 'Api\BeneficiarioController');

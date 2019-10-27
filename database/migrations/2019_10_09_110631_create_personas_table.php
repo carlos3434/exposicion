@@ -107,11 +107,11 @@ class CreatePersonasTable extends Migration
             $table->integer('estado_cuenta_sistema_id')->default(1);
 
             $table->string('ultimo_mes_pago')->nullable();
-            $table->string('numero_meses_deuda')->nullable();
+            $table->string('numero_meses_deuda')->default(0);
             $table->string('total_deuda')->default(0);// monto deuda total
-            $table->string('numero_meses_adelanto')->nullable();
+            $table->string('numero_meses_adelanto')->default(0);
             $table->string('total_adelanto')->default(0);
-            $table->string('numero_meses_aportado')->nullable();//numero meses aportado de cuota
+            $table->string('numero_meses_aportado')->default(0);//numero meses aportado de cuota
             $table->string('total_aportado')->default(0);//mensualidades done
             $table->string('total_faf')->default(0);//25% de cada cuota
             $table->string('total_departamental')->default(0);//55% de cada cuota
