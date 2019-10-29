@@ -41,7 +41,7 @@ class Rendicion extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable('gastos');
+        $this->setTable('rendicions');
     }
     public function scopeFilter(Builder $builder, $request)
     {
