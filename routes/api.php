@@ -78,6 +78,7 @@ Route::prefix('v1')->group(function(){
 
         Route::apiResource('ubigeos','Api\Tipos\UbigeoController');
         Route::apiResource('beneficiarios', 'Api\BeneficiarioController');
+        Route::apiResource('rendiciones', 'Api\RendicionController');
         //FFEE
         Route::apiResource('clientes','Api\FFEE\ClienteController');
         Route::apiResource('empresas','Api\FFEE\EmpresaController');
@@ -90,6 +91,8 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('gastos','Api\Contabilidad\GastoController');
 
         Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceController@envioSunat');
+        Route::post('sunat/notacredito/{invoiceId}','Api\FFEE\InvoiceNotaController@envioSunatNotaCredito');
+        Route::post('sunat/notadebito/{invoiceId}','Api\FFEE\InvoiceNotaController@envioSunatNotaDebito');
 
         Route::post('procesoColegiado/inscripcion','Api\ProcesoColegiadoController@inscripcion');
         Route::post('procesoColegiado/solicitarColegiatura','Api\ProcesoColegiadoController@solicitarColegiatura');
