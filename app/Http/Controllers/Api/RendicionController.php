@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 
 use App\Rendicion;
 use App\Http\Requests\Rendicion as RendicionRequest;
-//use App\Exports\Export;
-//use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Resources\Rendicion\RendicionCollection;
 use App\Http\Resources\Rendicion\RendicionExcelCollection;

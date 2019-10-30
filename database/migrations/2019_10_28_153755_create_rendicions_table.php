@@ -26,14 +26,14 @@ class CreateRendicionsTable extends Migration
             $table->integer('tipo_documento_identidad_id');
             $table->string('numero_documento_identidad',11);
 
-            $table->string('razon_social',50);
+            $table->string('razon_social',50)->nullable();
 
             $table->decimal('base')->default(0);
             $table->decimal('igv')->default(0);
             $table->decimal('monto_no_gravado')->default(0);
             $table->decimal('importe_total')->default(0);
 
-            $table->string('descripcion',100);
+            $table->string('descripcion',100)->nullable();
 
             $table->timestamps();
         });
