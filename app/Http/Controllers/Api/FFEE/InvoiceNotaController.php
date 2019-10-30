@@ -26,7 +26,7 @@ use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 use App\Helpers\Util;
 use App\ConceptoPago;
 
-class InvoiceController extends Controller
+class InvoiceNotaController extends Controller
 {
     private $clienteRepository;
     private $invoiceDetailRepository;
