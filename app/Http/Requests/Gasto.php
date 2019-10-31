@@ -26,7 +26,7 @@ class Gasto extends FormRequest
     {
         $rules = [
 
-            'motivo'                    => 'string',
+            'motivo'                    => 'required|string',
             'origen'                    => 'string',
             'destino'                   => 'string',
             'retorno'                   => 'string',
