@@ -27,9 +27,9 @@ class Gasto extends FormRequest
         $rules = [
 
             'motivo'                    => 'required|string',
-            'origen'                    => 'string',
-            'destino'                   => 'string',
-            'retorno'                   => 'string',
+            'origen'                    => 'required|string',
+            'destino'                   => 'required|string',
+            'retorno'                   => 'required|string',
             'fecha_salida'              => 'required|date_format:Y-m-d',
             'fecha_retorno'             => 'required|date_format:Y-m-d',
             'monto_recibido'            => 'numeric|between:0,9999.99',
