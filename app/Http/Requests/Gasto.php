@@ -49,7 +49,7 @@ class Gasto extends FormRequest
             {
 
                 $rules['gastoDetail.'.$key.'.tipo_gasto_id']              = 'required|exists:tipo_gastos,id';
-                $rules['gastoDetail.'.$key.'.tipo_documento_pago_id']     = 'required|exists:tipo_documento_pago,id';
+                $rules['gastoDetail.'.$key.'.tipo_documento_pago_id']     = 'exists:tipo_documento_pago,id';
                 $rules['gastoDetail.'.$key.'.fecha']                      = 'required|date_format:Y-m-d';
                 $rules['gastoDetail.'.$key.'.monto']                      = 'required|numeric|between:0,9999.99';
                 $rules['gastoDetail.'.$key.'.fecha_fin']                  = 'date_format:Y-m-d';
