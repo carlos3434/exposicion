@@ -58,8 +58,8 @@ class Gasto extends FormRequest
                 $rules['gastoDetail.'.$key.'.razon_social']               = 'string';
                 $rules['gastoDetail.'.$key.'.serie']                      = 'string';
                 $rules['gastoDetail.'.$key.'.numero']                     = 'string';
-                $rules['gastoDetail.'.$key.'.salida']                     = 'string';
-                $rules['gastoDetail.'.$key.'.llegada']                    = 'string';
+                $rules['gastoDetail.'.$key.'.salida']                     = 'date_format:Y-m-d';
+                $rules['gastoDetail.'.$key.'.llegada']                    = 'date_format:Y-m-d';
                 $rules['gastoDetail.'.$key.'.lugar']                      = 'string';
 
             }

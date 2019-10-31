@@ -32,8 +32,8 @@ class CreateGastoDetallesTable extends Migration
             $table->string('serie',50)->nullable();
             $table->string('numero',50)->nullable();
             $table->string('monto',50);
-            $table->string('salida',50)->nullable();
-            $table->string('llegada',50)->nullable();
+            $table->date('salida')->nullable();
+            $table->date('llegada')->nullable();
             $table->string('lugar',50)->nullable();
             $table->string('ruta',50)->nullable();
 
