@@ -71,4 +71,11 @@ class Gasto extends Model
     {
         return $this->belongsTo('App\Ubigeo','departamento_id');
     }
+    /**
+     * Get the GastoDetail
+     */
+    public function gastoDetail()
+    {
+        return $this->hasMany('App\GastoDetail');
+    }
 }

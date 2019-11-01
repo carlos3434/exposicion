@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Gasto\PersonaCollection;
 use App\Http\Resources\Gasto\CargoCollection;
 use App\Http\Resources\Gasto\DepartamentoCollection;
+use App\Http\Resources\Gasto\GastoDetailCollection;
 
 class Gasto extends JsonResource
 {
@@ -37,6 +38,7 @@ class Gasto extends JsonResource
             'persona'                   => new PersonaCollection($this->persona),
             'cargo'                     => new CargoCollection($this->cargo),
             'departamento'              => new DepartamentoCollection($this->departamento),
+            'detail'                    => new GastoDetailCollection($this->gastoDetail),
             'created_at'                => $this->created_at->toDateTimeString(),
 
         ];
