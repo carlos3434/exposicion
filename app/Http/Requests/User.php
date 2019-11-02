@@ -27,6 +27,7 @@ class User extends FormRequest
         return [
             'name' => 'required|alpha_num_spaces',
             'email' => 'required|email|unique:users',
+            'departamento_id' => 'required|exists:ubigeos,id',
             //'password' => 'required|min:8',
             'roles' => 'exists:roles,id',
             'permissions' => 'exists:permissions,id'

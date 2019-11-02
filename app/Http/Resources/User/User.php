@@ -21,6 +21,7 @@ class User extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'departamento_id' => $this->departamento_id,
             'created_at' => $this->created_at->toDateTimeString(),
             'roles' => new RolesByUserCollection($this->roles),
             'permissions' => new PermissionsByUserCollection($this->permissions)
