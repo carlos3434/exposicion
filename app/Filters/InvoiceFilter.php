@@ -11,6 +11,6 @@ class InvoiceFilter extends AbstractFilter
         'tipo_documento_pago_id'   => Invoice\TipoDocumentoPagoFilter::class,
         'numero'            => Invoice\NumeroFilter::class,
         'serie_id'            => Invoice\SerieFilter::class,
-        'fecha_registro'    => Common\FechaRegistroFilter::class,
+        'fecha_emision'    => Invoice\FechaEmisionFilter::class,
     ];
 }
