@@ -33,6 +33,7 @@ class Rendicion extends JsonResource
             'tipo_documento_identidad'              => new TipoDocumentoIdentidadCollection($this->tipoDocumentoIdentidad),
             'tipo_rendicion'                        => new TipoRendicionCollection($this->tipoRendicion),
             'responsable'                           => new ResponsableCollection($this->responsable),
+            'departamento'                          => new DepartamentoCollection($this->departamento),
 
             'created_at'                            => $this->created_at->toDateTimeString(),
 

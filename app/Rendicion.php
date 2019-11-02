@@ -77,4 +77,11 @@ class Rendicion extends Model
     {
         return $this->belongsTo('App\Responsable');
     }
+    /**
+     * Get the departamento
+     */
+    public function departamento()
+    {
+        return $this->belongsTo('App\Ubigeo','departamento_id');
+    }
 }
