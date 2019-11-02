@@ -4,6 +4,7 @@ namespace App\Http\Resources\Rendicion;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use App\Http\Resources\Responsable\ResponsableCollection;
 class Rendicion extends JsonResource
 {
     /**
@@ -28,9 +29,10 @@ class Rendicion extends JsonResource
             'importe_total'                         => $this->importe_total,
             'descripcion'                           => $this->descripcion,
 
-            'tipo_documento_pago'                   => new TipoDocumentoPagoCollection($this->tipo_documento_pago),
-            'tipo_documento_identidad'              => new TipoDocumentoIdentidadCollection($this->tipo_documento_identidad),
-            'tipo_rendicion'                        => new TipoRendicionCollection($this->tipo_rendicion),
+            'tipo_documento_pago'                   => new TipoDocumentoPagoCollection($this->tipoDocumentoPago),
+            'tipo_documento_identidad'              => new TipoDocumentoIdentidadCollection($this->tipoDocumentoIdentidad),
+            'tipo_rendicion'                        => new TipoRendicionCollection($this->tipoRendicion),
+            'responsable'                           => new ResponsableCollection($this->responsable),
 
             'created_at'                            => $this->created_at->toDateTimeString(),
 

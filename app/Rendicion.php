@@ -22,6 +22,8 @@ class Rendicion extends Model
         'serie',
         'numero',
         'tipo_documento_identidad_id',
+        'departamento_id',
+        'responsable_id',
         'numero_documento_identidad',
         'razon_social',
         'base',
@@ -67,5 +69,12 @@ class Rendicion extends Model
     public function tipoDocumentoPago()
     {
         return $this->belongsTo('App\TipoDocumentoPago');
+    }
+    /**
+     * Get the Responsable
+     */
+    public function responsable()
+    {
+        return $this->belongsTo('App\Responsable');
     }
 }

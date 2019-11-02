@@ -37,6 +37,6 @@ class Serie extends Model
      */
     public function persona()
     {
-        return $this->belongsTo('App\A');
+        return $this->belongsTo('App\Persona');
     }
 }

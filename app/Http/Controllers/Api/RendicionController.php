@@ -12,10 +12,14 @@ use App\Http\Resources\Rendicion\RendicionCollection;
 use App\Http\Resources\Rendicion\RendicionExcelCollection;
 use App\Http\Resources\Rendicion\Rendicion as RendicionResource;
 
+use App\Repositories\Interfaces\ResponsableRepositoryInterface;
+
 class RendicionController extends Controller
 {
-    public function __construct()
+    private $responsableRepository;
+    public function __construct(ResponsableRepositoryInterface $responsableRepository)
     {
+        $this->responsableRepository = $responsableRepository;
         $this->middleware('can:CREATE_RENDICION')->only(['create','store']);
         $this->middleware('can:READ_RENDICION')->only('index');
         $this->middleware('can:UPDATE_RENDICION')->only(['edit','update']);
@@ -57,8 +61,16 @@ class RendicionController extends Controller
      */
     public function store(RendicionRequest $request)
     {
+        //$invoiceDetail = $request->invoiceDetail;
+        $responsable = $request->responsable;
+
+        $responsableDB = $this->responsableRepository->getByFullName($responsable);
+
+        $request->merge([ 'responsable_id' => $responsableDB->id ]);
+
         $rendicion = Rendicion::create($request->all());
-        return response()->json($rendicion, 201);
+        return new RendicionResource($rendicion);
+        //return response()->json($rendicion, 201);
     }
 
     /**

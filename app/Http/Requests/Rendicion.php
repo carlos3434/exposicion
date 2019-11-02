@@ -30,6 +30,8 @@ class Rendicion extends FormRequest
             'tipo_rendicion_id'                 => 'required|exists:tipo_rendicion,id',
             'fecha'                             => 'required|date_format:Y-m-d',
             'tipo_documento_pago_id'            => 'required|exists:tipo_documento_pago,id',
+            'departamento_id'                   => 'required|exists:ubigeos,id',
+            //'responsable_id',            => 'required|exists:tipo_documento_pago,id',
             'serie'                             => 'alpha_num',
             'numero'                            => 'alpha_num',
             'tipo_documento_identidad_id'       => 'required|exists:tipo_documento_identidad,id',
@@ -39,7 +41,12 @@ class Rendicion extends FormRequest
             'igv'                               => 'numeric|between:0,9999.99',
             'monto_no_gravado'                  => 'numeric|between:0,9999.99',
             'importe_total'                     => 'numeric|between:0,9999.99',
-            'descripcion'                       => 'alpha_num_spaces'
+            'descripcion'                       => 'alpha_num_spaces',
+
+            'responsable.apellido_paterno'      => 'required|alpha_num',
+            'responsable.apellido_materno'      => 'required|alpha_num',
+            'responsable.nombres'               => 'required|alpha_num'
+
         ];
     }
     public function messages()

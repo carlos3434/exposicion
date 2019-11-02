@@ -22,6 +22,8 @@ use App\Repositories\GastoRepository;
 use App\Repositories\Interfaces\GastoRepositoryInterface;
 use App\Repositories\GastoDetailRepository;
 use App\Repositories\Interfaces\GastoDetailRepositoryInterface;
+use App\Repositories\ResponsableRepository;
+use App\Repositories\Interfaces\ResponsableRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -41,6 +43,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind( PersonaRepositoryInterface::class, PersonaRepository::class );
         $this->app->bind( GastoRepositoryInterface::class, GastoRepository::class );
         $this->app->bind( GastoDetailRepositoryInterface::class, GastoDetailRepository::class );
+        $this->app->bind( ResponsableRepositoryInterface::class, ResponsableRepository::class );
     }
 
     /**
