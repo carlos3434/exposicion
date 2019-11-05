@@ -43,9 +43,9 @@ class Rendicion extends FormRequest
             'importe_total'                     => 'numeric|between:0,9999.99',
             'descripcion'                       => 'alpha_num_spaces',
 
-            'responsable.apellido_paterno'      => 'required|alpha_num',
-            'responsable.apellido_materno'      => 'required|alpha_num',
-            'responsable.nombres'               => 'required|alpha_num'
+            //'responsable.apellido_paterno'      => 'required|alpha_num',
+            //'responsable.apellido_materno'      => 'required|alpha_num',
+            //'responsable.nombres'               => 'required|alpha_num'
 
         ];
     }

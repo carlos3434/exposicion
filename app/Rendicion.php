@@ -23,7 +23,7 @@ class Rendicion extends Model
         'numero',
         'tipo_documento_identidad_id',
         'departamento_id',
-        'responsable_id',
+        //'responsable_id',
         'numero_documento_identidad',
         'razon_social',
         'base',
@@ -73,10 +73,10 @@ class Rendicion extends Model
     /**
      * Get the Responsable
      */
-    public function responsable()
+    /*public function responsable()
     {
         return $this->belongsTo('App\Responsable');
-    }
+    }*/
     /**
      * Get the departamento
      */

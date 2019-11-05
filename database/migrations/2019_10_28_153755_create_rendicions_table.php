@@ -25,10 +25,10 @@ class CreateRendicionsTable extends Migration
 
             $table->unsignedBigInteger('departamento_id')->index();
             $table->foreign('departamento_id')->references('id')->on('ubigeos')->onDelete('cascade');
-
+/*
             $table->unsignedBigInteger('responsable_id')->index();
             $table->foreign('responsable_id')->references('id')->on('responsables')->onDelete('cascade');
-
+*/
             $table->integer('tipo_documento_identidad_id');
             $table->string('numero_documento_identidad',11);
 

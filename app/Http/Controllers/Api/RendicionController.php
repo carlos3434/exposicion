@@ -62,11 +62,11 @@ class RendicionController extends Controller
     public function store(RendicionRequest $request)
     {
         //$invoiceDetail = $request->invoiceDetail;
-        $responsable = $request->responsable;
+        /*$responsable = $request->responsable;
 
         $responsableDB = $this->responsableRepository->getByFullName($responsable);
 
-        $request->merge([ 'responsable_id' => $responsableDB->id ]);
+        $request->merge([ 'responsable_id' => $responsableDB->id ]);*/
 
         $rendicion = Rendicion::create($request->all());
         return new RendicionResource($rendicion);
@@ -95,7 +95,8 @@ class RendicionController extends Controller
     public function update(RendicionRequest $request, Rendicion $rendicion)
     {
         $rendicion->update( $request->all() );
-        return response()->json($rendicion, 200);
+        return new RendicionResource($rendicion);
+        //return response()->json($rendicion, 200);
     }
 
     /**

@@ -40,6 +40,10 @@ class Inventario extends FormRequest
             'vida_util'=> 'required',
             'estado_inventario_id'=> 'required',
             'valor_activo'=> 'required',
+
+            'responsable.apellido_paterno'      => 'required|alpha_num',
+            'responsable.apellido_materno'      => 'required|alpha_num',
+            'responsable.nombres'               => 'required|alpha_num'
         ];
     }
     public function messages()
