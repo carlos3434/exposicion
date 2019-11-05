@@ -12,11 +12,15 @@ use App\Http\Resources\Inventario\InventarioCollection;
 use App\Http\Resources\Inventario\InventarioExcelCollection;
 use App\Http\Resources\Inventario\Inventario as InventarioResource;
 
+
+use App\Repositories\Interfaces\ResponsableRepositoryInterface;
+
 class InventarioController extends Controller
 {
-
-    public function __construct()
+    private $responsableRepository;
+    public function __construct(ResponsableRepositoryInterface $responsableRepository)
     {
+        $this->responsableRepository = $responsableRepository;
         $this->middleware('can:CREATE_INVENTARIO')->only(['create','store']);
         $this->middleware('can:READ_INVENTARIO')->only('index');
         $this->middleware('can:UPDATE_INVENTARIO')->only(['edit','update']);
@@ -34,6 +38,7 @@ class InventarioController extends Controller
             ->with([
                 'responsable',
                 'tipoInventario',
+                'departamento',
                 'estadoInventario'
         ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
@@ -57,8 +62,17 @@ class InventarioController extends Controller
      */
     public function store(InventarioRequest $request)
     {
+        $responsable = $request->responsable;
+
+        $responsableDB = $this->responsableRepository->getByFullName($responsable);
+
+        $request->merge([ 'responsable_id' => $responsableDB->id ]);
+
         $inventario = Inventario::create($request->all());
-        return response()->json($inventario, 201);
+        return new InventarioResource($inventario);
+        /*
+        $inventario = Inventario::create($request->all());
+        return response()->json($inventario, 201);*/
     }
 
     /**

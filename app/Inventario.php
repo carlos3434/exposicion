@@ -51,6 +51,13 @@ class Inventario extends Model
     /**
      * Get the Responsable
      */
+    public function departamento()
+    {
+        return $this->belongsTo('App\Ubigeo','departamento_id');
+    }
+    /**
+     * Get the Responsable
+     */
     public function responsable()
     {
         return $this->belongsTo('App\Responsable');

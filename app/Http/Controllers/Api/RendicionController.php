@@ -12,14 +12,11 @@ use App\Http\Resources\Rendicion\RendicionCollection;
 use App\Http\Resources\Rendicion\RendicionExcelCollection;
 use App\Http\Resources\Rendicion\Rendicion as RendicionResource;
 
-use App\Repositories\Interfaces\ResponsableRepositoryInterface;
 
 class RendicionController extends Controller
 {
-    private $responsableRepository;
-    public function __construct(ResponsableRepositoryInterface $responsableRepository)
+    public function __construct()
     {
-        $this->responsableRepository = $responsableRepository;
         $this->middleware('can:CREATE_RENDICION')->only(['create','store']);
         $this->middleware('can:READ_RENDICION')->only('index');
         $this->middleware('can:UPDATE_RENDICION')->only(['edit','update']);
