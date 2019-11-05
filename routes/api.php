@@ -77,6 +77,9 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('tipoGasto','Api\Tipos\TipoGastoController');
 
         Route::apiResource('ubigeos','Api\Tipos\UbigeoController');
+
+        Route::get('listasParaRendiciones','Api\Tipos\ListaController@rendiciones');
+
         Route::apiResource('beneficiarios', 'Api\BeneficiarioController');
         Route::apiResource('rendiciones', 'Api\RendicionController');
         //FFEE

@@ -2,16 +2,10 @@
 
 namespace App\Http\Resources\Rendicion;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class TipoDocumentoPagoCollection extends JsonResource
+class TipoDocumentoPagoCollection extends ResourceCollection
 {
-    /**
-     * The resource that this resource collects.
-     *
-     * @var string
-     */
-
     /**
      * Transform the resource collection into an array.
      *
@@ -20,10 +14,8 @@ class TipoDocumentoPagoCollection extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-        ];
+        return $this->collection->transform(function ($persona) {
+            return new TipoDocumentoPago($persona);
+        });
     }
-
 }
