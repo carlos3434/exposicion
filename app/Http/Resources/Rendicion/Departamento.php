@@ -4,7 +4,7 @@ namespace App\Http\Resources\Rendicion;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DepartamentoCollection extends JsonResource
+class Departamento extends JsonResource
 {
     /**
      * The resource that this resource collects.
@@ -20,9 +20,10 @@ class DepartamentoCollection extends JsonResource
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function ($persona) {
-            return new Departamento($persona);
-        });
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
     }
 
 }

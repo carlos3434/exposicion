@@ -47,6 +47,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('empresa', \App\Empresa::class);
         Route::model('invoice', \App\Invoice::class);
         Route::model('serie', \App\Serie::class);
+        Route::model('rendicione', \App\Rendicion::class);//trick and tip
+        Route::model('inventario', \App\Inventario::class);
 
 
     }

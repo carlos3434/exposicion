@@ -19,6 +19,7 @@ class ListaController extends Controller
     public function __construct()
     {
         $this->middleware('can:READ_RENDICION')->only('rendiciones');
+        $this->middleware('can:READ_INVENTARIO')->only('inventarios');
     }
 
     public function rendiciones()
@@ -27,6 +28,15 @@ class ListaController extends Controller
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::all() ),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::all() ),
             'tipoRendicion' => new TipoRendicionCollection( TipoRendicion::all() ),
+        ];
+        return response()->json($response, 200);
+    }
+    public function inventarios()
+    {
+        $response = [
+            'tipoDocumentoPago' => new ResponsableCollection( TipoDocumentoPago::all() ),
+            'tipoDocumentoIdentidad' => new TipoInventarioCollection( TipoDocumentoIdentidad::all() ),
+            'tipoRendicion' => new EstadoInventarioCollection( TipoRendicion::all() ),
         ];
         return response()->json($response, 200);
     }

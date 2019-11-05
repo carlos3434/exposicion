@@ -29,11 +29,10 @@ class Rendicion extends JsonResource
             'importe_total'                         => $this->importe_total,
             'descripcion'                           => $this->descripcion,
 
-            'tipo_documento_pago'                   => new TipoDocumentoPagoCollection($this->tipoDocumentoPago),
-            'tipo_documento_identidad'              => new TipoDocumentoIdentidadCollection($this->tipoDocumentoIdentidad),
-            'tipo_rendicion'                        => new TipoRendicionCollection($this->tipoRendicion),
-            //'responsable'                           => new ResponsableCollection($this->responsable),
-            'departamento'                          => new DepartamentoCollection($this->departamento),
+            'tipo_documento_pago'                   => new TipoDocumentoPago($this->tipoDocumentoPago),
+            'tipo_documento_identidad'              => new TipoDocumentoIdentidad($this->tipoDocumentoIdentidad),
+            'tipo_rendicion'                        => new TipoRendicion($this->tipoRendicion),
+            'departamento'                          => new Departamento($this->departamento),
 
             'created_at'                            => $this->created_at->toDateTimeString(),
 
