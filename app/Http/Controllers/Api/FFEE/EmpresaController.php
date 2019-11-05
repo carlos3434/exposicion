@@ -11,6 +11,9 @@ use App\Http\Resources\Empresa\EmpresaCollection;
 use App\Http\Resources\Empresa\EmpresaExcelCollection;
 use App\Http\Resources\Empresa\Empresa as EmpresaResource;
 
+use Illuminate\Support\Facades\Storage;
+use File;
+
 class EmpresaController extends Controller
 {
     public function __construct()
