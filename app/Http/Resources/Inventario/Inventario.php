@@ -4,7 +4,7 @@ namespace App\Http\Resources\Inventario;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Http\Resources\Responsable\ResponsableCollection;
+//use App\Http\Resources\Responsable\ResponsableCollection;
 class Inventario extends JsonResource
 {
     /**
@@ -19,10 +19,10 @@ class Inventario extends JsonResource
 
             'id'                                    => $this->id,
 
-            'departamento'                          => new DepartamentoCollection($this->departamento),
-            'responsable'                           => new ResponsableCollection($this->responsable),
-            'tipo_inventario'                       => new TipoInventarioCollection($this->tipoInventario),
-            'estado_inventario'                     => new EstadoInventarioCollection($this->estadoInventario),
+            'departamento'                          => new Departamento($this->departamento),
+            'responsable'                           => new Responsable($this->responsable),
+            'tipo_inventario'                       => new TipoInventario($this->tipoInventario),
+            'estado_inventario'                     => new EstadoInventario($this->estadoInventario),
 
             'codigo'                                => $this->codigo,
             'descripcion'                           => $this->descripcion,

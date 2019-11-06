@@ -96,7 +96,8 @@ class InventarioController extends Controller
     public function update(InventarioRequest $request, Inventario $inventario)
     {
         $inventario->update( $request->all() );
-        return response()->json($inventario, 200);
+        return new InventarioResource($inventario);
+        //return response()->json($inventario, 200);
     }
 
     /**

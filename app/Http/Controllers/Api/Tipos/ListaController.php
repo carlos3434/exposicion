@@ -42,7 +42,7 @@ class ListaController extends Controller
     public function inventarios()
     {
         $response = [
-            'responsable' => new ResponsableCollection( Responsable::all() ),
+            //'responsable' => new ResponsableCollection( Responsable::all() ),
             'tipoInventario' => new TipoInventarioCollection( TipoInventario::all() ),
             'estadoInventario' => new EstadoInventarioCollection( EstadoInventario::all() ),
         ];

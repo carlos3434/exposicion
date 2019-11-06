@@ -4,7 +4,7 @@ namespace App\Http\Resources\Inventario;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DepartamentoCollection extends JsonResource
+class Departamento extends JsonResource
 {
     /**
      * The resource that this resource collects.
