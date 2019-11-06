@@ -10,5 +10,6 @@ class InventarioFilter extends AbstractFilter
         'departamento_id'        => Common\DepartamentoFilter::class,
         'tipo_inventario_id'      => Inventario\TipoInventarioFilter::class,//ProcesoDisciplinario
         'estado_inventario_id'    => Inventario\EstadoInventarioFilter::class,
+        'fecha_adquisicion'    => Inventario\FechaAdquisicionFilter::class,
     ];
 }
