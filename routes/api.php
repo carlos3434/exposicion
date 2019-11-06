@@ -79,6 +79,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('ubigeos','Api\Tipos\UbigeoController');
 
         Route::get('listasParaRendiciones','Api\Tipos\ListaController@rendiciones');
+        Route::get('listasParaInventarios','Api\Tipos\ListaController@inventarios');
 
         Route::apiResource('beneficiarios', 'Api\BeneficiarioController');
         Route::apiResource('rendiciones', 'Api\RendicionController');

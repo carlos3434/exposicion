@@ -5,10 +5,18 @@ namespace App\Http\Controllers\Api\Tipos;
 use App\TipoDocumentoPago;
 use App\TipoDocumentoIdentidad;
 use App\TipoRendicion;
+use App\Responsable;
+use App\TipoInventario;
+use App\EstadoInventario;
 
 use App\Http\Resources\Rendicion\TipoDocumentoPagoCollection;
 use App\Http\Resources\Rendicion\TipoDocumentoIdentidadCollection;
 use App\Http\Resources\Rendicion\TipoRendicionCollection;
+
+
+use App\Http\Resources\Inventario\ResponsableCollection;
+use App\Http\Resources\Inventario\TipoInventarioCollection;
+use App\Http\Resources\Inventario\EstadoInventarioCollection;
 
 
 use Illuminate\Http\Request;
@@ -34,9 +42,9 @@ class ListaController extends Controller
     public function inventarios()
     {
         $response = [
-            'tipoDocumentoPago' => new ResponsableCollection( TipoDocumentoPago::all() ),
-            'tipoDocumentoIdentidad' => new TipoInventarioCollection( TipoDocumentoIdentidad::all() ),
-            'tipoRendicion' => new EstadoInventarioCollection( TipoRendicion::all() ),
+            'responsable' => new ResponsableCollection( Responsable::all() ),
+            'tipoInventario' => new TipoInventarioCollection( TipoInventario::all() ),
+            'estadoInventario' => new EstadoInventarioCollection( EstadoInventario::all() ),
         ];
         return response()->json($response, 200);
     }

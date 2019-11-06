@@ -4,7 +4,7 @@ namespace App\Http\Resources\Inventario;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class EstadoInventarioCollection extends ResourceCollection
+class ResponsableCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +15,7 @@ class EstadoInventarioCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection->transform(function ($persona) {
-            return new EstadoInventario($persona);
+            return new Responsable($persona);
         });
     }
 }
