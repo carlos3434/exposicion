@@ -129,14 +129,7 @@ class Persona extends Model
         'direccion_centro_laboral',
         'banco_operacion',
     ];
-    /*public function __get($key)
-    {
-        if (is_string($this->getAttribute($key))) {
-            return strtoupper( $this->getAttribute($key) );
-        } else {
-            return $this->getAttribute($key);
-        }
-    }*/
+
     /**
      * Get the user's full name.
      *
@@ -168,21 +161,21 @@ class Persona extends Model
         return $this->belongsTo('App\EstadoCivil');
     }
     /**
-     * Get the EstadoCivil
+     * Get the Ubigeo
      */
     public function departamento()
     {
         return $this->belongsTo('App\Ubigeo','departamento_id');
     }
     /**
-     * Get the EstadoCivil
+     * Get the Ubigeo
      */
     public function distrito()
     {
         return $this->belongsTo('App\Ubigeo','distrito_id');
     }
     /**
-     * Get the EstadoCivil
+     * Get the Ubigeo
      */
     public function provincia()
     {
@@ -190,46 +183,52 @@ class Persona extends Model
     }
 
     /**
-     * Get the EstadoCivil
+     * Get the Universidad
      */
     public function universidadProcedencia()
     {
         return $this->belongsTo('App\Universidad','universidad_procedencia_id');
     }
     /**
-     * Get the EstadoCivil
+     * Get the EspecialidadPosgrado
      */
     public function especialidadPosgrado()
     {
         return $this->belongsTo('App\EspecialidadPosgrado');
     }
     /**
-     * Get the EstadoCivil
+     * Get the AreaEjercicioProfesional
      */
     public function areaEjercicioProfesional()
     {
         return $this->belongsTo('App\AreaEjercicioProfesional');
     }
     /**
-     * Get the EstadoCivil
+     * Get the Ubigeo
      */
     public function departamentoColegiado()
     {
         return $this->belongsTo('App\Ubigeo','departamento_colegiado_id');
     }
     /**
-     * Get the EstadoCivil
+     * Get the EstadoRegistroColegiado
      */
     public function estadoRegistroColegiado()
     {
         return $this->belongsTo('App\EstadoRegistroColegiado');
     }
     /**
-     * Get the EstadoCivil
+     * Get the EstadoCuentaSistema
      */
     public function estadoCuentaSistema()
     {
         return $this->belongsTo('App\EstadoCuentaSistema');
     }
-
+    /**
+     * Get the PersonaInhabilitada
+     */
+    public function personaInhabilitada()
+    {
+            return $this->hasMany('App\PersonaInhabilitada');
+    }
 }

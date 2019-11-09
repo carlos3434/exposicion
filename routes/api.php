@@ -94,7 +94,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('series','Api\FFEE\SerieController');
 
         Route::apiResource('tipoOperacion','Api\FFEE\TipoOperacionController');
-        Route::apiResource('conceptoPago','Api\FFEE\ConceptoController');
+        Route::get('conceptoPago','Api\FFEE\ConceptoController@conceptoPago');//Deprecated
         Route::apiResource('concepto','Api\FFEE\ConceptoController');
         Route::apiResource('invoiceDetail','Api\FFEE\InvoiceDetailController');
         Route::apiResource('gastos','Api\Contabilidad\GastoController');

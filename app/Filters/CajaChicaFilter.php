@@ -7,6 +7,7 @@ use App\Filters\AbstractFilter;
 class CajaChicaFilter extends AbstractFilter
 {
     protected $filters = [
-        'departamento_id' => Common\DepartamentoFilter::class,
+        'departamento_id'   => Common\DepartamentoFilter::class,
+        'fecha'             => CajaChica\FechaFilter::class,
     ];
 }

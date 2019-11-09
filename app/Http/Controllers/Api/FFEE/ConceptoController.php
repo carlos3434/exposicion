@@ -42,6 +42,17 @@ class ConceptoController extends Controller
         }
         return new ConceptoCollection($query->sort()->paginate());
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function conceptoPago(Request $request)
+    {
+        $query = Concepto::filter($request);
+        
+        return new ConceptoCollection($query->where('tipo',0)->sort()->paginate());
+    }
 
 
     /**
