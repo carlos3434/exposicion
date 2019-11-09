@@ -49,7 +49,7 @@ class ConceptoController extends Controller
      */
     public function conceptoPago(Request $request)
     {
-        $query = Concepto::where('tipo',0)->filter($request);
+        $query = Concepto::where('tipo',1)->filter($request);
         
         return new ConceptoCollection($query->sort()->paginate());
     }
