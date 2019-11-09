@@ -21,11 +21,10 @@ class CreateGastoDetallesTable extends Migration
             $table->unsignedBigInteger('tipo_gasto_id')->index();
             $table->foreign('tipo_gasto_id')->references('id')->on('tipo_gastos')->onDelete('cascade');
 
-
+            $table->integer('concepto_id')->nullable();
+            $table->foreign('concepto_id')->references('id')->on('conceptos')->onDelete('cascade');
 
             $table->integer('tipo_documento_pago_id')->nullable();
-            //$table->foreign('tipo_documento_pago_id')->references('id')->on('tipo_documento_pago')->onDelete('cascade');
-
 
             $table->date('fecha');
             $table->date('fecha_fin')->nullable();

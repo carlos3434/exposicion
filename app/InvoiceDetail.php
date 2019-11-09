@@ -25,7 +25,7 @@ class InvoiceDetail extends Model
         'valor_venta',
         'base_igv',
         'invoice_id',
-        'concepto_pago_id',
+        'concepto_id',
     ];
 
     /**
@@ -48,8 +48,8 @@ class InvoiceDetail extends Model
     /**
      * Get the Persona
      */
-    public function conceptoPago()
+    public function concepto()
     {
-        return $this->belongsTo('App\ConceptoPago');
+        return $this->belongsTo('App\Concepto');
     }
 }

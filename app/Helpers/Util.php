@@ -101,15 +101,15 @@ final class Util
         foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
 
             $item = new SaleDetail();
-            $item->setCodProducto( $invoiceDetail->conceptoPago->codigo )
-                ->setCodProdSunat( $invoiceDetail->conceptoPago->codigo_sunat )
-                ->setUnidad( $invoiceDetail->conceptoPago->unidad_medida )
+            $item->setCodProducto( $invoiceDetail->concepto->codigo )
+                ->setCodProdSunat( $invoiceDetail->concepto->codigo_sunat )
+                ->setUnidad( $invoiceDetail->concepto->unidad_medida )
                 ->setCantidad( $invoiceDetail->cantidad )
                 ->setDescripcion( $invoiceDetail->descripcion )
                 ->setMtoBaseIgv( $invoiceDetail->base_igv )
                 ->setPorcentajeIgv( $invoiceDetail->porcentaje_igv )
                 ->setIgv( $invoiceDetail->igv )
-                ->setTipAfeIgv($invoiceDetail->conceptoPago->tipo_afecta_igv)
+                ->setTipAfeIgv($invoiceDetail->concepto->tipo_afecta_igv)
                 ->setTotalImpuestos( $invoiceDetail->igv )
                 ->setMtoValorUnitario( $invoiceDetail->valor_unitario )
                 ->setMtoPrecioUnitario( $invoiceDetail->precio_unitario )

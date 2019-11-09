@@ -30,6 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('permission', \Caffeinated\Shinobi\Models\Permission::class);
         Route::model('role', \Caffeinated\Shinobi\Models\Role::class);
 
+        Route::model('concepto', \App\Concepto::class);
         Route::model('diploma', \App\EntregaDiploma::class);
         Route::model('incidente', \App\Incidente::class);
         Route::model('translado', \App\Translado::class);

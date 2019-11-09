@@ -80,6 +80,10 @@ Route::prefix('v1')->group(function(){
 
         Route::get('listasParaRendiciones','Api\Tipos\ListaController@rendiciones');
         Route::get('listasParaInventarios','Api\Tipos\ListaController@inventarios');
+        Route::get('listasParaPresupuestos','Api\Tipos\ListaController@presupuestos');
+        Route::get('listasParaCajachica','Api\Tipos\ListaController@cajachica');
+        Route::get('listasParaInvoices','Api\Tipos\ListaController@invoices');
+        Route::get('listasParaGastos','Api\Tipos\ListaController@gastos');
 
         Route::apiResource('beneficiarios', 'Api\BeneficiarioController');
         Route::apiResource('rendiciones', 'Api\RendicionController');
@@ -90,11 +94,14 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('series','Api\FFEE\SerieController');
 
         Route::apiResource('tipoOperacion','Api\FFEE\TipoOperacionController');
-        Route::apiResource('conceptoPago','Api\FFEE\ConceptoPagoController');
+        Route::apiResource('conceptoPago','Api\FFEE\ConceptoController');
+        Route::apiResource('concepto','Api\FFEE\ConceptoController');
         Route::apiResource('invoiceDetail','Api\FFEE\InvoiceDetailController');
         Route::apiResource('gastos','Api\Contabilidad\GastoController');
         Route::apiResource('responsables','Api\Contabilidad\ResponsableController');
         Route::apiResource('inventarios','Api\Contabilidad\InventarioController');
+        Route::apiResource('presupuestos','Api\Contabilidad\PresupuestoController');
+        Route::apiResource('cajaChica','Api\Contabilidad\CajaChicaController');
 
         Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceController@envioSunat');
         Route::post('sunat/notacredito/{invoiceId}','Api\FFEE\InvoiceNotaController@envioSunatNotaCredito');

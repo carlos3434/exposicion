@@ -24,7 +24,7 @@ use App\Repositories\Interfaces\EmpresaRepositoryInterface;
 use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 
 use App\Helpers\Util;
-use App\ConceptoPago;
+use App\Concepto;
 
 class InvoiceController extends Controller
 {
@@ -108,23 +108,23 @@ class InvoiceController extends Controller
                 $detail['descuento_linea'] = 0;
             }
             $igvL = 0;
-            $conceptoPago = ConceptoPago::find($detail['concepto_pago_id']);
+            $concepto = Concepto::find($detail['concepto_id']);
             $detail['porcentaje_igv'] = 0;
             $valorVenta = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'] ;
 
-            if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::GRAVADA) {
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRAVADA) {
                 $montoGravada += $detail['precio'] * $detail['cantidad'];
                 $igvL = $porcentajeIGV/100 * $valorVenta;
                 $igvTotal += $igvL;
                 $detail['porcentaje_igv']   = $porcentajeIGV;
             }
-            if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::GRATUITA) {
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRATUITA) {
                 $montoGratuito += $detail['precio'] * $detail['cantidad'];
             }
-            if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::EXONERADA) {
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::EXONERADA) {
                 $montoExogerado += $detail['precio'] * $detail['cantidad'];
             }
-            if ($conceptoPago && $conceptoPago->tipo_afecta_igv == ConceptoPago::INAFECTA) {
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::INAFECTA) {
                 $montoInafecta += $detail['precio'] * $detail['cantidad'];
             }
             $descuentoTotal += $detail['descuento_linea'];

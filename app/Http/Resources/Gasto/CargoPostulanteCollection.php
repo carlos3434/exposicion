@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Resources\ConceptoPago;
+namespace App\Http\Resources\Gasto;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ConceptoPagoExcelCollection extends ResourceCollection
+
+class CargoPostulanteCollection extends ResourceCollection
+
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +17,7 @@ class ConceptoPagoExcelCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection->transform(function ($persona) {
-            return new ConceptoPagoExcel($persona);
+            return new CargoPostulante($persona);
         });
     }
 }

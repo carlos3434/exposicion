@@ -48,6 +48,7 @@ class Gasto extends FormRequest
             foreach($this->request->get('gastoDetail') as $key => $val)
             {
 
+                $rules['gastoDetail.'.$key.'.concepto_id']                = 'required|exists:conceptos,id';
                 $rules['gastoDetail.'.$key.'.tipo_gasto_id']              = 'required|exists:tipo_gastos,id';
                 $rules['gastoDetail.'.$key.'.tipo_documento_pago_id']     = 'exists:tipo_documento_pago,id';
                 $rules['gastoDetail.'.$key.'.fecha']                      = 'date_format:Y-m-d';

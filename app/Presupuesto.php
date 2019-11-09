@@ -3,10 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Filters\GastoDetailFilter;
+use App\Filters\PresupuestoFilter;
 use Illuminate\Database\Eloquent\Builder;
 
-class GastoDetail extends Model
+class Presupuesto extends Model
 {
     /**
      * The attributes that are fillable via mass assignment.
@@ -14,21 +14,11 @@ class GastoDetail extends Model
      * @var array
      */
     protected $fillable = [
+        'departamento_id',
+        'tipo_presupuesto_id',
         'concepto_id',
-        'gasto_id',
-        'tipo_gasto_id',
-        'tipo_documento_pago_id',
-        'fecha',
-        'fecha_fin',
-        'detalle',
-        'ruc',
-        'razon_social',
-        'serie',
-        'numero',
         'monto',
-        'salida',
-        'llegada',
-        'lugar',
+        'mes'
     ];
 
     /**
@@ -41,29 +31,28 @@ class GastoDetail extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable('gasto_detail');
+        $this->setTable('presupuestos');
     }
     public function scopeFilter(Builder $builder, $request)
     {
-        return (new GastoDetailFilter($request))->filter($builder);
+        return (new PresupuestoFilter($request))->filter($builder);
     }
-
     /**
-     * Get the 
+     * Get the Ubigeo
      */
-    public function tipoGasto()
+    public function departamento()
     {
-        return $this->belongsTo('App\TipoGasto');
+        return $this->belongsTo('App\Ubigeo', 'departamento_id');
     }
     /**
-     * Get the 
+     * Get the Ubigeo
      */
-    public function tipoDocumentoPago()
+    public function tipoPresupuesto()
     {
-        return $this->belongsTo('App\TipoDocumentoPago');
+        return $this->belongsTo('App\TipoPresupuesto');
     }
     /**
-     * Get the 
+     * Get the Ubigeo
      */
     public function concepto()
     {

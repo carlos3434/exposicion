@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Invoice;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-//use App\Http\Resources\Invoice\ConceptoPagoCollection;
 class InvoiceDetail extends JsonResource
 {
     /**
@@ -28,8 +27,8 @@ class InvoiceDetail extends JsonResource
             'valor_venta'           => $this->valor_venta,
             'base_igv'              => $this->base_igv,
 
-            'concepto_pago_id'      => $this->concepto_pago_id,
-            'concepto_pago'         => new ConceptoPagoCollection($this->conceptoPago),
+            'concepto_id'           => $this->concepto_id,
+            'concepto'              => new ConceptoCollection($this->concepto),
             'created_at'            => $this->created_at->toDateTimeString(),
         ];
     }

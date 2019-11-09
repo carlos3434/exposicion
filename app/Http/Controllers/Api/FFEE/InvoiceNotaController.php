@@ -24,7 +24,7 @@ use App\Repositories\Interfaces\EmpresaRepositoryInterface;
 use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 
 use App\Helpers\Util;
-use App\ConceptoPago;
+use App\Concepto;
 
 class InvoiceNotaController extends Controller
 {

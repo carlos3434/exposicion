@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\ConceptoPago;
+namespace App\Http\Resources\CajaChica;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ConceptoPago extends JsonResource
+class TipoDocumentoPago extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,9 @@ class ConceptoPago extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
     }
 }

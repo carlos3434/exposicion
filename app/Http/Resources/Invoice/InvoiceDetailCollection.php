@@ -32,7 +32,7 @@ class InvoiceDetailCollection extends ResourceCollection
             'precio_unitario'       => $this->precio_unitario,
             'valor_venta'           => $this->valor_venta,
             'base_igv'              => $this->base_igv,
-            'concepto_pago_id'      => $this->concepto_pago_id,
+            'concepto_id'           => $this->concepto_id,
             'created_at'            => $this->created_at->toDateTimeString(),
         ];
     }

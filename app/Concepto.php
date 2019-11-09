@@ -3,9 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Filters\ConceptoPagoFilter;
+use App\Filters\ConceptoFilter;
 use Illuminate\Database\Eloquent\Builder;
-class ConceptoPago extends Model
+class Concepto extends Model
 {
     const GRAVADA = 10;
     const GRATUITA = 11;
@@ -16,7 +16,7 @@ class ConceptoPago extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','codigo_sunat','unidad_medida','codigo','tipo_afecta_igv','precio'];
+    protected $fillable = ['name','codigo_sunat','unidad_medida','codigo','tipo_afecta_igv','precio','tipo'];
 
     /**
      * Create a new Permission instance.
@@ -28,10 +28,10 @@ class ConceptoPago extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable('concepto_pago');
+        $this->setTable('conceptos');
     }
     public function scopeFilter(Builder $builder, $request)
     {
-        return (new ConceptoPagoFilter($request))->filter($builder);
+        return (new ConceptoFilter($request))->filter($builder);
     }
 }

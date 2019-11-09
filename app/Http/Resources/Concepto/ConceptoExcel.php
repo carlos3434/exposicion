@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\ConceptoPago;
+namespace App\Http\Resources\Concepto;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ConceptoPagoExcel extends JsonResource
+class ConceptoExcel extends JsonResource
 {
     /**
      * Transform the resource into an array.

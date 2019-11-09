@@ -32,6 +32,7 @@ class GastoDetail extends JsonResource
 
             'tipo_gasto_id'                 => $this->tipo_gasto_id,
             'tipo_documento_pago_id'        => $this->tipo_documento_pago_id,
+            'concepto_id'                   => $this->concepto_id,
 
             'created_at'                    => $this->created_at->toDateTimeString(),
         ];

@@ -31,8 +31,8 @@ class CreateInvoiceDetailsTable extends Migration
             $table->unsignedBigInteger('invoice_id')->index();
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
 
-            $table->unsignedBigInteger('concepto_pago_id')->index();
-            $table->foreign('concepto_pago_id')->references('id')->on('concepto_pago')->onDelete('cascade');
+            $table->unsignedBigInteger('concepto_id')->index();
+            $table->foreign('concepto_id')->references('id')->on('conceptos')->onDelete('cascade');
             $table->timestamps();
         });
     }
