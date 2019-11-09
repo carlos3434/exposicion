@@ -39,7 +39,7 @@ class Invoice extends FormRequest
             //'monto_gravada'                             => 'numeric|between:0,9999.99',
             //'monto_gratuito'                            => 'numeric|between:0,9999.99',
             'igv_total'                                 => 'numeric|between:0,9999.99',
-            'monto_total'                               => 'numeric|between:0,9999.99',
+            //'monto_total'                               => 'numeric|between:0,9999.99',
             'valor_venta'                               => 'numeric|between:0,9999.99',
             'monto_importe_total_venta'                 => 'numeric|between:0,9999.99',
             'empresa_id'                                => 'required|exists:empresas,id',

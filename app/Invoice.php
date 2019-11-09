@@ -32,7 +32,7 @@ class Invoice extends Model
         'monto_gravada',
         'monto_gratuito',
         'igv_total',
-        'monto_total',
+        //'monto_total',
         'empresa_id',
         'updated_by', 'created_by', 'deleted_by'];
 

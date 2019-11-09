@@ -33,7 +33,7 @@ class Invoice extends JsonResource
             'monto_inafecta'            => $this->monto_inafecta,
             'monto_gravada'             => $this->monto_gravada,
             'igv_total'                 => $this->igv_total,
-            'monto_total'               => $this->monto_total,
+            //'monto_total'               => $this->monto_total,
             'valor_venta'               => $this->valor_venta,
             'monto_importe_total_venta' => $this->monto_importe_total_venta,
             'monto_exogerado'           => $this->monto_exogerado,
