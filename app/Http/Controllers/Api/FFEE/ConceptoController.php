@@ -43,15 +43,15 @@ class ConceptoController extends Controller
         return new ConceptoCollection($query->sort()->paginate());
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource.DEPRECATED
      *
      * @return \Illuminate\Http\Response
      */
     public function conceptoPago(Request $request)
     {
-        $query = Concepto::filter($request);
+        $query = Concepto::where('tipo',0)->filter($request);
         
-        return new ConceptoCollection($query->where('tipo',0)->sort()->paginate());
+        return new ConceptoCollection($query->sort()->paginate());
     }
 
 
