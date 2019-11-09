@@ -108,6 +108,7 @@ class InvoiceController extends Controller
                 $detail['descuento_linea'] = 0;
             }
             $igvL = 0;
+            $detail['concepto_id']      = $detail['concepto_pago_id'];
             $concepto = Concepto::find($detail['concepto_id']);
             $detail['porcentaje_igv'] = 0;
             $valorVenta = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'] ;
