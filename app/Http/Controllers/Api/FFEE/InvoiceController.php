@@ -112,13 +112,13 @@ class InvoiceController extends Controller
             $concepto = Concepto::find($detail['concepto_id']);
             $detail['porcentaje_igv'] = 0;
             $valorVenta = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'] ;
-
+/*
             if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRAVADA) {
                 $montoGravada += $detail['precio'] * $detail['cantidad'];
                 $igvL = $porcentajeIGV/100 * $valorVenta;
                 $igvTotal += $igvL;
                 $detail['porcentaje_igv']   = $porcentajeIGV;
-            }
+            }*/
 
             $descuentoTotal += $detail['descuento_linea'];
             $valorVentaTotal += $valorVenta;
@@ -126,9 +126,18 @@ class InvoiceController extends Controller
             $detail['valor_unitario']   = $detail['precio'] ;
             $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $detail['descuento_linea']) / $detail['cantidad'] ;
 
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRAVADA) {
+                $montoGravada += $detail['precio'] * $detail['cantidad'];
+                $igvL = $porcentajeIGV/100 * $valorVenta;
+                $igvTotal += $igvL;
+                $detail['porcentaje_igv']   = $porcentajeIGV;
+            }
             //Validando Gratuito
             if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRATUITA) {
                 $montoGratuito += $detail['precio'] * $detail['cantidad'];
+                $igvL = $porcentajeIGV/100 * $valorVenta;
+                $igvTotal += $igvL;
+                $detail['porcentaje_igv']   = $porcentajeIGV;
                 $detail['valor_unitario'] = 0;
                 $detail['precio_unitario'] = 0;
             }
