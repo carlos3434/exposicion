@@ -119,8 +119,18 @@ class InvoiceController extends Controller
                 $igvTotal += $igvL;
                 $detail['porcentaje_igv']   = $porcentajeIGV;
             }
+
+            $descuentoTotal += $detail['descuento_linea'];
+            $valorVentaTotal += $valorVenta;
+
+            $detail['valor_unitario']   = $detail['precio'] ;
+            $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $detail['descuento_linea']) / $detail['cantidad'] ;
+
+            //Validando Gratuito
             if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRATUITA) {
                 $montoGratuito += $detail['precio'] * $detail['cantidad'];
+                $detail['valor_unitario'] = 0;
+                $detail['precio_unitario'] = 0;
             }
             if ($concepto && $concepto->tipo_afecta_igv == Concepto::EXONERADA) {
                 $montoExogerado += $detail['precio'] * $detail['cantidad'];
@@ -128,11 +138,6 @@ class InvoiceController extends Controller
             if ($concepto && $concepto->tipo_afecta_igv == Concepto::INAFECTA) {
                 $montoInafecta += $detail['precio'] * $detail['cantidad'];
             }
-            $descuentoTotal += $detail['descuento_linea'];
-            $valorVentaTotal += $valorVenta;
-
-            $detail['valor_unitario']   = $detail['precio'] ;
-            $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $detail['descuento_linea']) / $detail['cantidad'] ;
             $detail['valor_venta']      = $valorVenta;
             $detail['igv']              = $igvL;
             $detail['impuestos']        = $igvL;
