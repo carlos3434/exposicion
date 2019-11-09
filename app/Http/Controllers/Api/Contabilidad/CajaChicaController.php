@@ -33,7 +33,7 @@ class CajaChicaController extends Controller
         $query = CajaChica::filter($request)
             ->with([
                 'departamento',
-                'tipoCajaChica',
+                'tipoDocumentoPago',
                 'concepto'
         ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){

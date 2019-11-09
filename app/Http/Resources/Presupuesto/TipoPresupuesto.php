@@ -16,9 +16,7 @@ class TipoPresupuesto extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'codigo' => $this->codigo,
-            'tipo' => $this->tipo,
+            'name' => $this->name
         ];
     }
 }
