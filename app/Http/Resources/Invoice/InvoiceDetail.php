@@ -27,7 +27,7 @@ class InvoiceDetail extends JsonResource
             'valor_venta'           => $this->valor_venta,
             'base_igv'              => $this->base_igv,
 
-            'concepto_id'           => $this->concepto_id,
+            'concepto_pago_id'      => $this->concepto_id,
             'concepto_pago'         => new ConceptoCollection($this->concepto),
             'created_at'            => $this->created_at->toDateTimeString(),
         ];
