@@ -29,7 +29,7 @@ class Concepto extends FormRequest
             'codigo_sunat'      => 'required|alpha_num_spaces',
             'unidad_medida'     => 'required|alpha_num_spaces',
             'codigo'            => 'required|alpha_num_spaces',
-            'tipo_afecta_igv'   => 'required|in:10,11,20,30',
+            'tipo_afecta_igv'   => 'required_if:tipo,0|in:10,11,20,30',
             'precio'            => 'required|numeric|between:0,9999',
             'tipo'              => 'required|boolean'
         ];
