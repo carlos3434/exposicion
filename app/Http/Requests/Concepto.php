@@ -25,28 +25,18 @@ class Concepto extends FormRequest
     public function rules()
     {
         return [
-            'fecha_registro' => 'required|date_format:Y-m-d',
-            'resolucion' => 'required|alpha_num_spaces',
-            'persona_id' => 'required|exists:personas,id',
-            'is_titular' => 'required|boolean',
-            'representanteNombres' => 'required|alpha_num_spaces',
-            'representanteApellidoPaterno' => 'required|alpha_num_spaces',
-            'representanteApellidoMaterno' => 'required|alpha_num_spaces',
-            'documento_id' => 'required|exists:proceso_disciplinarios,id',
-            //'clave' => 'required|exists:calendarizaciones,clave'
+            'name'              => 'required|alpha_num_spaces',
+            'codigo_sunat'      => 'required|alpha_num_spaces',
+            'unidad_medida'     => 'required|alpha_num_spaces',
+            'codigo'            => 'required|alpha_num_spaces',
+            'tipo_afecta_igv'   => 'required|in:10,11,20,30',
+            'precio'            => 'required|numeric|between:0,9999',
+            'tipo'              => 'required|boolean'
         ];
     }
     public function messages()
     {
         return [
-            'fecha_registro.required' => 'El :attribute es un campo requerido',
-            'resolucion.required' => 'El :attribute es un campo requerido',
-            'persona_id.required' => 'El :attribute es un campo requerido',
-            'is_titular.required' => 'El :attribute es un campo requerido',
-            'representanteNombres.required' => 'El :attribute es un campo requerido',
-            'representanteApellidoPaterno.required' => 'El :attribute es un campo requerido',
-            'representanteApellidoMaterno.required' => 'El :attribute es un campo requerido',
-            'documento_id.required' => 'El :attribute es un campo requerido',
             // ..
         ];
     }
