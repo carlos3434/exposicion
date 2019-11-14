@@ -4,23 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EstadoRegistroColegiado extends Model
+class EstadoPago extends Model
 {
-    const NUEVO = 1;
-    const INSCRITO = 2;
-    const SOLICITUD_PENDIENTE = 3;
-    const SOLICITUD_RESUELTA = 4;
-    const SOLICITUD_VALIDADA = 5;
-    const CARNET_GENERADO = 6;
-    const JURAMENTACION_PROGRAMADA = 7;
-    const JURAMENTACION_VALIDADA = 8;
-
+    const PENDIENTE = 1;
+    const COMPLETADA = 2;
+    const FRACCIONADA = 3;
+    //cuando un pago es fraccionado, solo se debe considerar el monto de los pagos hijos
+    const EXONERADO = 4;
     /**
      * The attributes that are fillable via mass assignment.
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name'
+    ];
 
     /**
      * Create a new Permission instance.
@@ -32,6 +30,6 @@ class EstadoRegistroColegiado extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable('estado_registro_colegiado');
+        $this->setTable('estado_pagos');
     }
 }
