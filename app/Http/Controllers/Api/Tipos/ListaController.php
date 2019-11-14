@@ -45,7 +45,7 @@ class ListaController extends Controller
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::all() ),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::all() ),
             'tipoRendicion' => new TipoRendicionCollection( TipoRendicion::all() ),
-            'conceptoCobro' => new ConceptoCobroCollection( ConceptoCobro::all() ),
+            'conceptos' => new ConceptoCollection( Concepto::where('tipo',1)->get() ),
         ];
         return response()->json($response, 200);
     }
