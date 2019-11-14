@@ -50,6 +50,10 @@ abstract class AbstractFilter
         $this->builder->orderBy($sortBy,$direction);
         return $this;
     }
+    public function where($field, $arg)
+    {
+        return $this->builder->where($field, $arg);
+    }
     public function with($arg)
     {
         $this->builder->with($arg);

@@ -32,6 +32,7 @@ class Pago extends FormRequest
             'estado_pago_id'      => 'required|exists:estado_pagos,id',
             'concepto_id'         => 'required|exists:conceptos,id',
             'persona_id'          => 'required|exists:personas,id',
+            'pago_id'             => 'required_if:is_fraccion,1|exists:pagos,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
         ];
     }

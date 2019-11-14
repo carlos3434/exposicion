@@ -21,6 +21,7 @@ class Pago extends Model
         'estado_pago_id',
         'concepto_id',
         'persona_id',
+        'pago_id',
     ];
 
     /**

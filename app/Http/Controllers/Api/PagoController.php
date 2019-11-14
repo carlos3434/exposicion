@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Pago;
+use App\EstadoPago;
 use Illuminate\Http\Request;
 use App\Http\Requests\Pago as PagoRequest;
 use App\Http\Controllers\Controller;
@@ -45,7 +46,7 @@ class PagoController extends Controller
                 );
             }
         }
-        return new PagoCollection($query->sort()->paginate() );
+        return new PagoCollection($query->sort()->where('pago_id',null)->paginate() );
     }
 
     /**
@@ -56,6 +57,14 @@ class PagoController extends Controller
      */
     public function store(PagoRequest $request)
     {
+        //si tiene padre, cambiar el flag is_fraccion a 1
+        if ( $request->has('pago_id') ) {
+            $pagoPadre = Pago::find($request->pago_id);
+            $pagoPadre->is_fraccion = 1;
+            $pagoPadre->estado_pago_id = EstadoPago::FRACCIONADA;
+            $pagoPadre->save();
+            $request->merge([ 'is_fraccion' => 0 ]);
+        }
         $pago = Pago::create($request->all());
         return response()->json($pago, 201);
     }
@@ -91,9 +100,11 @@ class PagoController extends Controller
      * @param  \App\Pago  $pago
      * @return \Illuminate\Http\Response
      */
-    /*public function destroy(Pago $pago)
+    public function destroy(Pago $pago)
     {
         $pago->delete();
+        //si ya no tiene mas pagos fraccionanos, cambiar el estado a pendiente
+
         return response()->json(null, 204);
-    }*/
+    }
 }
