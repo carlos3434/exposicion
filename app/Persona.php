@@ -231,4 +231,8 @@ class Persona extends Model
     {
             return $this->hasMany('App\PersonaInhabilitada');
     }
+    public function pagos()
+    {
+        return $this->hasMany('App\Pago');
+    }
 }

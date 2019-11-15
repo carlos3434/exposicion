@@ -59,6 +59,14 @@ abstract class AbstractFilter
         $this->builder->with($arg);
         return $this;
     }
+    public function join($table, $alias, $operation, $aliasJoin)
+    {
+        return $this->builder->join($table, $alias, $operation, $aliasJoin);
+    }
+    public function leftJoin($table, $alias, $operation, $aliasJoin)
+    {
+        return $this->builder->leftJoin($table, $alias, $operation, $aliasJoin);
+    }
     public function paginate()
     {
         return $this->builder->paginate( $this->request->input('per_page',25) );
