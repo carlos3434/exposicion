@@ -112,13 +112,6 @@ class InvoiceController extends Controller
             $concepto = Concepto::find($detail['concepto_id']);
             $detail['porcentaje_igv'] = 0;
             $valorVenta = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'] ;
-/*
-            if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRAVADA) {
-                $montoGravada += $detail['precio'] * $detail['cantidad'];
-                $igvL = $porcentajeIGV/100 * $valorVenta;
-                $igvTotal += $igvL;
-                $detail['porcentaje_igv']   = $porcentajeIGV;
-            }*/
 
             $descuentoTotal += $detail['descuento_linea'];
             $valorVentaTotal += $valorVenta;

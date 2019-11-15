@@ -59,7 +59,20 @@ class PagoController extends Controller
     {
         //si tiene padre, cambiar el flag is_fraccion a 1
         if ( $request->has('pago_id') ) {
+            //validar si la sumatoria de pagos no excede al total del padre
+
+
             $pagoPadre = Pago::find($request->pago_id);
+            $montoTotal = $pagoPadre->monto;
+            $sum = 0;
+            foreach ($pagoPadre->childrenPagos as $pagoChildren) {
+                $sum += $pagoChildren->monto;
+            }
+            $sum += $request->monto;
+            if ( $sum > $montoTotal ) {
+                return response()->json('La sumatoria de los pagos fraccionados no debe superar el total del pago', 500);
+            }
+
             $pagoPadre->is_fraccion = 1;
             $pagoPadre->estado_pago_id = EstadoPago::FRACCIONADA;
             $pagoPadre->save();
