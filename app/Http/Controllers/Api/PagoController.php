@@ -59,9 +59,12 @@ class PagoController extends Controller
     {
         //si tiene padre, cambiar el flag is_fraccion a 1
         if ( $request->has('pago_id') ) {
+            //validar si ya esta este numero de frccion registrado
+            $countHijos = Pago::where('pago_id',$request->pago_id)->where('numero_fraccion',$request->numero_fraccion)->count();
+            if ($countHijos > 0) {
+                return response()->json('El siguiente numero de Fraccion ya se encuentra registrado para este pago: '.$request->numero_fraccion, 500);
+            }
             //validar si la sumatoria de pagos no excede al total del padre
-
-
             $pagoPadre = Pago::find($request->pago_id);
             $montoTotal = $pagoPadre->monto;
             $sum = 0;
