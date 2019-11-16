@@ -16,7 +16,7 @@ use App\Http\Resources\Persona\PersonaCollection;
 use App\Http\Resources\Persona\PersonaExcelCollection;
 
 use File;
-use App\Helpers\UploadFile;
+use App\Helpers\FileUploader;
 
 class PersonaController extends Controller
 {
