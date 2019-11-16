@@ -12,6 +12,7 @@ use App\ConceptoCobro;
 use App\Concepto;
 use App\CargoPostulante;
 use App\TipoGasto;
+use App\Srie;
 
 use App\Http\Resources\Rendicion\TipoDocumentoPagoCollection;
 use App\Http\Resources\Rendicion\TipoDocumentoIdentidadCollection;
@@ -27,6 +28,7 @@ use App\Http\Resources\Presupuesto\ConceptoCollection;
 use App\Http\Resources\Gasto\CargoPostulanteCollection;
 use App\Http\Resources\Gasto\TipoGastoCollection;
 
+use App\Http\Resources\Serie\SerieCollection;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -81,6 +83,7 @@ class ListaController extends Controller
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03'])->get() ),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::whereIn('codigo_sunat',[1, 6])->get() ),
             'conceptos' => new ConceptoCollection( Concepto::where('tipo',0)->get() ),
+            'series' => new SerieCollection( Serie::all() ),
         ];
         return response()->json($response, 200);
     }

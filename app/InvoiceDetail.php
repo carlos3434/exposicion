@@ -26,6 +26,7 @@ class InvoiceDetail extends Model
         'base_igv',
         'invoice_id',
         'concepto_id',
+        'pago_id',
     ];
 
     /**

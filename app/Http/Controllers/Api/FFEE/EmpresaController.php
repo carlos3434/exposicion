@@ -11,8 +11,6 @@ use App\Http\Resources\Empresa\EmpresaCollection;
 use App\Http\Resources\Empresa\EmpresaExcelCollection;
 use App\Http\Resources\Empresa\Empresa as EmpresaResource;
 
-use Illuminate\Support\Facades\Storage;
-use File;
 use App\Helpers\FileUploader;
 
 class EmpresaController extends Controller
@@ -79,7 +77,6 @@ class EmpresaController extends Controller
     public function show(Empresa $empresa)
     {
         return new EmpresaResource($empresa);
-        //return $empresa;
     }
 
     /**
@@ -101,14 +98,7 @@ class EmpresaController extends Controller
         $empresa->update( $all );
         return response()->json($empresa, 200);
     }
-    /*private function saveImage($file, $fileFolder)
-    {
-        $image_extension = $file->getClientOriginalExtension();
-        $fileName = $fileFolder.'/'.time().'.'.$image_extension;
-        Storage::put('uploads/'.$fileName, File::get($file));
 
-        return $fileName;
-    }*/
     /**
      * Remove the specified resource from storage.
      *

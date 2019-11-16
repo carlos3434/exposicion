@@ -60,6 +60,7 @@ class Invoice extends FormRequest
                 $rules['invoiceDetail.'.$key.'.cantidad']           = 'required|integer';
                 $rules['invoiceDetail.'.$key.'.descuento_linea']    = 'numeric|between:0,9999.99';
                 $rules['invoiceDetail.'.$key.'.concepto_pago_id']   = 'required|exists:conceptos,id';
+                $rules['invoiceDetail.'.$key.'.pago_id']   = 'exists:pagos,id';
             }
         }
         return $rules;

@@ -15,7 +15,6 @@ use App\Http\Resources\Persona\Persona as PersonaResource;
 use App\Http\Resources\Persona\PersonaCollection;
 use App\Http\Resources\Persona\PersonaExcelCollection;
 
-use File;
 use App\Helpers\FileUploader;
 
 class PersonaController extends Controller
@@ -89,17 +88,7 @@ class PersonaController extends Controller
 
         return response()->json($persona, 201);
     }
-    /**
-     * File input
-     */
-    /*private function saveFile($file, $fileFolder)
-    {
-        $image_extension = $file->getClientOriginalExtension();
-        $fileName = time().'.'.$image_extension;
-        Storage::put('uploads/'.$fileFolder.'/'.$fileName, File::get($file), 'public');
 
-        return $fileName;
-    }*/
     /**
      * Base64
      */
@@ -123,10 +112,8 @@ class PersonaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Persona $persona)
-    //public function show($id)
     {
         return new PersonaResource($persona);
-        //return Persona::find($id);
     }
     /**
      * Update the specified resource in storage.
@@ -141,13 +128,11 @@ class PersonaController extends Controller
 
         $all = $request->all();
         if ( $request->has('url_cv') ) {
-            //$uploadFile = new uploadFile;
             $urlCV = $imageUploader->upload( $request->file('url_cv'), 'cvs');
             $all['url_cv'] = $urlCV;
         }
 
         $persona->update( $all );
-        //$persona->update( $request->all() );
         return response()->json($persona, 200);
     }
 

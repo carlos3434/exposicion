@@ -25,6 +25,8 @@ use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 
 use App\Helpers\Util;
 use App\Concepto;
+use App\Pago;
+use App\EstadoPago;
 
 class InvoiceController extends Controller
 {
@@ -104,6 +106,14 @@ class InvoiceController extends Controller
         $montoGravada = $montoGratuito = $montoExogerado = $montoInafecta = 0;
         foreach($invoiceDetail as $key => $detail)
         {
+            //validar si tiene un pago_id asociado $detail['pago_id']
+            if (isset( $detail['pago_id'] )) {
+                //cambiar el estado del pago a completado
+                $pago = Pago::find( $detail['pago_id'] );
+                $pago->estado_pago_id = EstadoPago::COMPLETADA;
+                //$pago->monto = $detail['precio'];
+                $pago->save();
+            }
             if (!isset($detail['descuento_linea'])) {
                 $detail['descuento_linea'] = 0;
             }
@@ -185,6 +195,9 @@ class InvoiceController extends Controller
         $invoice->update( $request->all() );
         return response()->json($invoice, 200);
     }
+    /**
+     * Envio de comprobante a sunat
+     */
     public function envioSunat(request $request, $invoiceId)
     {
         //consulta invoice y envio a sunat
@@ -213,19 +226,16 @@ class InvoiceController extends Controller
         if ($res->isSuccess()) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($invoice, $res->getCdrZip());
-            //$util->showResponse($invoice, $cdr);
         } else {
             $error = [
                 'Código' => $res->getError()->getCode(),
                 'Descripción' => $res->getError()->getMessage()
             ];
-            //echo $util->getErrorResponse($res->getError());
             return response()->json( $error, 500);
         }
-
-        $comprobantePago = $this->invoiceRepository->updatePaths($comprobantePago, $invoice);
         //actualizar envio sunat
-        //$invoice = $this->invoiceRepository->envioSunat($invoiceId);
+        $comprobantePago = $this->invoiceRepository->updatePaths($comprobantePago, $invoice);
+
         return response()->json($comprobantePago, 200);
     }
 
