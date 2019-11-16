@@ -16,6 +16,8 @@ use App\Http\Resources\Persona\PersonaCollection;
 use App\Http\Resources\Persona\PersonaExcelCollection;
 
 use File;
+use App\Helpers\UploadFile;
+
 class PersonaController extends Controller
 {
     public function __construct()
@@ -76,7 +78,8 @@ class PersonaController extends Controller
         $all = $request->all();
         if ( $request->has('url_cv') ) {
             //$urlCV = $this->saveFile( $request->file('url_cv'), 'cvs');
-            $urlCV = uploadFile( $request->file('url_cv'), 'cvs' );
+            $uploadFile = new uploadFile;
+            $urlCV = $uploadFile->uploadFile( $request->file('url_cv'), 'cvs' );
             $all['url_cv'] = $urlCV;
         }
         /*if ( $request->has('url_foto') ) {
@@ -140,7 +143,8 @@ class PersonaController extends Controller
 
         $all = $request->all();
         if ( $request->has('url_cv') ) {
-            $urlCV = uploadFile( $request->file('url_cv'), 'cvs');
+            $uploadFile = new uploadFile;
+            $urlCV = $uploadFile->uploadFile( $request->file('url_cv'), 'cvs');
             $all['url_cv'] = $urlCV;
         }
 
