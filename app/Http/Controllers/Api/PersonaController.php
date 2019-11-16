@@ -75,7 +75,8 @@ class PersonaController extends Controller
         $this->savePhoto($request);
         $all = $request->all();
         if ( $request->has('url_cv') ) {
-            $urlCV = $this->saveFile( $request->file('url_cv'), 'cvs');
+            //$urlCV = $this->saveFile( $request->file('url_cv'), 'cvs');
+            $urlCV = uploadFile( $request->file('url_cv'), 'cvs' );
             $all['url_cv'] = $urlCV;
         }
         /*if ( $request->has('url_foto') ) {
@@ -90,14 +91,14 @@ class PersonaController extends Controller
     /**
      * File input
      */
-    private function saveFile($file, $fileFolder)
+    /*private function saveFile($file, $fileFolder)
     {
         $image_extension = $file->getClientOriginalExtension();
         $fileName = time().'.'.$image_extension;
         Storage::put('uploads/'.$fileFolder.'/'.$fileName, File::get($file), 'public');
 
         return $fileName;
-    }
+    }*/
     /**
      * Base64
      */
@@ -139,7 +140,7 @@ class PersonaController extends Controller
 
         $all = $request->all();
         if ( $request->has('url_cv') ) {
-            $urlCV = $this->saveFile( $request->file('url_cv'), 'cvs');
+            $urlCV = uploadFile( $request->file('url_cv'), 'cvs');
             $all['url_cv'] = $urlCV;
         }
 
