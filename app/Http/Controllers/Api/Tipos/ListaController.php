@@ -12,7 +12,7 @@ use App\ConceptoCobro;
 use App\Concepto;
 use App\CargoPostulante;
 use App\TipoGasto;
-use App\Srie;
+use App\Serie;
 
 use App\Http\Resources\Rendicion\TipoDocumentoPagoCollection;
 use App\Http\Resources\Rendicion\TipoDocumentoIdentidadCollection;
