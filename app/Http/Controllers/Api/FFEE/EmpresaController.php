@@ -13,6 +13,7 @@ use App\Http\Resources\Empresa\Empresa as EmpresaResource;
 
 use Illuminate\Support\Facades\Storage;
 use File;
+use App\Helpers\FileUploader;
 
 class EmpresaController extends Controller
 {
@@ -56,14 +57,15 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EmpresaRequest $request)
+    public function store(EmpresaRequest $request, FileUploader $fileUploader)
     {
         $all = $request->all();
-        $certificado_digital = $this->saveImage( $request->file('certificado_digital'),'certificados');
-        $logo = $this->saveImage( $request->file('logo'), 'logos');
-
-        $all['certificado_digital'] = $certificado_digital;
-        $all['logo'] = $logo;
+        if ( $request->has('certificado_digital') ) {
+            $all['certificado_digital'] = $fileUploader->upload( $request->file('certificado_digital'), 'certificados');
+        }
+        if ( $request->has('logo') ) {
+            $all['logo'] = $fileUploader->upload( $request->file('logo'), 'logos');
+        }
         $empresa = Empresa::create( $all );
         return response()->json($empresa, 201);
     }
@@ -87,25 +89,26 @@ class EmpresaController extends Controller
      * @param  \App\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function update(EmpresaRequest $request, Empresa $empresa)
+    public function update(EmpresaRequest $request, Empresa $empresa, FileUploader $fileUploader)
     {
         $all = $request->all();
-        $certificado_digital = $this->saveImage( $request->file('certificado_digital'),'certificados');
-        $logo = $this->saveImage( $request->file('logo'), 'logos');
-
-        $all['certificado_digital'] = $certificado_digital;
-        $all['logo'] = $logo;
+        if ( $request->has('certificado_digital') ) {
+            $all['certificado_digital'] = $fileUploader->upload( $request->file('certificado_digital'), 'certificados');
+        }
+        if ( $request->has('logo') ) {
+            $all['logo'] = $fileUploader->upload( $request->file('logo'), 'logos');
+        }
         $empresa->update( $all );
         return response()->json($empresa, 200);
     }
-    private function saveImage($file, $fileFolder)
+    /*private function saveImage($file, $fileFolder)
     {
         $image_extension = $file->getClientOriginalExtension();
         $fileName = $fileFolder.'/'.time().'.'.$image_extension;
         Storage::put('uploads/'.$fileName, File::get($file));
 
         return $fileName;
-    }
+    }*/
     /**
      * Remove the specified resource from storage.
      *

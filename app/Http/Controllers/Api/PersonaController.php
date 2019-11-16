@@ -72,19 +72,17 @@ class PersonaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PersonaRequest $request, FileUploader $imageUploader)
+    public function store(PersonaRequest $request, FileUploader $fileUploader)
     {
         $this->savePhoto($request);
         $all = $request->all();
         if ( $request->has('url_cv') ) {
-            //$urlCV = $this->saveFile( $request->file('url_cv'), 'cvs');
-            //$uploadFile = new uploadFile;
-            $urlCV = $imageUploader->upload( $request->file('url_cv'), 'cvs' );
-            $all['url_cv'] = $urlCV;
+            $all['url_cv'] = $fileUploader->upload( $request->file('url_cv'), 'cvs' );
         }
         /*if ( $request->has('url_foto') ) {
             $urlFoto = $this->saveFile( $request->file('url_foto'), 'photos');
             $all['url_foto'] = $urlFoto;
+            $all['url_foto'] = $fileUploader->upload( $request->file('url_foto'), 'photos' );
         }*/
 
         $persona = Persona::create( $all );
@@ -137,7 +135,7 @@ class PersonaController extends Controller
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function update(PersonaRequest $request, Persona $persona, FileUploader $imageUploader)
+    public function update(PersonaRequest $request, Persona $persona, FileUploader $fileUploader)
     {
         $this->savePhoto($request);
 
