@@ -300,7 +300,7 @@ HTML;
     private function getParametersPdf()
     {
         //$logo = file_get_contents(base_path() . '/storage/logo_cmvp.png');
-        $logo = Storage::get('uploads/'.$this->empresa->logo);
+        $logo = Storage::get('uploads/logos/'.$this->empresa->logo);
         return [
             'system' => [
                 'logo' => $logo,
