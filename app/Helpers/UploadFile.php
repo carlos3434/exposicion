@@ -17,7 +17,7 @@ class FileUploader
         //$image_extension = $file->getClientOriginalExtension();
         $fileName = time().'.'.$file->getClientOriginalExtension();
         //\Illuminate\Support\Facades\Storage::put('uploads/'.$fileFolder.'/'.$fileName, \File::get($file), 'public');
-        $this->storage->put('uploads/'.$fileFolder.'/'.$fileName, $file->getContents(), 'public');
+        $this->storage::put('uploads/'.$fileFolder.'/'.$fileName, $file->getContents(), 'public');
 
         return $fileName;
     }
