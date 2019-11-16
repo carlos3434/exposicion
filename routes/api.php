@@ -57,7 +57,8 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('resultadoElecciones','Api\ResultadoEleccionController');
         Route::apiResource('personas','Api\PersonaController');
 
-        Route::apiResource('colegiados','Api\ColegiadoController');
+        Route::get('colegiados','Api\ColegiadoController@index');
+        Route::get('personasPagos','Api\ColegiadoController@personasPagos');
 
         //Tipos
         Route::apiResource('tipoIncidentes','Api\Tipos\TipoIncidenteController');
