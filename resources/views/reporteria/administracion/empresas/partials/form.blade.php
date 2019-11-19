@@ -38,9 +38,9 @@
 <div class="form-group">
     {{ Form::label('logo','logo') }}
     {{ Form::file('logo', ['class' => 'image','onchange'=>'loadFile(event)']) }}
-
-    {{ Form::image($empresa->logo,'success', [ 'id' => 'output' ]) }}
-
+    @if (isset($empresa->logo))
+        {{ Form::image('logos/'.$empresa->logo,'success', [ 'id' => 'output' ]) }}
+    @endif
 </div>
 <div class="form-group">
     {{ Form::label('ubigeo_id','ubigeo_id') }}
