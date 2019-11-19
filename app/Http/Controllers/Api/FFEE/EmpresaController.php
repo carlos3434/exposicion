@@ -13,10 +13,14 @@ use App\Http\Resources\Empresa\Empresa as EmpresaResource;
 
 use App\Helpers\FileUploader;
 
+use App\Repositories\Interfaces\UbigeoRepositoryInterface;
+
 class EmpresaController extends Controller
 {
-    public function __construct()
+    private $ubigeoRepository;
+    public function __construct( UbigeoRepositoryInterface $ubigeoRepository )
     {
+        $this->ubigeoRepository = $ubigeoRepository;
         $this->middleware('can:CREATE_EMPRESA')->only(['create','store']);
         $this->middleware('can:READ_EMPRESA')->only('index');
         $this->middleware('can:UPDATE_EMPRESA')->only(['edit','update']);
@@ -76,7 +80,9 @@ class EmpresaController extends Controller
      */
     public function show(Empresa $empresa)
     {
-        return new EmpresaResource($empresa);
+        $ubigeo = $this->ubigeoRepository->getByProvinciaId( $empresa->ubigeo_id);
+        //return (array_merge($empresa->toArray(),$ubigeo));
+        return response()->json(array_merge($empresa->toArray(),$ubigeo), 200);
     }
 
     /**

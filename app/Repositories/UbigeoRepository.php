@@ -19,7 +19,10 @@ class UbigeoRepository implements UbigeoRepositoryInterface
             'prov.id',
             'dep.name as departamento',
             'dis.name as distrito',
-            'prov.name as provincia'
+            'prov.name as provincia',
+            'dep.id as departamento_id',
+            'dis.id as distrito_id',
+            'prov.id as provincia_id'
         )
         ->where('prov.id', $provinciaId) // 3967
         ->where('prov.level', 4)

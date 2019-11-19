@@ -26,6 +26,12 @@ class Empresa extends JsonResource
             'email'                 => $this->email,
             'direccion'             => $this->direccion,
             'logo'                  => $this->logo,
+
+            'razon_social'          => $this->razon_social,
+            'user_sunat'            => $this->user_sunat,
+            //'password_sunat'        => $this->password_sunat,
+            'entorno'               => $this->entorno,
+
             'ubigeo'                => new UbigeoCollection($this->ubigeo),
             'created_at'            => $this->created_at->toDateTimeString(),
         ];
