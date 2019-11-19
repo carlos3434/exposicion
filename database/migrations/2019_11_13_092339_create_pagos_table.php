@@ -19,7 +19,7 @@ class CreatePagosTable extends Migration
             $table->decimal('monto')->default(0);
             $table->boolean('is_fraccion');
             $table->date('fecha_vencimiento')->nullable();
-            $table->string('numero_fraccion')->nullable();
+            //$table->string('numero_fraccion')->nullable();
 
             $table->unsignedBigInteger('pago_id')->nullable();
             $table->foreign('pago_id')->references('id')->on('pagos');

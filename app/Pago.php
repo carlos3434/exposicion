@@ -15,7 +15,7 @@ class Pago extends Model
      */
     protected $fillable = [
         'monto',
-        'numero_fraccion',
+        //'numero_fraccion',
         'is_fraccion',
         'fecha_vencimiento',
         'estado_pago_id',

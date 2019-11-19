@@ -20,7 +20,7 @@ class PagoChildrenCollection extends ResourceCollection
                 'id'                => $pago->id,
 
                 'monto'             => $pago->monto,
-                'numero_fraccion'   => $pago->numero_fraccion,
+                //'numero_fraccion'   => $pago->numero_fraccion,
                 'is_fraccion'       => $pago->is_fraccion,
                 'fecha_vencimiento' => $pago->fecha_vencimiento,
                 //'persona_id'        => $pago->persona_id,

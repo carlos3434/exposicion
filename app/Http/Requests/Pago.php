@@ -26,7 +26,7 @@ class Pago extends FormRequest
     {
         return [
             'monto'               => 'required|numeric|between:0,9999',
-            'numero_fraccion'     => 'required_if:is_fraccion,1|integer',
+            //'numero_fraccion'     => 'required_if:is_fraccion,1|integer',
             'is_fraccion'         => 'required|boolean',
             'fecha_vencimiento'   => 'required|date_format:Y-m-d',
             'estado_pago_id'      => 'required|exists:estado_pagos,id',
