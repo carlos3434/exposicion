@@ -10,6 +10,11 @@ return [
         | como las reglas de tamaño. Siéntase libre de modificar cada uno de estos mensajes aquí.
     |
     */
+    'acentos'         => 'The :attribute may only contain acentos.',
+    'alpha_spaces'         => 'The :attribute may only contain letters and spaces.',
+    'tipo_documento_identidad'       => 'The :attribute solo puede ser Ruc cuando el tipo de Documento Pago es Factura.',
+    'numero_documento_identidad'       => 'La longitud de :attribute no concide con el tipo de documento de identidad.',
+    'alpha_num_spaces'         => 'The :attribute may only contain alpha-numeric characters, spaces, underscores, and dashes.',
     'accepted'              => 'El campo :attribute debe ser aceptado.',
     'active_url'            => 'El campo :attribute no es una URL válida.',
     'after'                 => 'El campo :attribute debe ser una fecha después de :date.',
