@@ -118,9 +118,23 @@ class PagoController extends Controller
      */
     public function destroy(Pago $pago)
     {
-        $pago->delete();
+        $pagoPadreId = $pago->pago_id;
         //si ya no tiene mas pagos fraccionanos, cambiar el estado a pendiente
-
+        $pago->delete();
+        $pagoPadre = Pago::find( $pagoPadreId );
+        
+        if ( $pagoPadre ) {
+            
+            $sum = 0;
+            foreach ($pagoPadre->childrenPagos as $pagoChildren) {
+                $sum += $pagoChildren->monto;
+            }
+            if ( $sum == 0  ) {
+                $pagoPadre->is_fraccion = 0;
+                $pagoPadre->estado_pago_id = EstadoPago::PENDIENTE;
+                $pagoPadre->save();
+            }
+        }
         return response()->json(null, 204);
     }
 }
