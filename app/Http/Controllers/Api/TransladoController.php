@@ -11,6 +11,7 @@ use App\Persona;
 use App\Http\Resources\Translado\TransladoCollection;
 use App\Http\Resources\Translado\TransladoExcelCollection;
 use App\Http\Resources\Translado\Translado as TransladoResource;
+use App\Helpers\FileUploader;
 
 class TransladoController extends Controller
 {
@@ -55,9 +56,13 @@ class TransladoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TransladoRequest $request)
+    public function store(TransladoRequest $request, FileUploader $fileUploader)
     {
-        $translado = Translado::create($request->all());
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/translados');
+        }
+        $translado = Translado::create( $all );
         if ($translado) {
             $persona = Persona::find($request->persona_id);
             $data = ['departamento_colegiado_id' => $request->destino_departamento_id];
@@ -85,9 +90,13 @@ class TransladoController extends Controller
      * @param  \App\Translado  $translado
      * @return \Illuminate\Http\Response
      */
-    public function update(TransladoRequest $request, Translado $translado)
+    public function update(TransladoRequest $request, Translado $translado, FileUploader $fileUploader)
     {
-        $translado->update( $request->all() );
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/translados');
+        }
+        $translado->update( $all );
         return response()->json($translado, 200);
     }
 

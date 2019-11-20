@@ -18,7 +18,7 @@ class Apelacion extends Model
      * @var array
      */
     protected $fillable = ['fecha_registro','resolucion', 'persona_id', 'updated_by', 
-    'created_by', 'deleted_by','is_titular','representanteNombres',
+    'created_by', 'deleted_by','is_titular','representanteNombres', 'url_documento',
     'representanteApellidoPaterno','representanteApellidoMaterno','documento_id'];
 
     /**

@@ -12,6 +12,7 @@ use App\Http\Requests\Apelacion as ApelacionRequest;
 use App\Http\Resources\Apelacion\ApelacionCollection;
 use App\Http\Resources\Apelacion\ApelacionExcelCollection;
 use App\Http\Resources\Apelacion\Apelacion as ApelacionResource;
+use App\Helpers\FileUploader;
 
 class ApelacionController extends Controller
 {
@@ -56,9 +57,13 @@ class ApelacionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ApelacionRequest $request)
+    public function store(ApelacionRequest $request, FileUploader $fileUploader)
     {
-        $apelacion = Apelacion::create($request->all());
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/apelaciones');
+        }
+        $apelacion = Apelacion::create($all);
         //update: proceso_disciplinarios con documento_id
         $apelacion->documento->is_apelacion = 1;
         $apelacion->push();
@@ -84,9 +89,13 @@ class ApelacionController extends Controller
      * @param  \App\Apelacion  $apelacion
      * @return \Illuminate\Http\Response
      */
-    public function update(ApelacionRequest $request, Apelacion $apelacion)
+    public function update(ApelacionRequest $request, Apelacion $apelacion, FileUploader $fileUploader)
     {
-        $apelacion->update( $request->all() );
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/apelaciones');
+        }
+        $apelacion->update( $all );
         return response()->json($apelacion, 200);
     }
 

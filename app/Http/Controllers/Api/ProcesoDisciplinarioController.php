@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProcesoDisciplinario\ProcesoDisciplinarioCollection;
 use App\Http\Resources\ProcesoDisciplinario\ProcesoDisciplinarioExcelCollection;
 use App\Http\Resources\ProcesoDisciplinario\ProcesoDisciplinario as ProcesoDisciplinarioResource;
+use App\Helpers\FileUploader;
 
 class ProcesoDisciplinarioController extends Controller
 {
@@ -58,9 +59,13 @@ class ProcesoDisciplinarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProcesoDisciplinarioRequest $request)
+    public function store(ProcesoDisciplinarioRequest $request, FileUploader $fileUploader)
     {
-        $procesoDisciplinario = ProcesoDisciplinario::create($request->all());
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/procesosDisciplinarios');
+        }
+        $procesoDisciplinario = ProcesoDisciplinario::create($all);
         $procesoDisciplinario->persona->save(['numero_procesos_disciplinarios'=>$procesoDisciplinario->persona->numero_procesos_disciplinarios++]);
         return response()->json($procesoDisciplinario, 201);
     }
@@ -83,9 +88,14 @@ class ProcesoDisciplinarioController extends Controller
      * @param  \App\ProcesoDisciplinario  $procesoDisciplinario
      * @return \Illuminate\Http\Response
      */
-    public function update(ProcesoDisciplinarioRequest $request, ProcesoDisciplinario $procesoDisciplinario)
+    public function update(ProcesoDisciplinarioRequest $request, ProcesoDisciplinario $procesoDisciplinario, FileUploader $fileUploader)
     {
-        $procesoDisciplinario->update( $request->all() );
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/procesosDisciplinarios');
+        }
+        $procesoDisciplinario->update( $all );
+
         return response()->json($procesoDisciplinario, 200);
     }
 

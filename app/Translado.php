@@ -16,7 +16,7 @@ class Translado extends Model
      *
      * @var array
      */
-    protected $fillable = ['fecha_registro', 'motivo', 'documento', 
+    protected $fillable = ['fecha_registro', 'motivo', 'documento', 'url_documento',
     'origen_departamento_id','destino_departamento_id', 'persona_id',
     'created_by','updated_by','deleted_by'];
 

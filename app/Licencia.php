@@ -16,7 +16,7 @@ class Licencia extends Model
      *
      * @var array
      */
-    protected $fillable = ['fecha_registro', 'motivo', 'documento', 
+    protected $fillable = ['fecha_registro', 'motivo', 'documento', 'url_documento',
     'fecha_inicio','fecha_fin', 'persona_id',
     'created_by','updated_by','deleted_by'];
 

@@ -12,6 +12,7 @@ use App\Http\Requests\Licencia as LicenciaRequest;
 use App\Http\Resources\Licencia\LicenciaCollection;
 use App\Http\Resources\Licencia\LicenciaExcelCollection;
 use App\Http\Resources\Licencia\Licencia as LicenciaResource;
+use App\Helpers\FileUploader;
 
 class LicenciaController extends Controller
 {
@@ -54,9 +55,13 @@ class LicenciaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LicenciaRequest $request)
+    public function store(LicenciaRequest $request, FileUploader $fileUploader)
     {
-        $licencia = Licencia::create($request->all());
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/licencias');
+        }
+        $licencia = Licencia::create( $all );
         return response()->json($licencia, 201);
     }
 
@@ -79,9 +84,13 @@ class LicenciaController extends Controller
      * @param  \App\Licencia  $licencia
      * @return \Illuminate\Http\Response
      */
-    public function update(LicenciaRequest $request, Licencia $licencia)
+    public function update(LicenciaRequest $request, Licencia $licencia, FileUploader $fileUploader)
     {
-        $licencia->update( $request->all() );
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/licencias');
+        }
+        $licencia->update( $all );
         return response()->json($licencia, 200);
     }
 

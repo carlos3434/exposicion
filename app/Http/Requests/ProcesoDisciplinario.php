@@ -25,6 +25,7 @@ class ProcesoDisciplinario extends FormRequest
     public function rules()
     {
         return [
+            'url_documento'       => 'file|max:2048',
             'fecha_registro' => 'required|date_format:Y-m-d',
             'descripcion' => 'required|alpha_num_spaces',
             'documento' => 'required|alpha_num_spaces',

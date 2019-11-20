@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Incidente\IncidenteCollection;
 use App\Http\Resources\Incidente\IncidenteExcelCollection;
 use App\Http\Resources\Incidente\Incidente as IncidenteResource;
+use App\Helpers\FileUploader;
 
 class IncidenteController extends Controller
 {
@@ -55,9 +56,13 @@ class IncidenteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(IncidenteRequest $request)
+    public function store(IncidenteRequest $request, FileUploader $fileUploader)
     {
-        $incidente = Incidente::create($request->all());
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/incidentes');
+        }
+        $incidente = Incidente::create( $all );
         $incidente->persona->save(['numero_incidencias'=>$incidente->persona->numero_incidencias++]);
         return response()->json($incidente, 201);
     }
@@ -81,9 +86,13 @@ class IncidenteController extends Controller
      * @param  \App\Incidente  $incidente
      * @return \Illuminate\Http\Response
      */
-    public function update(IncidenteRequest $request, Incidente $incidente)
+    public function update(IncidenteRequest $request, Incidente $incidente, FileUploader $fileUploader)
     {
-        $incidente->update( $request->all() );
+        $all = $request->all();
+        if ( $request->has('url_documento') ) {
+            $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/incidentes');
+        }
+        $incidente->update( $all );
         return response()->json($incidente, 200);
     }
 

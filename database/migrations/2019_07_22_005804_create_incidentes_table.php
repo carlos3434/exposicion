@@ -20,7 +20,7 @@ class CreateIncidentesTable extends Migration
             $table->string('documento');
             $table->unsignedBigInteger('tipo_incidente_id')->index();
             $table->foreign('tipo_incidente_id')->references('id')->on('tipo_incidentes')->onDelete('cascade');
-
+            $table->string('url_documento')->nullable();
             $table->integer('persona_id');
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();

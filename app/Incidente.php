@@ -16,7 +16,7 @@ class Incidente extends Model
      *
      * @var array
      */
-    protected $fillable = ['fecha_registro', 'descripcion', 'documento', 
+    protected $fillable = ['fecha_registro', 'descripcion', 'documento', 'url_documento',
     'tipo_incidente_id', 'persona_id','created_by','updated_by','deleted_by'];
 
     /**

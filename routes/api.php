@@ -104,9 +104,9 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('presupuestos','Api\Contabilidad\PresupuestoController');
         Route::apiResource('cajaChica','Api\Contabilidad\CajaChicaController');
 
-        Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceController@envioSunat');
-        Route::post('sunat/notacredito/{invoiceId}','Api\FFEE\InvoiceNotaController@envioSunatNotaCredito');
-        Route::post('sunat/notadebito/{invoiceId}','Api\FFEE\InvoiceNotaController@envioSunatNotaDebito');
+        Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceSunatController@boletaFactura');
+        Route::post('sunat/notacredito/{invoiceId}','Api\FFEE\InvoiceSunatController@notaCredito');
+        Route::post('sunat/notadebito/{invoiceId}','Api\FFEE\InvoiceSunatController@notaDebito');
 
         Route::post('procesoColegiado/inscripcion','Api\ProcesoColegiadoController@inscripcion');
         Route::post('procesoColegiado/solicitarColegiatura','Api\ProcesoColegiadoController@solicitarColegiatura');
@@ -126,6 +126,28 @@ Route::prefix('v1')->group(function(){
         });
         Route::get('cvs/{path}', function ($path) {
             $pathToFile = storage_path('app/uploads/cvs/'.$path);
+            return response()->file($pathToFile);
+        });
+
+        // http://exposicion.juan/api/v1/documentos/procesosDisciplinarios/1574272552.pdf
+        Route::get('documentos/procesosDisciplinarios/{path}', function ($path) {
+            $pathToFile = storage_path('app/uploads/documentos/procesosDisciplinarios/'.$path);
+            return response()->file($pathToFile);
+        });
+        Route::get('documentos/apelaciones/{path}', function ($path) {
+            $pathToFile = storage_path('app/uploads/documentos/apelaciones/'.$path);
+            return response()->file($pathToFile);
+        });
+        Route::get('documentos/incidentes/{path}', function ($path) {
+            $pathToFile = storage_path('app/uploads/documentos/incidentes/'.$path);
+            return response()->file($pathToFile);
+        });
+        Route::get('documentos/translados/{path}', function ($path) {
+            $pathToFile = storage_path('app/uploads/documentos/translados/'.$path);
+            return response()->file($pathToFile);
+        });
+        Route::get('documentos/licencias/{path}', function ($path) {
+            $pathToFile = storage_path('app/uploads/documentos/licencias/'.$path);
             return response()->file($pathToFile);
         });
 

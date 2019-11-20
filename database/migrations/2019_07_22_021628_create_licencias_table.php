@@ -20,7 +20,7 @@ class CreateLicenciasTable extends Migration
             $table->string('documento');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
-
+            $table->string('url_documento')->nullable();
             $table->integer('persona_id');
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();

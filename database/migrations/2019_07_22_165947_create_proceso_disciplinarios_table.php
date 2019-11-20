@@ -23,6 +23,7 @@ class CreateProcesoDisciplinariosTable extends Migration
             $table->string('monto_multa',5);
 
             $table->integer('persona_id');
+            $table->string('url_documento')->nullable();
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('deleted_by')->nullable();

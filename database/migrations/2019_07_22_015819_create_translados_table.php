@@ -18,7 +18,7 @@ class CreateTransladosTable extends Migration
             $table->date('fecha_registro');
             $table->text('motivo')->nullable();
             $table->string('documento');
-
+            $table->string('url_documento')->nullable();
             $table->integer('origen_departamento_id');
             $table->integer('destino_departamento_id');
             $table->integer('persona_id');

@@ -28,6 +28,7 @@ class CreateInvoiceDetailsTable extends Migration
             $table->decimal('valor_venta')->default(0);
             $table->decimal('base_igv')->default(0);
 
+            $table->unsignedBigInteger('pago_id')->index();
             $table->unsignedBigInteger('invoice_id')->index();
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
 
