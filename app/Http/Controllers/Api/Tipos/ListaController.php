@@ -25,6 +25,7 @@ use App\Http\Resources\Inventario\TipoInventarioCollection;
 use App\Http\Resources\Inventario\EstadoInventarioCollection;
 
 use App\Http\Resources\Presupuesto\ConceptoCollection;
+use App\Http\Resources\Concepto\ConceptoCollection as InvoiceConceptoCollection;
 use App\Http\Resources\Gasto\CargoPostulanteCollection;
 use App\Http\Resources\Gasto\TipoGastoCollection;
 
@@ -82,7 +83,7 @@ class ListaController extends Controller
         $response = [
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03'])->get() ),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::whereIn('codigo_sunat',[1, 6])->get() ),
-            'conceptos' => new ConceptoCollection( Concepto::where('tipo',0)->get() ),
+            'conceptos' => new InvoiceConceptoCollection( Concepto::where('tipo',0)->get() ),
             'series' => new SerieCollection( Serie::all() ),
         ];
         return response()->json($response, 200);
