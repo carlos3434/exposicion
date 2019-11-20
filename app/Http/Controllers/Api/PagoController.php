@@ -104,11 +104,11 @@ class PagoController extends Controller
      * @param  \App\Pago  $pago
      * @return \Illuminate\Http\Response
      */
-    /*public function update(PagoRequest $request, Pago $pago)
+    public function update(PagoRequest $request, Pago $pago)
     {
         $pago->update( $request->all() );
         return response()->json($pago, 200);
-    }*/
+    }
 
     /**
      * Remove the specified resource from storage.
