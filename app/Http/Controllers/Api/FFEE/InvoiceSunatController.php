@@ -26,7 +26,7 @@ use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 use App\Helpers\Util;
 use App\Concepto;
 
-class InvoiceNotaController extends Controller
+class InvoiceSunatController extends Controller
 {
     private $clienteRepository;
     private $invoiceDetailRepository;
@@ -47,26 +47,69 @@ class InvoiceNotaController extends Controller
         $this->empresaRepository = $empresaRepository;
         $this->ubigeoRepository = $ubigeoRepository;
 
-        $this->middleware('can:SEND_NOTACREDITO')->only('envioSunatNotaCredito');
+        $this->middleware('can:SEND_BOLETAFACTURA')->only('boletaFactura');
+        $this->middleware('can:SEND_NOTADEBITO')->only('envioSunatNotaDebito');
         $this->middleware('can:SEND_NOTADEBITO')->only('envioSunatNotaDebito');
     }
     /**
-     * envioSunatNotaCredito
+     * notaCredito
      */
-    public function envioSunatNotaCredito(request $request, $invoiceId)
+    public function notaCredito(request $request, $invoiceId)
     {
         //consulta invoice y envio a sunat
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
+        $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
+        
+        //armar company con helper
+        $util = Util::getInstance();
+
+        $util->setCompany( array_merge($comprobantePago->empresa->toArray(), $ubigeo) );
+        $util->setClient( $comprobantePago->cliente );
+        $nota = $util->setNotaCredito( $comprobantePago );
+        $util->setEmpresa($comprobantePago->empresa);
+
+        try {
+            $pdf = $util->getPdf($nota);
+            $util->writePdf( $nota , $pdf );
+        } catch (Exception $e) {
+            var_dump($e);
+        }
+        // Envio a SUNAT.
+        $see = $util->getSee(SunatEndpoints::FE_BETA);
+        $res = $see->send($nota);
+        $util->writeXml($nota, $see->getFactory()->getLastXml());
+        if ($res->isSuccess()) {
+            $cdr = $res->getCdrResponse();
+            $util->writeCdr($nota, $res->getCdrZip());
+        } else {
+            $error = [
+                'Código' => $res->getError()->getCode(),
+                'Descripción' => $res->getError()->getMessage()
+            ];
+            return response()->json( $error, 500);
+        }
+        //actualizar envio sunat
+        $comprobantePago = $this->invoiceRepository->updatePaths($comprobantePago, $nota);
+
+        return response()->json($comprobantePago, 200);
     }
     /**
-     * envioSunatNotaDebito
+     * notaDebito
      */
     public function envioSunatNotaDebito(request $request, $invoiceId)
     {
         //consulta invoice y envio a sunat
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
+
+        $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
+
+        //armar company con helper
+        $util = Util::getInstance();
     }
-    public function envioSunat(request $request, $invoiceId)
+    /**
+     * Envio de comprobante a sunat
+     */
+    public function boletaFactura(request $request, $invoiceId)
     {
         //consulta invoice y envio a sunat
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
@@ -76,9 +119,9 @@ class InvoiceNotaController extends Controller
         //armar company con helper
         $util = Util::getInstance();
 
-        $company = $util->setCompany( array_merge($comprobantePago->empresa->toArray(), $ubigeo) );
-        $client = $util->setClient( $comprobantePago->cliente );
-        $invoice = $util->setInvoice($comprobantePago , $company , $client);
+        $util->setCompany( array_merge($comprobantePago->empresa->toArray(), $ubigeo) );
+        $util->setClient( $comprobantePago->cliente );
+        $invoice = $util->setInvoice($comprobantePago);
         $util->setEmpresa($comprobantePago->empresa);
 
         try {
@@ -94,19 +137,17 @@ class InvoiceNotaController extends Controller
         if ($res->isSuccess()) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($invoice, $res->getCdrZip());
-            //$util->showResponse($invoice, $cdr);
         } else {
             $error = [
                 'Código' => $res->getError()->getCode(),
                 'Descripción' => $res->getError()->getMessage()
             ];
-            //echo $util->getErrorResponse($res->getError());
             return response()->json( $error, 500);
         }
-
-        $comprobantePago = $this->invoiceRepository->updatePaths($comprobantePago, $invoice);
         //actualizar envio sunat
-        //$invoice = $this->invoiceRepository->envioSunat($invoiceId);
+        $comprobantePago = $this->invoiceRepository->updatePaths($comprobantePago, $invoice);
+
         return response()->json($comprobantePago, 200);
     }
+
 }

@@ -13,6 +13,7 @@ use App\Concepto;
 use App\CargoPostulante;
 use App\TipoGasto;
 use App\Serie;
+use App\TipoNota;
 
 use App\Http\Resources\Rendicion\TipoDocumentoPagoCollection;
 use App\Http\Resources\Rendicion\TipoDocumentoIdentidadCollection;
@@ -23,6 +24,7 @@ use App\Http\Resources\Rendicion\ConceptoCobroCollection;
 use App\Http\Resources\Inventario\ResponsableCollection;
 use App\Http\Resources\Inventario\TipoInventarioCollection;
 use App\Http\Resources\Inventario\EstadoInventarioCollection;
+use App\Http\Resources\TipoNota\TipoNotaCollection;
 
 use App\Http\Resources\Presupuesto\ConceptoCollection;
 use App\Http\Resources\Concepto\ConceptoCollection as InvoiceConceptoCollection;
@@ -94,6 +96,16 @@ class ListaController extends Controller
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::all() ),
             'cargoPostulante' => new CargoPostulanteCollection( CargoPostulante::all() ),
             'tipoGasto' => new TipoGastoCollection( TipoGasto::all() ),
+            'conceptos' => new ConceptoCollection( Concepto::where('tipo', 1)->get() ),
+        ];
+        return response()->json($response, 200);
+    }
+    public function listasInvoices()
+    {
+        $response = [
+            'series' => new SerieCollection( Serie::all() ),
+            'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03'])->get() ),
+            'tipoNota' => new TipoNotaCollection( TipoNota::all() ),
             'conceptos' => new ConceptoCollection( Concepto::where('tipo', 1)->get() ),
         ];
         return response()->json($response, 200);

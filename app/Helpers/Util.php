@@ -13,6 +13,8 @@ use Greenter\Model\Company\Address;
 use Greenter\Model\Sale\Invoice;
 use Greenter\Model\Sale\SaleDetail;
 use Greenter\Model\Sale\Legend;
+use Greenter\Model\Sale\Charge;
+use Greenter\Model\Sale\Note;
 
 use Illuminate\Support\Facades\Storage;
 use File;
@@ -25,6 +27,8 @@ final class Util
      * @var SharedStore
      */
     public $empresa;
+    public $company;
+    public $client;
 
     public static function getInstance()
     {
@@ -51,7 +55,8 @@ final class Util
                 //->setUrbanizacion('CASUARINAS')
                 ->setCodLocal('0000')
                 ->setDireccion( $empresa['direccion'] ));
-        return $company;
+        $this->company = $company;
+        //return $company;
     }
     public function setClient($cliente){
 
@@ -63,9 +68,10 @@ final class Util
             ->setTelephone( $cliente->telefono )
             ->setAddress((new Address())
                 ->setDireccion( $cliente->direccion ));
-        return $client;
+        $this->client = $client;
+        //return $client;
     }
-    public function setInvoice($comprobantePago , $company , $client ){
+    public function setInvoice( $comprobantePago ){
 
         $invoice = new Invoice();
         $invoice
@@ -78,8 +84,8 @@ final class Util
             ->setFecVencimiento( new \DateTime( $comprobantePago->fecha_vencimiento  ) )
             //->setTipoMoneda( $comprobantePago->tipo_moneda ) //'PEN'
             ->setTipoMoneda( 'PEN' ) //'PEN'
-            ->setCompany( $company )
-            ->setClient( $client )
+            ->setCompany( $this->company )
+            ->setClient( $this->client )
             ->setMtoOperGravadas( $comprobantePago->monto_gravada )
             ->setMtoOperInafectas( $comprobantePago->monto_inafecta )
             ->setMtoOperExoneradas( $comprobantePago->monto_exogerado )
@@ -132,7 +138,83 @@ final class Util
 
         return $invoice;
     }
+    public function setNotaCredito( $comprobantePago )
+    {
+        $note = new Note();
+        $note
+            ->setTipDocAfectado( $comprobantePago->tipoDocumentoPago->codigo_sunat )    //01 factura 03 boleta
+            ->setNumDocfectado( $comprobantePago->tipoDocumentoPago->prefijo. $comprobantePago->serie->name.'-'.$comprobantePago->numero )        //doc 'F001-111'
 
+            //->setCodMotivo( $comprobantePago->codMotivo )              //estaba 07, por item, CATALOGO 09
+            ->setCodMotivo( '07' )              //estaba 07, por item, CATALOGO 09
+            //->setDesMotivo( $comprobantePago->desMotivo )
+            ->setDesMotivo( 'VENTA ERRONEA')
+            ->setFechaEmision(new \DateTime( $comprobantePago->fechaDevoPago ))
+
+            ->setUblVersion('2.1')
+            ->setTipoDoc('07')                              //07 Nota de credito
+            //->setSerie( $comprobantePago->nota->tipoDocumentoPago->prefijo. $comprobantePago->nota->serie->name )
+            //->setCorrelativo( $comprobantePago->nota->numero )
+            ->setSerie( 'B001' )// si el documento modifica a una factura sera F si modifica a una boleta sera B
+            ->setCorrelativo( '0001' )
+            ->setTipoMoneda( 'PEN' )
+            ->setCompany( $this->company )
+            ->setClient( $this->client )
+            ->setMtoOperGravadas( $comprobantePago->monto_gravada )
+            ->setMtoOperInafectas( $comprobantePago->monto_inafecta )
+            ->setMtoOperExoneradas( $comprobantePago->monto_exogerado )
+            ->setMtoOperGratuitas( $comprobantePago->monto_gratuito )
+            ->setMtoIGV( $comprobantePago->igv_total )
+            ->setTotalImpuestos( $comprobantePago->igv_total )
+            ->setMtoImpVenta( $comprobantePago->monto_importe_total_venta )
+            ->setLegends( [
+                (new Legend())
+                    ->setCode('1000')
+                    ->setValue( NumberLetter::convertToLetter( $comprobantePago->monto_importe_total_venta ) )
+            ]);
+
+        //->setMtoDescuentos        Total Descuento Global
+        //->setDescuentos           Descuento Global
+
+        $detalles = [];
+        foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
+
+            $item = new SaleDetail();
+            $item->setCodProducto( $invoiceDetail->concepto->codigo )
+                ->setCodProdSunat( $invoiceDetail->concepto->codigo_sunat )
+                ->setUnidad( $invoiceDetail->concepto->unidad_medida )
+                ->setCantidad( $invoiceDetail->cantidad )
+                ->setDescripcion( $invoiceDetail->descripcion )
+                ->setMtoBaseIgv( $invoiceDetail->base_igv )
+                ->setPorcentajeIgv( $invoiceDetail->porcentaje_igv )
+                ->setIgv( $invoiceDetail->igv )
+                ->setTipAfeIgv($invoiceDetail->concepto->tipo_afecta_igv)
+                ->setTotalImpuestos( $invoiceDetail->igv )
+                ->setMtoValorUnitario( $invoiceDetail->valor_unitario )
+                ->setMtoPrecioUnitario( $invoiceDetail->precio_unitario )
+                ->setMtoValorVenta( $invoiceDetail->valor_venta );
+
+            if ($invoiceDetail->descuento_linea > 0) {
+                $montoBase = $invoiceDetail->cantidad * $invoiceDetail->precio;
+                $item->setDescuentos([(
+                    new Charge())
+                    ->setCodTipo('00')
+                    ->setFactor( $invoiceDetail->descuento_linea / $montoBase )
+                    ->setMonto( $invoiceDetail->descuento_linea )
+                    ->setMontoBase( $montoBase )
+                ]);
+            }
+            array_push($detalles, $item);
+
+        }
+        $note->setDetails($detalles);
+
+        return $note;
+    }
+    public function setNotaDebito( $comprobantePago )
+    {
+
+    }
     /**
      * @param string $endpoint
      * @return See

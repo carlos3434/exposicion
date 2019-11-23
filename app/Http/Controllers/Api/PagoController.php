@@ -79,7 +79,7 @@ class PagoController extends Controller
             $pagoPadre->is_fraccion = 1;
             $pagoPadre->estado_pago_id = EstadoPago::FRACCIONADA;
             $pagoPadre->save();
-            $request->merge([ 'is_fraccion' => 0 ]);
+            $request->merge([ 'is_fraccion' => 0, 'concepto_id' => $pagoPadre->concepto_id ]);
         }
         $pago = Pago::create($request->all());
         return response()->json($pago, 201);

@@ -92,12 +92,23 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
+        //validar que la serie se envie desde front, y generar automaticamente un correlativo correspondiente a esa seria
+
+        // generar correlativo correspondiente a la serie
+        //buscar el ultimo Comprobante de pago ordenado por correlativo, filtrando por serie, 
+        //generarle una correlativo nuevo de acuerdo a esa serie
+        $numero = Invoice::where('serie_id',$request->serie_id)
+        ->where('tipo_documento_pago_id',$request->tipo_documento_pago_id)
+        ->max('numero');
+        $numero++;
+        //$numero = $invoices->numero++;
         $invoiceDetail = $request->invoiceDetail;
         $cliente = $request->cliente;
 
         $clienteDB = $this->clienteRepository->getByDni($cliente);
 
         $request->merge([ 'cliente_id' => $clienteDB->id ]);
+        $request->merge([ 'numero' => $numero ]);
 
         $invoice = Invoice::create($request->all());
 
@@ -192,51 +203,76 @@ class InvoiceController extends Controller
      */
     public function update(InvoiceRequest $request, Invoice $invoice)
     {
-        $invoice->update( $request->all() );
+        //$invoice->update( $request->all() );
+        $invoiceDetail = $request->invoiceDetail;
+        $porcentajeIGV = 18;
+        $igvTotal = $descuentoTotal = $valorVentaTotal = 0;
+        $montoGravada = $montoGratuito = $montoExogerado = $montoInafecta = 0;
+        foreach($invoiceDetail as $key => $detail)
+        {
+            //validar si tiene un pago_id asociado $detail['pago_id']
+            if (isset( $detail['pago_id'] )) {
+                //cambiar el estado del pago a completado
+                $pago = Pago::find( $detail['pago_id'] );
+                $pago->estado_pago_id = EstadoPago::COMPLETADA;
+                //$pago->monto = $detail['precio'];
+                $pago->save();
+            }
+            if (!isset($detail['descuento_linea'])) {
+                $detail['descuento_linea'] = 0;
+            }
+            $igvL = 0;
+            $detail['concepto_id']      = $detail['concepto_pago_id'];
+            $concepto = Concepto::find($detail['concepto_id']);
+            $detail['porcentaje_igv'] = 0;
+            $valorVenta = $detail['precio']  * $detail['cantidad'] - $detail['descuento_linea'] ;
+
+            $descuentoTotal += $detail['descuento_linea'];
+            $valorVentaTotal += $valorVenta;
+
+            $detail['valor_unitario']   = $detail['precio'] ;
+            $detail['precio_unitario']  = $detail['precio'] + ( $igvL - $detail['descuento_linea']) / $detail['cantidad'] ;
+
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRAVADA) {
+                $montoGravada += $detail['precio'] * $detail['cantidad'];
+                $igvL = $porcentajeIGV/100 * $valorVenta;
+                $igvTotal += $igvL;
+                $detail['porcentaje_igv']   = $porcentajeIGV;
+            }
+            //Validando Gratuito
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::GRATUITA) {
+                $montoGratuito += $detail['precio'] * $detail['cantidad'];
+                $igvL = $porcentajeIGV/100 * $valorVenta;
+                $igvTotal += $igvL;
+                $detail['porcentaje_igv']   = $porcentajeIGV;
+                $detail['valor_unitario'] = 0;
+                $detail['precio_unitario'] = 0;
+            }
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::EXONERADA) {
+                $montoExogerado += $detail['precio'] * $detail['cantidad'];
+            }
+            if ($concepto && $concepto->tipo_afecta_igv == Concepto::INAFECTA) {
+                $montoInafecta += $detail['precio'] * $detail['cantidad'];
+            }
+            $detail['valor_venta']      = $valorVenta;
+            $detail['igv']              = $igvL;
+            $detail['impuestos']        = $igvL;
+            $detail['base_igv']         = $valorVenta;
+            //$invoice->invoiceDetail->save( $detail );
+            $detail['invoice_id']       = $invoice->id;
+            $this->invoiceDetailRepository->newOne($detail);
+        }
+        $invoice->valor_venta = $valorVentaTotal;
+        $invoice->monto_importe_total_venta = $valorVentaTotal + $igvTotal;
+        $invoice->monto_gravada = $montoGravada;
+        $invoice->monto_gratuito = $montoGratuito;
+        $invoice->monto_exogerado = $montoExogerado;
+        $invoice->monto_inafecta = $montoInafecta;
+        $invoice->descuento_total = $descuentoTotal;
+        $invoice->igv_total = $igvTotal;
+        $invoice->save();
+        //$invoice->update( $request->all() );
         return response()->json($invoice, 200);
-    }
-    /**
-     * Envio de comprobante a sunat
-     */
-    public function envioSunat(request $request, $invoiceId)
-    {
-        //consulta invoice y envio a sunat
-        $comprobantePago = $this->invoiceRepository->getById($invoiceId);
-
-        $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
-
-        //armar company con helper
-        $util = Util::getInstance();
-
-        $company = $util->setCompany( array_merge($comprobantePago->empresa->toArray(), $ubigeo) );
-        $client = $util->setClient( $comprobantePago->cliente );
-        $invoice = $util->setInvoice($comprobantePago , $company , $client);
-        $util->setEmpresa($comprobantePago->empresa);
-
-        try {
-            $pdf = $util->getPdf($invoice);
-            $util->writePdf( $invoice , $pdf );
-        } catch (Exception $e) {
-            var_dump($e);
-        }
-        // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::FE_BETA);
-        $res = $see->send($invoice);
-        $util->writeXml($invoice, $see->getFactory()->getLastXml());
-        if ($res->isSuccess()) {
-            $cdr = $res->getCdrResponse();
-            $util->writeCdr($invoice, $res->getCdrZip());
-        } else {
-            $error = [
-                'Código' => $res->getError()->getCode(),
-                'Descripción' => $res->getError()->getMessage()
-            ];
-            return response()->json( $error, 500);
-        }
-        //actualizar envio sunat
-        $comprobantePago = $this->invoiceRepository->updatePaths($comprobantePago, $invoice);
-
-        return response()->json($comprobantePago, 200);
     }
 
     /**
