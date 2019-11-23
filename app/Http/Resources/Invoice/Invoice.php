@@ -44,6 +44,7 @@ class Invoice extends JsonResource
             'invoice_id'                => $this->invoice_id,
             'tipo_nota_id'              => $this->tipo_nota_id,
             'motivo'                    => $this->motivo,
+            'is_nota'                   => $this->is_nota,
 
             'empresa'                   => new EmpresaCollection($this->empresa),
             'tipo_operacion'            => new TipoOperacionCollection($this->tipoOperacion),

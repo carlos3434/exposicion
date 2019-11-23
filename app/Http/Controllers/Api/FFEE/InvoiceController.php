@@ -99,7 +99,7 @@ class InvoiceController extends Controller
         //generarle una correlativo nuevo de acuerdo a esa serie
         $numero = Invoice::where('serie_id',$request->serie_id)
         ->where('tipo_documento_pago_id',$request->tipo_documento_pago_id)
-        ->max('numero');
+        ->max(DB::raw('numero + 0'));
         $numero++;
         //$numero = $invoices->numero++;
         $invoiceDetail = $request->invoiceDetail;

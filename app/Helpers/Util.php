@@ -138,25 +138,28 @@ final class Util
 
         return $invoice;
     }
+    //documento Modificado
+    //documento que Modifica
     public function setNotaCredito( $comprobantePago )
-    {
+    { //dd($comprobantePago->motivoNota);
         $note = new Note();
         $note
             ->setTipDocAfectado( $comprobantePago->tipoDocumentoPago->codigo_sunat )    //01 factura 03 boleta
             ->setNumDocfectado( $comprobantePago->tipoDocumentoPago->prefijo. $comprobantePago->serie->name.'-'.$comprobantePago->numero )        //doc 'F001-111'
 
             //->setCodMotivo( $comprobantePago->codMotivo )              //estaba 07, por item, CATALOGO 09
-            ->setCodMotivo( '07' )              //estaba 07, por item, CATALOGO 09
+            //->setCodMotivo( '07' )              //estaba 07, por item, CATALOGO 09
+            ->setCodMotivo( $comprobantePago->nota->motivoNota->codigo_sunat )              //estaba 07, por item, CATALOGO 09
             //->setDesMotivo( $comprobantePago->desMotivo )
-            ->setDesMotivo( 'VENTA ERRONEA')
-            ->setFechaEmision(new \DateTime( $comprobantePago->fechaDevoPago ))
+            ->setDesMotivo( $comprobantePago->nota->motivo )
+            ->setFechaEmision(new \DateTime( $comprobantePago->nota->fecha_emision ))
 
             ->setUblVersion('2.1')
             ->setTipoDoc('07')                              //07 Nota de credito
-            //->setSerie( $comprobantePago->nota->tipoDocumentoPago->prefijo. $comprobantePago->nota->serie->name )
-            //->setCorrelativo( $comprobantePago->nota->numero )
-            ->setSerie( 'B001' )// si el documento modifica a una factura sera F si modifica a una boleta sera B
-            ->setCorrelativo( '0001' )
+            ->setSerie( $comprobantePago->tipoDocumentoPago->prefijo. $comprobantePago->nota->serie->name )
+            ->setCorrelativo( $comprobantePago->nota->numero )
+            //->setSerie( 'B001' )// si el documento modifica a una factura sera F si modifica a una boleta sera B
+            //->setCorrelativo( '0001' )
             ->setTipoMoneda( 'PEN' )
             ->setCompany( $this->company )
             ->setClient( $this->client )
@@ -213,7 +216,77 @@ final class Util
     }
     public function setNotaDebito( $comprobantePago )
     {
+        $note = new Note();
+        $note
+            ->setTipDocAfectado( $comprobantePago->tipoDocumentoPago->codigo_sunat )    //01 factura 03 boleta
+            ->setNumDocfectado( $comprobantePago->tipoDocumentoPago->prefijo. $comprobantePago->serie->name.'-'.$comprobantePago->numero )        //doc 'F001-111'
 
+            //->setCodMotivo( $comprobantePago->codMotivo )              //estaba 07, por item, CATALOGO 09
+            //->setCodMotivo( '07' )              //estaba 07, por item, CATALOGO 09
+            ->setCodMotivo( $comprobantePago->nota->motivoNota->codigo_sunat )              //estaba 07, por item, CATALOGO 09
+            //->setDesMotivo( $comprobantePago->desMotivo )
+            ->setDesMotivo( $comprobantePago->nota->motivo )
+            ->setFechaEmision(new \DateTime( $comprobantePago->nota->fecha_emision ))
+
+            ->setUblVersion('2.1')
+            ->setTipoDoc('08')                              //08 Nota de debito
+            ->setSerie( $comprobantePago->tipoDocumentoPago->prefijo. $comprobantePago->nota->serie->name )
+            ->setCorrelativo( $comprobantePago->nota->numero )
+            //->setSerie( 'B001' )// si el documento modifica a una factura sera F si modifica a una boleta sera B
+            //->setCorrelativo( '0001' )
+            ->setTipoMoneda( 'PEN' )
+            ->setCompany( $this->company )
+            ->setClient( $this->client )
+            ->setMtoOperGravadas( $comprobantePago->monto_gravada )
+            ->setMtoOperInafectas( $comprobantePago->monto_inafecta )
+            ->setMtoOperExoneradas( $comprobantePago->monto_exogerado )
+            ->setMtoOperGratuitas( $comprobantePago->monto_gratuito )
+            ->setMtoIGV( $comprobantePago->igv_total )
+            ->setTotalImpuestos( $comprobantePago->igv_total )
+            ->setMtoImpVenta( $comprobantePago->monto_importe_total_venta )
+            ->setLegends( [
+                (new Legend())
+                    ->setCode('1000')
+                    ->setValue( NumberLetter::convertToLetter( $comprobantePago->monto_importe_total_venta ) )
+            ]);
+
+        //->setMtoDescuentos        Total Descuento Global
+        //->setDescuentos           Descuento Global
+
+        $detalles = [];
+        foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
+
+            $item = new SaleDetail();
+            $item->setCodProducto( $invoiceDetail->concepto->codigo )
+                ->setCodProdSunat( $invoiceDetail->concepto->codigo_sunat )
+                ->setUnidad( $invoiceDetail->concepto->unidad_medida )
+                ->setCantidad( $invoiceDetail->cantidad )
+                ->setDescripcion( $invoiceDetail->descripcion )
+                ->setMtoBaseIgv( $invoiceDetail->base_igv )
+                ->setPorcentajeIgv( $invoiceDetail->porcentaje_igv )
+                ->setIgv( $invoiceDetail->igv )
+                ->setTipAfeIgv($invoiceDetail->concepto->tipo_afecta_igv)
+                ->setTotalImpuestos( $invoiceDetail->igv )
+                ->setMtoValorUnitario( $invoiceDetail->valor_unitario )
+                ->setMtoPrecioUnitario( $invoiceDetail->precio_unitario )
+                ->setMtoValorVenta( $invoiceDetail->valor_venta );
+
+            if ($invoiceDetail->descuento_linea > 0) {
+                $montoBase = $invoiceDetail->cantidad * $invoiceDetail->precio;
+                $item->setDescuentos([(
+                    new Charge())
+                    ->setCodTipo('00')
+                    ->setFactor( $invoiceDetail->descuento_linea / $montoBase )
+                    ->setMonto( $invoiceDetail->descuento_linea )
+                    ->setMontoBase( $montoBase )
+                ]);
+            }
+            array_push($detalles, $item);
+
+        }
+        $note->setDetails($detalles);
+
+        return $note;
     }
     /**
      * @param string $endpoint

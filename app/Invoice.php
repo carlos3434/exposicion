@@ -35,7 +35,7 @@ class Invoice extends Model
         'invoice_id',
         'tipo_nota_id',
         'motivo',
-        //'monto_total',
+        'is_nota',
         'empresa_id',
         'updated_by', 'created_by', 'deleted_by'];
 
@@ -96,5 +96,26 @@ class Invoice extends Model
     public function empresa()
     {
         return $this->belongsTo('App\Empresa');
+    }
+    /**
+     * Get the empresa
+     */
+    public function motivoNota()
+    {
+        return $this->belongsTo('App\TipoNota','tipo_nota_id');
+    }
+    /**
+     * Get the empresa
+     */
+    public function nota()
+    {
+        return $this->hasOne('App\Invoice');
+    }
+    /**
+     * Get the empresa
+     */
+    public function afectado()
+    {
+        return $this->belongsTo('App\Invoice','invoice_id');
     }
 }

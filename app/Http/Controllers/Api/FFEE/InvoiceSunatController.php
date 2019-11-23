@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\FFEE;
 
 use App\Http\Controllers\Controller;
 use App\Invoice;
+use App\TipoDocumentoPago;
 use Illuminate\Http\Request;
 
 use Greenter\Ws\Services\SunatEndpoints;
@@ -26,6 +27,7 @@ use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 
 use App\Helpers\Util;
 use App\Concepto;
+use DB;
 
 class InvoiceSunatController extends Controller
 {
@@ -58,31 +60,52 @@ class InvoiceSunatController extends Controller
     public function notaCredito(NotaRequest $request)
     {
         $invoiceId = $request->invoice_id;
-        //consulta invoice y envio a sunat
+        //consulta invoice
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
+
+        //crear nota de credito
+        $nota = $comprobantePago->replicate();
+
+        $numero = Invoice::where('serie_id',$comprobantePago->serie_id)
+        ->where('tipo_documento_pago_id', TipoDocumentoPago::NOTA_CREDITO)//nota de credito
+        ->max(DB::raw('numero + 0'));
+        $numero++;
+
+        //guardar los nuevos campos
+        $nota->numero = $numero;
+        $nota->invoice_id = $request->invoice_id;
+        $nota->tipo_nota_id = $request->tipo_nota_id;
+        $nota->motivo = $request->motivo;
+        $nota->tipo_documento_pago_id = TipoDocumentoPago::NOTA_CREDITO;
+        $nota->fecha_emision = date("Y-m-d");
+        $nota->save();
+        //actualizar el comprobante ya que se emitio una nota
+        $comprobantePago->is_nota = 1;
+        $comprobantePago->save();
+
         $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
-        
+
         //armar company con helper
         $util = Util::getInstance();
 
         $util->setCompany( array_merge($comprobantePago->empresa->toArray(), $ubigeo) );
         $util->setClient( $comprobantePago->cliente );
-        $nota = $util->setNotaCredito( $comprobantePago );
+        $notaCredito = $util->setNotaCredito( $comprobantePago );
         $util->setEmpresa($comprobantePago->empresa);
 
         try {
-            $pdf = $util->getPdf($nota);
-            $util->writePdf( $nota , $pdf );
+            $pdf = $util->getPdf($notaCredito);
+            $util->writePdf( $notaCredito , $pdf );
         } catch (Exception $e) {
             var_dump($e);
         }
         // Envio a SUNAT.
         $see = $util->getSee(SunatEndpoints::FE_BETA);
-        $res = $see->send($nota);
-        $util->writeXml($nota, $see->getFactory()->getLastXml());
+        $res = $see->send($notaCredito);
+        $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
             $cdr = $res->getCdrResponse();
-            $util->writeCdr($nota, $res->getCdrZip());
+            $util->writeCdr($notaCredito, $res->getCdrZip());
         } else {
             $error = [
                 'Código' => $res->getError()->getCode(),
@@ -91,9 +114,9 @@ class InvoiceSunatController extends Controller
             return response()->json( $error, 500);
         }
         //actualizar envio sunat
-        $comprobantePago = $this->invoiceRepository->updatePaths($comprobantePago, $nota);
+        $nota = $this->invoiceRepository->updatePaths($comprobantePago->nota, $notaCredito);
 
-        return response()->json($comprobantePago, 200);
+        return response()->json($nota, 200);
     }
     /**
      * notaDebito
@@ -101,13 +124,63 @@ class InvoiceSunatController extends Controller
     public function envioSunatNotaDebito(NotaRequest $request)
     {
         $invoiceId = $request->invoice_id;
-        //consulta invoice y envio a sunat
+        //consulta invoice
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
+
+        //crear nota de debito
+        $nota = $comprobantePago->replicate();
+
+        $numero = Invoice::where('serie_id',$comprobantePago->serie_id)
+        ->where('tipo_documento_pago_id', TipoDocumentoPago::NOTA_DEBITO)//nota de debito
+        ->max(DB::raw('numero + 0'));
+        $numero++;
+
+        //guardar los nuevos campos
+        $nota->numero = $numero;
+        $nota->invoice_id = $request->invoice_id;
+        $nota->tipo_nota_id = $request->tipo_nota_id;
+        $nota->motivo = $request->motivo;
+        $nota->tipo_documento_pago_id = TipoDocumentoPago::NOTA_DEBITO;
+        $nota->fecha_emision = date("Y-m-d");
+        $nota->save();
+        //actualizar el comprobante ya que se emitio una nota
+        $comprobantePago->is_nota = 1;
+        $comprobantePago->save();
 
         $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
 
         //armar company con helper
         $util = Util::getInstance();
+
+        $util->setCompany( array_merge($comprobantePago->empresa->toArray(), $ubigeo) );
+        $util->setClient( $comprobantePago->cliente );
+        $notaCredito = $util->setNotaCredito( $comprobantePago );
+        $util->setEmpresa($comprobantePago->empresa);
+
+        try {
+            $pdf = $util->getPdf($notaCredito);
+            $util->writePdf( $notaCredito , $pdf );
+        } catch (Exception $e) {
+            var_dump($e);
+        }
+        // Envio a SUNAT.
+        $see = $util->getSee(SunatEndpoints::FE_BETA);
+        $res = $see->send($notaCredito);
+        $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
+        if ($res->isSuccess()) {
+            $cdr = $res->getCdrResponse();
+            $util->writeCdr($notaCredito, $res->getCdrZip());
+        } else {
+            $error = [
+                'Código' => $res->getError()->getCode(),
+                'Descripción' => $res->getError()->getMessage()
+            ];
+            return response()->json( $error, 500);
+        }
+        //actualizar envio sunat
+        $nota = $this->invoiceRepository->updatePaths($comprobantePago->nota, $notaCredito);
+
+        return response()->json($nota, 200);
     }
     /**
      * Envio de comprobante a sunat
@@ -115,7 +188,7 @@ class InvoiceSunatController extends Controller
     public function boletaFactura(request $request, $invoiceId)
     {
         //consulta invoice y envio a sunat
-        $comprobantePago = $this->invoiceRepository->getById($invoiceId);
+        $comprobantePago = $this->invoiceRepository->getResourceById($invoiceId);
 
         $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
 

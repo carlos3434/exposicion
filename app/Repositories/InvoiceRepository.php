@@ -38,9 +38,14 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     {
         $invoice->delete();
     }
-    public function getById($invoiceId)
+    public function getResourceById($invoiceId)
     {
         return new InvoiceResource(Invoice::find($invoiceId));
+        //
+    }
+    public function getById($invoiceId)
+    {
+        return Invoice::find($invoiceId);
         //
     }
     public function updatePaths($comprobantePago , DocumentInterface $invoice)

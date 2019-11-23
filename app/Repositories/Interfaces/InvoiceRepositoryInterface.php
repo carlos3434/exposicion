@@ -15,6 +15,7 @@ interface InvoiceRepositoryInterface
     public function updateOne(InvoiceRequest $request, Invoice $invoice);
     public function deleteOne(Invoice $invoice);
 
+    public function getResourceById($invoiceId);
     public function getById($invoiceId);
     public function envioSunat($invoiceId);
 }

@@ -47,9 +47,10 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('empresa_id')->index();
             $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade');
 
-            $table->unsignedBigInteger('invoice_id')->default();
-            $table->unsignedBigInteger('tipo_nota_id')->default();//catalogo SUNAT
-            $table->string('motivo',100)->default();
+            $table->unsignedBigInteger('invoice_id')->nullable();
+            $table->unsignedBigInteger('tipo_nota_id')->nullable();//catalogo SUNAT
+            $table->string('motivo',100)->nullable();
+            $table->boolean('is_nota')->default(0);
 
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();
