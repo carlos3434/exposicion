@@ -32,6 +32,9 @@ class Invoice extends Model
         'monto_gravada',
         'monto_gratuito',
         'igv_total',
+        'invoice_id',
+        'tipo_nota_id',
+        'motivo',
         //'monto_total',
         'empresa_id',
         'updated_by', 'created_by', 'deleted_by'];

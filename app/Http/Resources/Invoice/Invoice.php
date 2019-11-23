@@ -41,6 +41,9 @@ class Invoice extends JsonResource
             'xml_path'                  => $this->xml_path,
             'pdf_path'                  => $this->pdf_path,
             'cdr_path'                  => $this->cdr_path,
+            'invoice_id'                => $this->invoice_id,
+            'tipo_nota_id'              => $this->tipo_nota_id,
+            'motivo'                    => $this->motivo,
 
             'empresa'                   => new EmpresaCollection($this->empresa),
             'tipo_operacion'            => new TipoOperacionCollection($this->tipoOperacion),

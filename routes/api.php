@@ -106,8 +106,8 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('cajaChica','Api\Contabilidad\CajaChicaController');
 
         Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceSunatController@boletaFactura');
-        Route::post('sunat/notacredito/{invoiceId}','Api\FFEE\InvoiceSunatController@notaCredito');
-        Route::post('sunat/notadebito/{invoiceId}','Api\FFEE\InvoiceSunatController@notaDebito');
+        Route::post('sunat/notacredito','Api\FFEE\InvoiceSunatController@notaCredito');
+        Route::post('sunat/notadebito','Api\FFEE\InvoiceSunatController@notaDebito');
 
         Route::post('procesoColegiado/inscripcion','Api\ProcesoColegiadoController@inscripcion');
         Route::post('procesoColegiado/solicitarColegiatura','Api\ProcesoColegiadoController@solicitarColegiatura');

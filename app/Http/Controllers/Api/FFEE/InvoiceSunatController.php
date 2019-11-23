@@ -10,6 +10,7 @@ use Greenter\Ws\Services\SunatEndpoints;
 use Greenter\See;
 
 use App\Http\Requests\Invoice as InvoiceRequest;
+use App\Http\Requests\Nota as NotaRequest;
 use App\Http\Resources\Invoice\InvoiceCollection;
 use App\Http\Resources\Invoice\InvoiceExcelCollection;
 use App\Http\Resources\Invoice\Invoice as InvoiceResource;
@@ -54,8 +55,9 @@ class InvoiceSunatController extends Controller
     /**
      * notaCredito
      */
-    public function notaCredito(request $request, $invoiceId)
+    public function notaCredito(NotaRequest $request)
     {
+        $invoiceId = $request->invoice_id;
         //consulta invoice y envio a sunat
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
         $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
@@ -96,8 +98,9 @@ class InvoiceSunatController extends Controller
     /**
      * notaDebito
      */
-    public function envioSunatNotaDebito(request $request, $invoiceId)
+    public function envioSunatNotaDebito(NotaRequest $request)
     {
+        $invoiceId = $request->invoice_id;
         //consulta invoice y envio a sunat
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
 
