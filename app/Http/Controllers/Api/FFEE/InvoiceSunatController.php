@@ -24,6 +24,7 @@ use App\Repositories\Interfaces\InvoiceDetailRepositoryInterface;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\Interfaces\EmpresaRepositoryInterface;
 use App\Repositories\Interfaces\UbigeoRepositoryInterface;
+use App\Repositories\Interfaces\PagoRepositoryInterface;
 
 use App\Helpers\Util;
 use App\Concepto;
@@ -36,12 +37,14 @@ class InvoiceSunatController extends Controller
     private $invoiceRepository;
     private $empresaRepository;
     private $ubigeoRepository;
+    private $pagoRepository;
     public function __construct(
         ClienteRepositoryInterface $clienteRepository,
         InvoiceDetailRepositoryInterface $invoiceDetailRepository,
         InvoiceRepositoryInterface $invoiceRepository,
         EmpresaRepositoryInterface $empresaRepository,
-        UbigeoRepositoryInterface $ubigeoRepository
+        UbigeoRepositoryInterface $ubigeoRepository,
+        PagoRepositoryInterface $pagoRepository
     )
     {
         $this->clienteRepository = $clienteRepository;
@@ -49,6 +52,7 @@ class InvoiceSunatController extends Controller
         $this->invoiceRepository = $invoiceRepository;
         $this->empresaRepository = $empresaRepository;
         $this->ubigeoRepository = $ubigeoRepository;
+        $this->pagoRepository = $pagoRepository;
 
         $this->middleware('can:SEND_BOLETAFACTURA')->only('boletaFactura');
         $this->middleware('can:SEND_NOTADEBITO')->only('envioSunatNotaDebito');
@@ -203,6 +207,12 @@ class InvoiceSunatController extends Controller
         if ($res->isSuccess()) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($invoice, $res->getCdrZip());
+            //completar los pagos pendientes
+            foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
+                if (isset( $invoiceDetail->pago_id )) {
+                    $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
+                }
+            }
         } else {
             $error = [
                 'Código' => $res->getError()->getCode(),

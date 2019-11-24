@@ -14,4 +14,5 @@ interface InvoiceDetailRepositoryInterface
     public function newOne(InvoiceDetailRequest $request);
     public function updateOne(InvoiceDetailRequest $request, InvoiceDetail $invoiceDetail);
     public function deleteOne(InvoiceDetail $invoiceDetail);
+    public function updateById( $invoiceDetail);
 }

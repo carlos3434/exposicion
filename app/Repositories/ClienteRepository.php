@@ -25,10 +25,6 @@ class ClienteRepository implements ClienteRepositoryInterface
     public function getByDni( $cliente)
     {
         return Cliente::firstOrCreate($cliente);
-        return Cliente::where('tipo_documento_identidad_id',$cliente['tipo_documento_identidad_id'])
-        ->where('numero_documento_identidad',$cliente['numero_documento_identidad'])
-        ->first();
-        //return Cliente::filter($cliente);
     }
     public function newOne( $cliente)
     {
