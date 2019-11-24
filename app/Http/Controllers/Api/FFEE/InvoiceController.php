@@ -22,6 +22,7 @@ use App\Repositories\Interfaces\InvoiceDetailRepositoryInterface;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\Interfaces\EmpresaRepositoryInterface;
 use App\Repositories\Interfaces\UbigeoRepositoryInterface;
+use App\Repositories\Interfaces\PagoRepositoryInterface;
 
 use App\Helpers\Util;
 use App\Concepto;
@@ -35,12 +36,14 @@ class InvoiceController extends Controller
     private $invoiceRepository;
     private $empresaRepository;
     private $ubigeoRepository;
+    private $pagoRepository;
     public function __construct(
         ClienteRepositoryInterface $clienteRepository,
         InvoiceDetailRepositoryInterface $invoiceDetailRepository,
         InvoiceRepositoryInterface $invoiceRepository,
         EmpresaRepositoryInterface $empresaRepository,
-        UbigeoRepositoryInterface $ubigeoRepository
+        UbigeoRepositoryInterface $ubigeoRepository,
+        PagoRepositoryInterface $pagoRepository
     )
     {
         $this->clienteRepository = $clienteRepository;
@@ -48,6 +51,7 @@ class InvoiceController extends Controller
         $this->invoiceRepository = $invoiceRepository;
         $this->empresaRepository = $empresaRepository;
         $this->ubigeoRepository = $ubigeoRepository;
+        $this->pagoRepository = $pagoRepository;
         $this->middleware('can:CREATE_INVOICE')->only(['create','store']);
         $this->middleware('can:READ_INVOICE')->only('index');
         $this->middleware('can:UPDATE_INVOICE')->only(['edit','update']);
@@ -92,16 +96,8 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
-        //validar que la serie se envie desde front, y generar automaticamente un correlativo correspondiente a esa seria
+        $numero = $this->invoiceRepository->getLastNumeroInvoiceBySerie( $request->serie_id , $request->tipo_documento_pago_id );
 
-        // generar correlativo correspondiente a la serie
-        //buscar el ultimo Comprobante de pago ordenado por correlativo, filtrando por serie, 
-        //generarle una correlativo nuevo de acuerdo a esa serie
-        $numero = Invoice::where('serie_id',$request->serie_id)
-        ->where('tipo_documento_pago_id',$request->tipo_documento_pago_id)
-        ->max(DB::raw('numero + 0'));
-        $numero++;
-        //$numero = $invoices->numero++;
         $invoiceDetail = $request->invoiceDetail;
         $cliente = $request->cliente;
 
@@ -119,15 +115,9 @@ class InvoiceController extends Controller
         {
             //validar si tiene un pago_id asociado $detail['pago_id']
             if (isset( $detail['pago_id'] )) {
-                //cambiar el estado del pago a completado
-                $pago = Pago::find( $detail['pago_id'] );
-                $pago->estado_pago_id = EstadoPago::COMPLETADA;
-                //$pago->monto = $detail['precio'];
-                $pago->save();
+                $this->pagoRepository->updateEstadoPago($detail['pago_id'],  EstadoPago::COMPLETADA );
             }
-            if (!isset($detail['descuento_linea'])) {
-                $detail['descuento_linea'] = 0;
-            }
+
             $igvL = 0;
             $detail['concepto_id']      = $detail['concepto_pago_id'];
             $concepto = Concepto::find($detail['concepto_id']);
@@ -212,15 +202,9 @@ class InvoiceController extends Controller
         {
             //validar si tiene un pago_id asociado $detail['pago_id']
             if (isset( $detail['pago_id'] )) {
-                //cambiar el estado del pago a completado
-                $pago = Pago::find( $detail['pago_id'] );
-                $pago->estado_pago_id = EstadoPago::COMPLETADA;
-                //$pago->monto = $detail['precio'];
-                $pago->save();
+                $this->pagoRepository->updateEstadoPago($detail['pago_id'],  EstadoPago::COMPLETADA );
             }
-            if (!isset($detail['descuento_linea'])) {
-                $detail['descuento_linea'] = 0;
-            }
+
             $igvL = 0;
             $detail['concepto_id']      = $detail['concepto_pago_id'];
             $concepto = Concepto::find($detail['concepto_id']);

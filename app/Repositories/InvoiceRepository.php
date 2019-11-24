@@ -6,6 +6,7 @@ use App\Http\Resources\Invoice\InvoiceCollection;
 use App\Http\Resources\Invoice\Invoice as InvoiceResource;
 use App\Http\Requests\Invoice as InvoiceRequest;
 use Greenter\Model\DocumentInterface;
+use DB;
 
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 /**
@@ -61,5 +62,12 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     {
         $invoice = Invoice::find($invoiceId);
         //
+    }
+    public function getLastNumeroInvoiceBySerie($serieId , $tipoDocumentoPagoId)
+    {
+        $numero = Invoice::where('serie_id', $serieId)
+        ->where('tipo_documento_pago_id', $tipoDocumentoPagoId)
+        ->max(DB::raw('numero + 0'));
+        return $numero++;
     }
 }

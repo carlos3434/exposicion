@@ -18,4 +18,5 @@ interface InvoiceRepositoryInterface
     public function getResourceById($invoiceId);
     public function getById($invoiceId);
     public function envioSunat($invoiceId);
+    public function getLastNumeroInvoiceBySerie($serieId , $tipoDocumentoPagoId);
 }

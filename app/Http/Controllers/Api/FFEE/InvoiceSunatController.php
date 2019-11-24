@@ -27,7 +27,7 @@ use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 
 use App\Helpers\Util;
 use App\Concepto;
-use DB;
+
 
 class InvoiceSunatController extends Controller
 {
@@ -66,13 +66,8 @@ class InvoiceSunatController extends Controller
         //crear nota de credito
         $nota = $comprobantePago->replicate();
 
-        $numero = Invoice::where('serie_id',$comprobantePago->serie_id)
-        ->where('tipo_documento_pago_id', TipoDocumentoPago::NOTA_CREDITO)//nota de credito
-        ->max(DB::raw('numero + 0'));
-        $numero++;
-
         //guardar los nuevos campos
-        $nota->numero = $numero;
+        $nota->numero = $this->invoiceRepository->getLastNumeroInvoiceBySerie( $comprobantePago->serie_id , TipoDocumentoPago::NOTA_CREDITO );
         $nota->invoice_id = $request->invoice_id;
         $nota->tipo_nota_id = $request->tipo_nota_id;
         $nota->motivo = $request->motivo;
@@ -130,13 +125,8 @@ class InvoiceSunatController extends Controller
         //crear nota de debito
         $nota = $comprobantePago->replicate();
 
-        $numero = Invoice::where('serie_id',$comprobantePago->serie_id)
-        ->where('tipo_documento_pago_id', TipoDocumentoPago::NOTA_DEBITO)//nota de debito
-        ->max(DB::raw('numero + 0'));
-        $numero++;
-
         //guardar los nuevos campos
-        $nota->numero = $numero;
+        $nota->numero = $this->invoiceRepository->getLastNumeroInvoiceBySerie( $comprobantePago->serie_id , TipoDocumentoPago::NOTA_DEBITO );
         $nota->invoice_id = $request->invoice_id;
         $nota->tipo_nota_id = $request->tipo_nota_id;
         $nota->motivo = $request->motivo;
