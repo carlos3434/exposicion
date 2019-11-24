@@ -46,7 +46,9 @@ class BeneficiarioController extends Controller
                 );
             }
         }
-        return new BeneficiarioCollection($query->sort()->paginate());
+        $query->orderBy('is_baja','ASC');
+        $query->orderBy('created_at','DESC');
+        return new BeneficiarioCollection($query->paginate());
     }
 
 

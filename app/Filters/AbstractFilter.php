@@ -43,6 +43,10 @@ abstract class AbstractFilter
         return new $this->filters[$filter];
     }
 
+    public function orderBy($sortBy,$direction)
+    {
+        return $this->builder->orderBy($sortBy,$direction);
+    }
     public function sort()
     {
         $sortBy = $this->request->input('sortBy', 'id');
