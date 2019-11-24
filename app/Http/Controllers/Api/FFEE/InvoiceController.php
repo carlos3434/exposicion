@@ -6,16 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Invoice;
 use Illuminate\Http\Request;
 
-use Greenter\Ws\Services\SunatEndpoints;
-use Greenter\See;
-
 use App\Http\Requests\Invoice as InvoiceRequest;
+use App\Http\Requests\InvoiceUpdate as InvoiceUpdateRequest;
 use App\Http\Resources\Invoice\InvoiceCollection;
 use App\Http\Resources\Invoice\InvoiceExcelCollection;
 use App\Http\Resources\Invoice\Invoice as InvoiceResource;
 
 use App\Http\Requests\Cliente as ClienteRequest;
-use Illuminate\Support\Facades\Validator;
 //repositories
 use App\Repositories\Interfaces\ClienteRepositoryInterface;
 use App\Repositories\Interfaces\InvoiceDetailRepositoryInterface;
@@ -23,10 +20,7 @@ use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\Interfaces\EmpresaRepositoryInterface;
 use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 
-use App\Helpers\Util;
 use App\Concepto;
-use App\Pago;
-use App\EstadoPago;
 
 class InvoiceController extends Controller
 {
@@ -180,8 +174,13 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(InvoiceRequest $request, Invoice $invoice)
+    public function update(InvoiceUpdateRequest $request, Invoice $invoice)
     {
+        //validar si la factura se envio a sunat, en este caso no se puede modificar
+        if ($this->invoiceRepository->getEstadoInvoice( $invoice )) {
+            return response()->json( "no se puede actualizar un comprobante de pago que ha sido enviado a SUNAT", 500);
+        }
+
         $invoiceDetail = $request->invoiceDetail;
         $porcentajeIGV = 18;
         $igvTotal = $descuentoTotal = $valorVentaTotal = 0;
@@ -226,7 +225,8 @@ class InvoiceController extends Controller
             $detail['impuestos']        = $igvL;
             $detail['base_igv']         = $valorVenta;
             $detail['invoice_id']       = $invoice->id;
-            $this->invoiceDetailRepository->updateById($detail);
+
+            $this->invoiceDetailRepository->updateById( $detail );
         }
         $invoice->valor_venta = $valorVentaTotal;
         $invoice->monto_importe_total_venta = $valorVentaTotal + $igvTotal;
@@ -237,7 +237,7 @@ class InvoiceController extends Controller
         $invoice->descuento_total = $descuentoTotal;
         $invoice->igv_total = $igvTotal;
         $invoice->save();
-        return response()->json($invoice, 200);
+        return response()->json( new InvoiceResource($invoice), 200);
     }
 
     /**

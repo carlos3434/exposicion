@@ -70,4 +70,12 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         ->max(DB::raw('numero + 0'));
         return $numero++;
     }
+    public function getEstadoInvoice(Invoice $invoice)
+    {
+        return isset($invoice->cdr_path)? 1 : 0;
+        $numero = Invoice::where('serie_id', $serieId)
+        ->where('tipo_documento_pago_id', $tipoDocumentoPagoId)
+        ->max(DB::raw('numero + 0'));
+        return $numero++;
+    }
 }

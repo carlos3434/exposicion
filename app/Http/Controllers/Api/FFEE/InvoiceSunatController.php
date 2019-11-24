@@ -8,49 +8,28 @@ use App\TipoDocumentoPago;
 use Illuminate\Http\Request;
 
 use Greenter\Ws\Services\SunatEndpoints;
-use Greenter\See;
 
-use App\Http\Requests\Invoice as InvoiceRequest;
 use App\Http\Requests\Nota as NotaRequest;
-use App\Http\Resources\Invoice\InvoiceCollection;
-use App\Http\Resources\Invoice\InvoiceExcelCollection;
-use App\Http\Resources\Invoice\Invoice as InvoiceResource;
 
-use App\Http\Requests\Cliente as ClienteRequest;
-use Illuminate\Support\Facades\Validator;
 //repositories
-use App\Repositories\Interfaces\ClienteRepositoryInterface;
-use App\Repositories\Interfaces\InvoiceDetailRepositoryInterface;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
-use App\Repositories\Interfaces\EmpresaRepositoryInterface;
 use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 use App\Repositories\Interfaces\PagoRepositoryInterface;
 
 use App\Helpers\Util;
-use App\Concepto;
-
 
 class InvoiceSunatController extends Controller
 {
-    private $clienteRepository;
-    private $invoiceDetailRepository;
     private $invoiceRepository;
-    private $empresaRepository;
     private $ubigeoRepository;
     private $pagoRepository;
     public function __construct(
-        ClienteRepositoryInterface $clienteRepository,
-        InvoiceDetailRepositoryInterface $invoiceDetailRepository,
         InvoiceRepositoryInterface $invoiceRepository,
-        EmpresaRepositoryInterface $empresaRepository,
         UbigeoRepositoryInterface $ubigeoRepository,
         PagoRepositoryInterface $pagoRepository
     )
     {
-        $this->clienteRepository = $clienteRepository;
-        $this->invoiceDetailRepository = $invoiceDetailRepository;
         $this->invoiceRepository = $invoiceRepository;
-        $this->empresaRepository = $empresaRepository;
         $this->ubigeoRepository = $ubigeoRepository;
         $this->pagoRepository = $pagoRepository;
 

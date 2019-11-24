@@ -33,10 +33,12 @@ class InvoiceDetailRepository implements InvoiceDetailRepositoryInterface
         $invoiceDetail->update( $request->all() );
         return $invoiceDetail;
     }
-    public function updateById( $invoiceDetail)
+    public function updateById( $invoiceDetailData )
     {
-        $invoiceDetail = InvoiceDetail::find( $invoiceDetail->id );
-        $invoiceDetail->update( $invoiceDetail );
+        $invoiceDetailDataId = $invoiceDetailData['id'];
+        unset($invoiceDetailData['id']);
+        $invoiceDetail = InvoiceDetail::find( $invoiceDetailDataId );
+        $invoiceDetail->update( $invoiceDetailData );
     }
     public function deleteOne(InvoiceDetail $invoiceDetail)
     {
