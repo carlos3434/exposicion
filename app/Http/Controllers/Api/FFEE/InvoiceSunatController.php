@@ -127,7 +127,7 @@ class InvoiceSunatController extends Controller
     /**
      * notaDebito
      */
-    public function envioSunatNotaDebito(NotaRequest $request)
+    public function notaDebito(NotaRequest $request)
     {
         $invoiceId = $request->invoice_id;
         //consulta invoice
