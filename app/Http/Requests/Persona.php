@@ -27,7 +27,7 @@ class Persona extends FormRequest
         return [
             'fecha_registro'                    => 'date_format:Y-m-d',
             'tipo_documento_identidad_id'       => 'required|exists:tipo_documento_identidad,id',
-            'numero_documento_identidad'        => 'required|integer',
+            'numero_documento_identidad'        => 'required|unique:clientes,numero_documento_identidad,'. (isset($this->id) ? $this->id : 0),
             'nacionalidad_id'                   => 'required|integer',
             'apellido_paterno'                  => 'required|alpha_num_spaces',
             'apellido_materno'                  => 'required|alpha_num_spaces',
@@ -75,7 +75,7 @@ class Persona extends FormRequest
             'direccion_centro_laboral'          => 'string',
             'telefono_centro_laboral'           => 'integer',
             'numero_cmvp'                       => 'alpha_num_spaces',
-            'fecha_aprobacion_consejo'            => 'date_format:Y-m-d',
+            'fecha_aprobacion_consejo'          => 'date_format:Y-m-d',
             'url_cv'                            => 'file|max:16192',
             'is_voluntario'                     => 'boolean',
             'is_pago_colegiatura'               => 'boolean',
