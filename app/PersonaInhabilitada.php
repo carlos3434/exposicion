@@ -27,6 +27,6 @@ class PersonaInhabilitada extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable('tipo_presupuesto');
+        $this->setTable('persona_inhabilitada');
     }
 }

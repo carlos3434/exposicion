@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\ProcesoDisciplinario;
+use App\Sancion;
+use App\Persona;
+use App\PersonaInhabilitada;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProcesoDisciplinario as ProcesoDisciplinarioRequest;
 use App\Http\Controllers\Controller;
@@ -64,6 +67,17 @@ class ProcesoDisciplinarioController extends Controller
         $all = $request->all();
         if ( $request->has('url_documento') ) {
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/procesosDisciplinarios');
+        }
+        if ( $request->sancion_id == Sancion::SUSPENCION ) {
+            PersonaInhabilitada::create([
+                'persona_id'    => $request->persona_id,
+                'fecha_inicio'  => $request->fecha_inicio,
+                'fecha_fin'     => $request->fecha_fin,
+            ]);
+            $persona = Persona::find($request->persona_id);
+            $persona->is_habilitado = false;
+            $persona->save();
+            //crear proceso automatico que habilite a una persona despues de la fecha fin de suspencion
         }
         $procesoDisciplinario = ProcesoDisciplinario::create($all);
         $procesoDisciplinario->persona->save(['numero_procesos_disciplinarios'=>$procesoDisciplinario->persona->numero_procesos_disciplinarios++]);

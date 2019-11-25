@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Persona;
 use App\Apelacion;
+use App\Sancion;
+use App\PersonaInhabilitada;
 use Illuminate\Http\Request;
 use App\Http\Requests\Apelacion as ApelacionRequest;
 //use App\Exports\Export;
@@ -67,6 +70,23 @@ class ApelacionController extends Controller
         //update: proceso_disciplinarios con documento_id
         $apelacion->documento->is_apelacion = 1;
         $apelacion->push();
+        //buscar si persona tiene sancion de suspencion relacionada 
+        if ($apelacion->documento->sancion_id == Sancion::SUSPENCION ) {
+            //actualizar PersonaInhabilitada, el campo fecha_fin con today
+            $today = date('Y-m-d');
+            $yesterday = date('Y-m-d' , strtotime($today.'- 1days') );
+            
+            $perInhabil = PersonaInhabilitada::where('persona_id', $apelacion->documento->persona_id )
+            ->orderBy('id', 'desc')->first();
+            
+
+            $perInhabil->fecha_fin = $yesterday;
+            $perInhabil->save();
+            //habilitar persona
+            $persona = Persona::find( $apelacion->documento->persona_id );
+            $persona->is_habilitado = true;
+            $persona->save();
+        }
         return response()->json($apelacion, 201);
     }
 

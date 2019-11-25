@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sancion extends Model
 {
+    const EXPULSION = 1;
+    const SUSPENCION = 2;
+    const MULTA = 3;
+    const AMONESTACION = 4;
     /**
      * The attributes that are fillable via mass assignment.
      *
