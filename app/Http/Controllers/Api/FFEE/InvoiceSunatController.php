@@ -202,8 +202,30 @@ class InvoiceSunatController extends Controller
             $util->writeCdr($invoice, $res->getCdrZip());
             //completar los pagos pendientes
             foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
+                //actualizar montos en la tabla personas
+                /*$extra = [
+                    'total_faf'              => 0.25 * $invoiceDetail->precio,
+                    'total_departamental'    => 0.55 * $invoiceDetail->precio,
+                    'total_consejo'          => 0.20 * $invoiceDetail->precio
+                ];*/
+                $persona = $invoiceDetail->pago->persona;
+                //dd($persona);
+                $total_aportado         = $persona->total_aportado      + $invoiceDetail->precio;
+                $total_faf              = $persona->total_faf           + 0.25 * $invoiceDetail->precio;
+                $total_departamental    = $persona->total_departamental + 0.55 * $invoiceDetail->precio;
+                $total_consejo          = $persona->total_consejo       + 0.20 * $invoiceDetail->precio;
+                //$persona->save();
+
+                $invoiceDetail->pago->persona->update([
+                    'total_aportado' => $total_aportado,
+                    'total_faf' => $total_faf,
+                    'total_departamental' => $total_departamental,
+                    'total_consejo' => $total_consejo,
+                ]);
+                //$invoiceDetail->pago->persona->increment('total_aportado', $invoiceDetail->precio, $extra );
                 if (isset( $invoiceDetail->pago_id )) {
                     $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
+
 //var_dump($invoiceDetail->concepto->id);
 //var_dump(Concepto::CUOTA);
 //var_dump($invoiceDetail->concepto->pago->is_primera_cuota);
