@@ -15,4 +15,5 @@ interface PagoRepositoryInterface
     public function newOne(PagoRequest $request);
     public function updateOne(PagoRequest $request, Pago $pago);
     public function deleteOne(Pago $pago);
+    public function updateEstadoPago( $pagoId , $estadoPagoId);
 }

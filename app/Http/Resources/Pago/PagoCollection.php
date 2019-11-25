@@ -18,6 +18,8 @@ class PagoCollection extends ResourceCollection
             return [
                 'id'                => $pago->id,
 
+                'name'              => $pago->name,
+                'is_primera_cuota'  => $pago->is_primera_cuota,
                 'monto'             => $pago->monto,
                 'is_fraccion'       => $pago->is_fraccion,
                 'fecha_vencimiento' => $pago->fecha_vencimiento,

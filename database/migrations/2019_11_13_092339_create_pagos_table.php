@@ -16,8 +16,12 @@ class CreatePagosTable extends Migration
         Schema::create('pagos', function (Blueprint $table) {
             $table->bigIncrements('id');
 
+            $table->string('name',100)->nullable();
+
+            $table->boolean('is_primera_cuota');
+
             $table->decimal('monto')->default(0);
-            $table->boolean('is_fraccion');
+            $table->boolean('is_fraccion')->default(0);
             $table->date('fecha_vencimiento')->nullable();
             //$table->string('numero_fraccion')->nullable();
 

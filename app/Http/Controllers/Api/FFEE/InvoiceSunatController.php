@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\FFEE;
 
 use App\Http\Controllers\Controller;
 use App\Invoice;
+use App\Concepto;
+use App\EstadoPago;
 use App\TipoDocumentoPago;
 use Illuminate\Http\Request;
 
@@ -84,6 +86,18 @@ class InvoiceSunatController extends Controller
         if ($res->isSuccess()) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($notaCredito, $res->getCdrZip());
+            //actualizar los pagos pendientes
+            foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
+                if (isset( $invoiceDetail->pago_id )) {
+                    $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::PENDIENTE );
+                    //si el pago es primera cuota
+
+                    if ( $invoiceDetail->concepto->id == Concepto::CUOTA && $invoiceDetail->concepto->pago->is_primera_cuota == true ) {
+
+                        $invoiceDetail->concepto->pago->persona->update(['is_habilitado'=>false]);
+                    }
+                }
+            }
         } else {
             $error = [
                 'Código' => $res->getError()->getCode(),
@@ -190,8 +204,16 @@ class InvoiceSunatController extends Controller
             foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
                 if (isset( $invoiceDetail->pago_id )) {
                     $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
+//var_dump($invoiceDetail->concepto->id);
+//var_dump(Concepto::CUOTA);
+//var_dump($invoiceDetail->concepto->pago->is_primera_cuota);
+                    if ( $invoiceDetail->concepto_id == Concepto::CUOTA && $invoiceDetail->pago->is_primera_cuota == true ) {
+                        $invoiceDetail->pago->persona->update(['is_habilitado'=>1]);
+//var_dump( $invoiceDetail->pago->persona  );
+                    }
                 }
             }
+//dd("fin");
         } else {
             $error = [
                 'Código' => $res->getError()->getCode(),

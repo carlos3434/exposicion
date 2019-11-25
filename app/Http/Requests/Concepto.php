@@ -31,7 +31,9 @@ class Concepto extends FormRequest
             'codigo'            => 'required|alpha_num_spaces',
             'tipo_afecta_igv'   => 'required_if:tipo,0|in:10,11,20,30',
             'precio'            => 'required|numeric|between:0,9999',
-            'tipo'              => 'required|boolean'
+            'tipo'              => 'required|boolean',
+            'plazo_dias'        => 'numeric|between:0,99',
+            'plazo_meses'       => 'numeric|between:0,99'
         ];
     }
     public function messages()

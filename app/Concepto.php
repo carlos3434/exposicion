@@ -11,12 +11,15 @@ class Concepto extends Model
     const GRATUITA = 11;
     const EXONERADA = 20;
     const INAFECTA = 30;
+
+    const INSCRIPCION = 1;
+    const CUOTA = 2;
     /**
      * The attributes that are fillable via mass assignment.
      *
      * @var array
      */
-    protected $fillable = ['name','codigo_sunat','unidad_medida','codigo','tipo_afecta_igv','precio','tipo'];
+    protected $fillable = ['name','codigo_sunat','unidad_medida','codigo','tipo_afecta_igv','precio','tipo','plazo_dias','plazo_meses'];
 
     /**
      * Create a new Permission instance.
@@ -33,5 +36,12 @@ class Concepto extends Model
     public function scopeFilter(Builder $builder, $request)
     {
         return (new ConceptoFilter($request))->filter($builder);
+    }
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function pago()
+    {
+        return $this->hasOne('App\Pago');
     }
 }

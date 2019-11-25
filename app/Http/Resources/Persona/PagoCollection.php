@@ -24,6 +24,9 @@ class PagoCollection extends ResourceCollection
             return [
                 'id'                    => $pago->concepto->id,
                 'name'                  => $pago->concepto->name,
+                'cantidad'              => 1,
+                'is_primera_cuota'      => $pago->concepto->is_primera_cuota,
+                'name'                  => $pago->concepto->name,
                 'unidad_medida'         => $pago->concepto->unidad_medida,
                 'codigo'                => $pago->concepto->codigo,
                 'codigo_sunat'          => $pago->concepto->codigo_sunat,

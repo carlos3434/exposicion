@@ -22,6 +22,8 @@ class CreateConceptosTable extends Migration
             $table->decimal('precio')->default(0);
             $table->string('tipo_afecta_igv',5)->default(30);
             $table->boolean('tipo')->default(0);//ingreso 0, egreso 1
+            $table->string('plazo_dias',5)->default(0);
+            $table->string('plazo_meses',5)->default(0);
             $table->timestamps();
         });
     }

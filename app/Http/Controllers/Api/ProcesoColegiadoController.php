@@ -10,6 +10,8 @@ use App\Http\Resources\Persona\Persona as PersonaResource;
 use App\Http\Resources\Persona\PersonaCollection;
 use App\Http\Resources\Persona\PersonaExcelCollection;
 use App\EstadoRegistroColegiado;
+use App\EstadoPago;
+use App\Concepto;
 use App\Repositories\Interfaces\PersonaRepositoryInterface;
 
 class ProcesoColegiadoController extends Controller
@@ -95,6 +97,35 @@ class ProcesoColegiadoController extends Controller
         $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::INSCRITO ]);
         $request->merge(['is_inscripcion' => 1 ]);
         $persona->update( $request->all() );
+        //generar pago de inscripcion y primera cuota
+        $inscripcion = Concepto::find( Concepto::INSCRIPCION );
+        $today = date("Y-m-d");
+
+        $fechaVencimientoInscripcion = date('Y-m-d', strtotime($today. '+ '.$inscripcion->plazo_dias.'days'));
+        $fechaVencimientoInscripcion = date('Y-m-d', strtotime($fechaVencimientoInscripcion. '+ '.$inscripcion->plazo_meses.'months'));
+
+        $persona->pagos()->create([
+            'name' => $inscripcion->name,
+            //'is_primera_cuota' => 1,
+            'monto' => $inscripcion->precio,
+            'fecha_vencimiento' => $fechaVencimientoInscripcion,
+            'estado_pago_id' => EstadoPago::PENDIENTE,
+            'concepto_id' => $inscripcion->id
+        ] );
+
+        $cuota       = Concepto::find( Concepto::CUOTA );
+        $fechaVencimientoCuota = date('Y-m-d', strtotime($today. '+ '.$inscripcion->plazo_dias.'days'));
+        $fechaVencimientoCuota = date('Y-m-d', strtotime($fechaVencimientoCuota. '+ '.$inscripcion->plazo_meses.'months'));
+
+        $persona->pagos()->create([
+            'name' => $cuota->name,
+            'is_primera_cuota' => 1,
+            'monto' => $cuota->precio,
+            'fecha_vencimiento' => $fechaVencimientoCuota,
+            'estado_pago_id' => EstadoPago::PENDIENTE,
+            'concepto_id' => $cuota->id
+        ]);
+        
         return new PersonaResource($persona);
     }
     //2

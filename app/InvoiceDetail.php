@@ -53,4 +53,11 @@ class InvoiceDetail extends Model
     {
         return $this->belongsTo('App\Concepto');
     }
+    /**
+     * Get the Persona
+     */
+    public function pago()
+    {
+        return $this->belongsTo('App\Pago');
+    }
 }

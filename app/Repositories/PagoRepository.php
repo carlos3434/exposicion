@@ -40,7 +40,7 @@ class PagoRepository implements PagoRepositoryInterface
     {
         $pago->delete();
     }
-    public function updateToComplete( $pagoId , $estadoPagoId)
+    public function updateEstadoPago( $pagoId , $estadoPagoId)
     {
         $pago = Pago::find( $pagoId );
         $pago->estado_pago_id = $estadoPagoId;
