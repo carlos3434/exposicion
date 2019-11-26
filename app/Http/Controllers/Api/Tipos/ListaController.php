@@ -104,7 +104,7 @@ class ListaController extends Controller
     {
         $response = [
             'series' => new SerieCollection( Serie::all() ),
-            'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03'])->get() ),
+            'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03','07','08'])->get() ),
             'tipoNota' => new TipoNotaCollection( TipoNota::all() ),
             'conceptos' => new ConceptoCollection( Concepto::where('tipo', 1)->get() ),
         ];

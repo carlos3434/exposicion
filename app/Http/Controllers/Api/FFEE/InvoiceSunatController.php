@@ -36,8 +36,8 @@ class InvoiceSunatController extends Controller
         $this->pagoRepository = $pagoRepository;
 
         $this->middleware('can:SEND_BOLETAFACTURA')->only('boletaFactura');
-        $this->middleware('can:SEND_NOTADEBITO')->only('envioSunatNotaDebito');
-        $this->middleware('can:SEND_NOTADEBITO')->only('envioSunatNotaDebito');
+        $this->middleware('can:SEND_NOTACREDITO')->only('notaCredito');
+        $this->middleware('can:SEND_NOTADEBITO')->only('notaDebito');
     }
     /**
      * notaCredito
