@@ -19,6 +19,7 @@ use App\Repositories\Interfaces\UbigeoRepositoryInterface;
 use App\Repositories\Interfaces\PagoRepositoryInterface;
 
 use App\Helpers\Util;
+use App\Helpers\MonthLetter;
 
 class InvoiceSunatController extends Controller
 {
@@ -90,6 +91,8 @@ class InvoiceSunatController extends Controller
             foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
                 $persona = $invoiceDetail->pago->persona;
 
+                $numero_meses_aportado  = $persona->numero_meses_aportado  - 1;
+                $numero_meses_deuda     = $persona->numero_meses_deuda     + 1;
                 $total_aportado         = $persona->total_aportado      - $invoiceDetail->precio;
                 $total_faf              = $persona->total_faf           - 0.25 * $invoiceDetail->precio;
                 $total_departamental    = $persona->total_departamental - 0.55 * $invoiceDetail->precio;
@@ -106,9 +109,13 @@ class InvoiceSunatController extends Controller
                     $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::PENDIENTE );
                     //si el pago es primera cuota
 
-                    if ( $invoiceDetail->concepto->id == Concepto::CUOTA && $invoiceDetail->concepto->pago->is_primera_cuota == true ) {
-
-                        $invoiceDetail->concepto->pago->persona->update(['is_habilitado'=>false]);
+                    if ( $invoiceDetail->concepto->id == Concepto::CUOTA ) {
+                        if ($invoiceDetail->concepto->pago->is_primera_cuota == true) {
+                            $invoiceDetail->concepto->pago->persona->update(['is_habilitado'=>false]);
+                        }
+                        //aumentar numero de meses aportados
+                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
                     }
                 }
             }
@@ -218,27 +225,39 @@ class InvoiceSunatController extends Controller
             foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
                 //actualizar montos en la tabla personas
 
+                $mes_cuota = $invoiceDetail->pago->mes_cuota;
                 $persona = $invoiceDetail->pago->persona;
 
+                $numero_meses_aportado  = $persona->numero_meses_aportado  + 1;
+                $numero_meses_deuda     = $persona->numero_meses_deuda     - 1;
+                $ultimo_mes_pago        = $mes_cuota + 1;
                 $total_aportado         = $persona->total_aportado      + $invoiceDetail->precio;
                 $total_faf              = $persona->total_faf           + 0.25 * $invoiceDetail->precio;
                 $total_departamental    = $persona->total_departamental + 0.55 * $invoiceDetail->precio;
                 $total_consejo          = $persona->total_consejo       + 0.20 * $invoiceDetail->precio;
 
-                $invoiceDetail->pago->persona->update([
+                $personaArray = [
                     'total_aportado' => $total_aportado,
                     'total_faf' => $total_faf,
                     'total_departamental' => $total_departamental,
                     'total_consejo' => $total_consejo,
-                ]);
+                ];
 
                 if (isset( $invoiceDetail->pago_id )) {
                     $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
 
-                    if ( $invoiceDetail->concepto_id == Concepto::CUOTA && $invoiceDetail->pago->is_primera_cuota == true ) {
-                        $invoiceDetail->pago->persona->update(['is_habilitado'=>1]);
+                    if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
+                        if ( $invoiceDetail->pago->is_primera_cuota == true ) {
+                            $invoiceDetail->pago->persona->update();
+                            $personaArray = array_merge( $personaArray , ['is_habilitado'=>1]);
+                        }
+                        //aumentar numero de meses aportados
+                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
+                        $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
                     }
                 }
+                $invoiceDetail->pago->persona->update($personaArray);
             }
 
         } else {

@@ -13,6 +13,7 @@ use App\EstadoRegistroColegiado;
 use App\EstadoPago;
 use App\Concepto;
 use App\Repositories\Interfaces\PersonaRepositoryInterface;
+use App\Helpers\MonthLetter;
 
 class ProcesoColegiadoController extends Controller
 {
@@ -116,10 +117,11 @@ class ProcesoColegiadoController extends Controller
         $cuota       = Concepto::find( Concepto::CUOTA );
         $fechaVencimientoCuota = date('Y-m-d', strtotime($today. '+ '.$inscripcion->plazo_dias.'days'));
         $fechaVencimientoCuota = date('Y-m-d', strtotime($fechaVencimientoCuota. '+ '.$inscripcion->plazo_meses.'months'));
-
+        $mes_cuota = date("m", strtotime( $request->fecha_vencimiento));
         $persona->pagos()->create([
-            'name' => $cuota->name,
+            'name' => $cuota->name .' '. MonthLetter::toLetter( $mes_cuota ),
             'is_primera_cuota' => 1,
+            'mes_cuota' =>  $mes_cuota ,
             'monto' => $cuota->precio,
             'fecha_vencimiento' => $fechaVencimientoCuota,
             'estado_pago_id' => EstadoPago::PENDIENTE,

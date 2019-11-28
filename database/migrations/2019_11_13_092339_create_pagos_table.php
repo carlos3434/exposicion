@@ -17,6 +17,7 @@ class CreatePagosTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name',100)->nullable();
+            $table->string('mes_cuota',2)->nullable();// numero de mes cuota 1 - 12
 
             $table->boolean('is_primera_cuota');
 

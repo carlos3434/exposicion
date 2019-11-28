@@ -16,6 +16,7 @@ class Pago extends Model
     protected $fillable = [
         'monto',
         'name',
+        'mes_cuota',
         'is_primera_cuota',
         'fecha_vencimiento',
         'estado_pago_id',
