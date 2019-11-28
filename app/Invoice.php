@@ -18,6 +18,7 @@ class Invoice extends Model
      */
     protected $fillable = [
         'tipo_documento_pago_id',
+        'persona_id',
         'serie_id',
         'numero',
         'cliente_id',
@@ -89,6 +90,13 @@ class Invoice extends Model
     public function cliente()
     {
         return $this->belongsTo('App\Cliente');
+    }
+    /**
+     * Get the cliente
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
     }
     /**
      * Get the empresa

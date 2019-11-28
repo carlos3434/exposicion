@@ -3,42 +3,39 @@ namespace App\Helpers;
 
 class MonthLetter
 {
-    private static $NUMBERS = [
-        1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11 , 12
-    ];
 
     private static $TONUMBERS = [
-        1 =>'Enero',
-        2 =>'Febrero',
-        3 =>'Marzo',
-        4 =>'Abril',
-        5 =>'Mayo',
-        6 =>'Junio',
-        7 =>'Julio',
-        8 =>'Agosto',
-        9 =>'Septiembre',
-        10 =>'Octubre',
-        11 =>'Noviembre',
-        12 =>'Diciembre',
-        0 =>'Enero',
-        13 =>'Enero',
+        0 =>'DICIEMBRE',
+        1 =>'ENERO',
+        2 =>'FEBRERO',
+        3 =>'MARZO',
+        4 =>'ABRIL',
+        5 =>'MAYO',
+        6 =>'JUNIO',
+        7 =>'JULIO',
+        8 =>'AGOSTO',
+        9 =>'SEPTIEMBRE',
+        10 =>'OCTUBRE',
+        11 =>'NOVIEMBRE',
+        12 =>'DICIEMBRE',
+        13 =>'ENERO',
     ];
 
     private static $TOLETTERS = [
-        'Enero' => 1 ,
-        'Febrero'=> 2 ,
-        'Marzo'=> 3 ,
-        'Abril'=> 4 ,
-        'Mayo'=> 5 ,
-        'Junio'=> 6 ,
-        'Julio'=> 7 ,
-        'Agosto'=> 8 ,
-        'Septiembre'=> 9 ,
-        'Octubre'=> 10 ,
-        'Noviembre'=> 11 ,
-        'Diciembre'=> 12 ,
-        'Enero' => 0 ,
-        'Enero'=> 13 ,
+        'DICIEMBRE' => 0 ,
+        'ENERO' => 1 ,
+        'FEBRERO'=> 2 ,
+        'MARZO'=> 3 ,
+        'ABRIL'=> 4 ,
+        'MAYO'=> 5 ,
+        'JUNIO'=> 6 ,
+        'JULIO'=> 7 ,
+        'AGOSTO'=> 8 ,
+        'SEPTIEMBRE'=> 9 ,
+        'OCTUBRE'=> 10 ,
+        'NOVIEMBRE'=> 11 ,
+        'DICIEMBRE'=> 12 ,
+        'ENERO'=> 13 ,
     ];
 
     public static function toLetter($number)
@@ -46,17 +43,23 @@ class MonthLetter
         return MonthLetter::$TONUMBERS[$number];
     }
 
-    private static function toNumber($letter)
+    public static function toNumber($letter)
     {
         return MonthLetter::$TOLETTERS[$letter];
     }
 
-    private static function nextMonth($letter)
+    public static function nextMonth($number)
     {
-        return MonthLetter::toLetter( MonthLetter::toNumber($letter) + 1 );
+        if ($number > 12) {
+            return MonthLetter::toLetter(1);
+        }
+        return MonthLetter::toLetter( (int) $number + 1);
     }
-    private static function previuosMonth($letter)
+    public static function previuosMonth($number)
     {
-        return MonthLetter::toLetter( MonthLetter::toNumber($letter) - 1 );
+        if ($number < 1) {
+            return MonthLetter::toLetter(12);
+        }
+        return MonthLetter::toLetter( (int) $number - 1);
     }
 }

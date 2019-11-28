@@ -49,6 +49,12 @@ class InvoiceSunatController extends Controller
         //consulta invoice
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
 
+        if ( !($comprobantePago->tipo_documento_pago_id == 1 || $comprobantePago->tipo_documento_pago_id == 2) ) {
+            return response()->json( "no se puede generar Nota de un comprobante que no es Boleta y/o Factura", 500);
+        }
+        if ( $comprobantePago->is_nota == 1 ) {
+            //return response()->json( "El comprobante ya tiene una Nota Generado", 500);
+        }
         //crear nota de credito
         $nota = $comprobantePago->replicate();
 
@@ -61,8 +67,7 @@ class InvoiceSunatController extends Controller
         $nota->fecha_emision = date("Y-m-d");
         $nota->save();
         //actualizar el comprobante ya que se emitio una nota
-        $comprobantePago->is_nota = 1;
-        $comprobantePago->save();
+        $nota->afectado->update(['is_nota' => 1]);
 
         $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
 
@@ -78,7 +83,7 @@ class InvoiceSunatController extends Controller
             $pdf = $util->getPdf($notaCredito);
             $util->writePdf( $notaCredito , $pdf );
         } catch (Exception $e) {
-            var_dump($e);
+            return var_dump($e);
         }
         // Envio a SUNAT.
         $see = $util->getSee(SunatEndpoints::FE_BETA);
@@ -88,36 +93,76 @@ class InvoiceSunatController extends Controller
             $cdr = $res->getCdrResponse();
             $util->writeCdr($notaCredito, $res->getCdrZip());
             //actualizar los pagos pendientes
+
             foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
-                $persona = $invoiceDetail->pago->persona;
+
+                $persona = $comprobantePago->persona;
+
+                $ultimo_mes_pago  = MonthLetter::previuosMonth( MonthLetter::toNumber( $persona->ultimo_mes_pago ));
 
                 $numero_meses_aportado  = $persona->numero_meses_aportado  - 1;
                 $numero_meses_deuda     = $persona->numero_meses_deuda     + 1;
+
                 $total_aportado         = $persona->total_aportado      - $invoiceDetail->precio;
                 $total_faf              = $persona->total_faf           - 0.25 * $invoiceDetail->precio;
                 $total_departamental    = $persona->total_departamental - 0.55 * $invoiceDetail->precio;
                 $total_consejo          = $persona->total_consejo       - 0.20 * $invoiceDetail->precio;
+                $total_deuda            = $persona->total_deuda         + $invoiceDetail->precio;
+                $total_adelanto         = $persona->total_adelanto      - $invoiceDetail->precio;
+                $numero_meses_adelanto  = $persona->numero_meses_adelanto      - 1;
 
-                $invoiceDetail->pago->persona->update([
+                $personaArray = [
+                    //'total_deuda' => $total_deuda,
                     'total_aportado' => $total_aportado,
                     'total_faf' => $total_faf,
                     'total_departamental' => $total_departamental,
                     'total_consejo' => $total_consejo,
-                ]);
+                ];
 
                 if (isset( $invoiceDetail->pago_id )) {
-                    $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::PENDIENTE );
+                    //$this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::PENDIENTE );
                     //si el pago es primera cuota
 
                     if ( $invoiceDetail->concepto->id == Concepto::CUOTA ) {
                         if ($invoiceDetail->concepto->pago->is_primera_cuota == true) {
-                            $invoiceDetail->concepto->pago->persona->update(['is_habilitado'=>false]);
+                            $personaArray = array_merge($personaArray , ['is_habilitado' => false]);
                         }
                         //aumentar numero de meses aportados
                         $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
                         $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
+                        $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
+                        $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 0]);
                     }
-                }
+                    if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
+                        $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>0]);
+                    }
+                    $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
+
+                    if ( $invoiceDetail->pago->estado_pago_id == EstadoPago::ADELANTO ) {
+                        $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::ELIMINADO );
+                        //$invoiceDetail->pago->save(['estado_pago_id' => EstadoPago::ELIMINADO]);
+                    } else {
+                        $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::PENDIENTE );
+                    }
+                    // actualizar pago a elimnado
+
+                }/* else {
+                    //eliminar pagos relacionados
+
+                    //si no tiene pago generado, quiere decir que es un adelanto
+                    if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
+                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
+                        //$personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
+                        $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
+                        $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_adelanto'    => $numero_meses_adelanto]);
+                        $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 0]);
+                    }
+                    if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
+                        $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>0]);
+                    }
+                }*/
+                $persona->update($personaArray);
             }
         } else {
             $error = [
@@ -140,6 +185,12 @@ class InvoiceSunatController extends Controller
         //consulta invoice
         $comprobantePago = $this->invoiceRepository->getById($invoiceId);
 
+        if ( !($comprobantePago->tipo_documento_pago_id == 1 || $comprobantePago->tipo_documento_pago_id == 2) ) {
+            return response()->json( "no se puede generar Nota de un comprobante que no es Boleta y/o Factura", 500);
+        }
+        if ( $comprobantePago->is_nota == 1 ) {
+            return response()->json( "El comprobante ya tiene una Nota Generado", 500);
+        }
         //crear nota de debito
         $nota = $comprobantePago->replicate();
 
@@ -152,8 +203,7 @@ class InvoiceSunatController extends Controller
         $nota->fecha_emision = date("Y-m-d");
         $nota->save();
         //actualizar el comprobante ya que se emitio una nota
-        $comprobantePago->is_nota = 1;
-        $comprobantePago->save();
+        $nota->afectado->update(['is_nota' => 1]);
 
         $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
 
@@ -169,7 +219,7 @@ class InvoiceSunatController extends Controller
             $pdf = $util->getPdf($notaCredito);
             $util->writePdf( $notaCredito , $pdf );
         } catch (Exception $e) {
-            var_dump($e);
+            return var_dump($e);
         }
         // Envio a SUNAT.
         $see = $util->getSee(SunatEndpoints::FE_BETA);
@@ -212,7 +262,7 @@ class InvoiceSunatController extends Controller
             $pdf = $util->getPdf($invoice);
             $util->writePdf( $invoice , $pdf );
         } catch (Exception $e) {
-            var_dump($e);
+            return var_dump($e);
         }
         // Envio a SUNAT.
         $see = $util->getSee(SunatEndpoints::FE_BETA);
@@ -222,21 +272,31 @@ class InvoiceSunatController extends Controller
             $cdr = $res->getCdrResponse();
             $util->writeCdr($invoice, $res->getCdrZip());
             //completar los pagos pendientes
+            
             foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
-                //actualizar montos en la tabla personas
 
-                $mes_cuota = $invoiceDetail->pago->mes_cuota;
-                $persona = $invoiceDetail->pago->persona;
+                //$persona = $invoiceDetail->pago->persona;
+                $persona = $comprobantePago->persona;
 
+                $mes_cuota = date("m", strtotime( $persona->fecha_inscripcion));
+                if (isset($persona->ultimo_mes_pago)) {
+                    $ultimo_mes_pago  = MonthLetter::nextMonth( MonthLetter::toNumber( $persona->ultimo_mes_pago ));
+                } else {
+                    $ultimo_mes_pago = MonthLetter::toLetter( $mes_cuota );
+                }
                 $numero_meses_aportado  = $persona->numero_meses_aportado  + 1;
                 $numero_meses_deuda     = $persona->numero_meses_deuda     - 1;
-                $ultimo_mes_pago        = $mes_cuota + 1;
+                //$ultimo_mes_pago        = MonthLetter::toLetter( (int) $mes_cuota ) ;
                 $total_aportado         = $persona->total_aportado      + $invoiceDetail->precio;
                 $total_faf              = $persona->total_faf           + 0.25 * $invoiceDetail->precio;
                 $total_departamental    = $persona->total_departamental + 0.55 * $invoiceDetail->precio;
                 $total_consejo          = $persona->total_consejo       + 0.20 * $invoiceDetail->precio;
+                $total_deuda            = $persona->total_deuda         - $invoiceDetail->precio;
+                $total_adelanto         = $persona->total_adelanto      + $invoiceDetail->precio;
+                $numero_meses_adelanto  = $persona->numero_meses_adelanto      + 1;
 
                 $personaArray = [
+                    //'total_deuda' => $total_deuda,
                     'total_aportado' => $total_aportado,
                     'total_faf' => $total_faf,
                     'total_departamental' => $total_departamental,
@@ -244,20 +304,48 @@ class InvoiceSunatController extends Controller
                 ];
 
                 if (isset( $invoiceDetail->pago_id )) {
+
                     $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
 
                     if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
                         if ( $invoiceDetail->pago->is_primera_cuota == true ) {
-                            $invoiceDetail->pago->persona->update();
                             $personaArray = array_merge( $personaArray , ['is_habilitado'=>1]);
                         }
                         //aumentar numero de meses aportados
                         $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
                         $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
+                        $personaArray = array_merge($personaArray , ['ultimo_mes_pago'       => $ultimo_mes_pago]);
+                        $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 1]);
+                    }
+                    if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
+                        $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
+                    }
+                    $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
+
+                } else {
+                    //generar pagos de Adelantos
+                    $pago = $persona->pagos()->create([
+                        'name' => $invoiceDetail->concepto->name ,
+                        'mes_cuota' =>  $mes_cuota ,
+                        'monto' => $invoiceDetail->concepto->precio,
+                        'fecha_vencimiento' => date("Y-m-d"),
+                        'estado_pago_id' => EstadoPago::ADELANTO,
+                        'concepto_id' => $invoiceDetail->concepto->id
+                    ]);
+                    $invoiceDetail->update( [ 'pago_id' => $pago->id ] );
+                    //si no tiene pago generado, quiere decir que es un adelanto
+                    if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
+                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
                         $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
+                        $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_adelanto'    => $numero_meses_adelanto]);
+                        $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 1]);
+                    }
+                    if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
+                        $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
                     }
                 }
-                $invoiceDetail->pago->persona->update($personaArray);
+                $persona->update($personaArray);
             }
 
         } else {

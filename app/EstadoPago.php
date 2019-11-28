@@ -11,6 +11,8 @@ class EstadoPago extends Model
     const FRACCIONADA = 3;
     //cuando un pago es fraccionado, solo se debe considerar el monto de los pagos hijos
     const EXONERADO = 4;
+    const ELIMINADO = 5;
+    const ADELANTO = 6;
     /**
      * The attributes that are fillable via mass assignment.
      *
