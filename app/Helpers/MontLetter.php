@@ -43,7 +43,7 @@ class MonthLetter
 
     public static function toLetter($number)
     {
-        return MonthLetter::$TONUMBERS[$number];
+        return MonthLetter::$TOLETTERS[$number];
     }
 
     private static function toNumber($letter)
