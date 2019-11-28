@@ -43,12 +43,12 @@ class MonthLetter
 
     public static function toLetter($number)
     {
-        return MonthLetter::$TOLETTERS[$number];
+        return MonthLetter::$TONUMBERS[$number];
     }
 
     private static function toNumber($letter)
     {
-        return MonthLetter::$TONUMBERS[$letter];
+        return MonthLetter::$TOLETTERS[$letter];
     }
 
     private static function nextMonth($letter)
