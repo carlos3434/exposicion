@@ -48,7 +48,7 @@ class MonthLetter
 
     private static function toNumber($letter)
     {
-        return MonthLetter::$NUMBERS[$letter];
+        return MonthLetter::$TONUMBERS[$letter];
     }
 
     private static function nextMonth($letter)
