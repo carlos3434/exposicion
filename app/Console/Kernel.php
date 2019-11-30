@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('verificar:licenciacolegiados')->dailyAt('03:00');
+        $schedule->command('verificar:suspencioncolegiados')->dailyAt('04:00');
         $schedule->command('verificar:pagosvencidos')->dailyAt('05:00');
         $schedule->command('registered:pagos')->monthly(1, '06:00');
     }

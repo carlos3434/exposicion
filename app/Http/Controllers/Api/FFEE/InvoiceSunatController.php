@@ -106,6 +106,8 @@ class InvoiceSunatController extends Controller
                 $numero_meses_deuda     = $persona->numero_meses_deuda     + 1;
 
                 $total_aportado         = $persona->total_aportado      - $invoiceDetail->precio;
+                $multa_pagadas          = $persona->multa_pagadas       - $invoiceDetail->precio;
+                $multa_pendiente        = $persona->multa_pendiente     + $invoiceDetail->precio;
                 $total_faf              = $persona->total_faf           - 0.25 * $invoiceDetail->precio;
                 $total_departamental    = $persona->total_departamental - 0.55 * $invoiceDetail->precio;
                 $total_consejo          = $persona->total_consejo       - 0.20 * $invoiceDetail->precio;
@@ -133,6 +135,10 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
                         $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
                         $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 0]);
+                    }
+                    if ( $invoiceDetail->concepto_id == Concepto::MULTA ) {
+                        $personaArray = array_merge($personaArray , ['multa_pendiente' => $multa_pendiente]);
+                        $personaArray = array_merge($personaArray , ['multa_pagadas' => $multa_pagadas]);
                     }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>0]);
@@ -285,6 +291,8 @@ class InvoiceSunatController extends Controller
                 $numero_meses_deuda     = $persona->numero_meses_deuda     - 1;
 
                 $total_aportado         = $persona->total_aportado      + $invoiceDetail->precio;
+                $multa_pagadas          = $persona->multa_pagadas       + $invoiceDetail->precio;
+                $multa_pendiente        = $persona->multa_pendiente     - $invoiceDetail->precio;
                 $total_faf              = $persona->total_faf           + 0.25 * $invoiceDetail->precio;
                 $total_departamental    = $persona->total_departamental + 0.55 * $invoiceDetail->precio;
                 $total_consejo          = $persona->total_consejo       + 0.20 * $invoiceDetail->precio;
@@ -313,6 +321,10 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
                         $personaArray = array_merge($personaArray , ['ultimo_mes_pago'       => $ultimo_mes_pago]);
                         $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 1]);
+                    }
+                    if ( $invoiceDetail->concepto_id == Concepto::MULTA ) {
+                        $personaArray = array_merge($personaArray , ['multa_pendiente' => $multa_pendiente]);
+                        $personaArray = array_merge($personaArray , ['multa_pagadas' => $multa_pagadas]);
                     }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);

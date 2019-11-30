@@ -27,6 +27,8 @@ class CreatePagosTable extends Migration
             $table->date('fecha_vencimiento')->nullable();
             //$table->string('numero_fraccion')->nullable();
 
+            $table->unsignedBigInteger('proceso_id')->nullable();
+
             $table->unsignedBigInteger('pago_id')->nullable();
             $table->foreign('pago_id')->references('id')->on('pagos');
 

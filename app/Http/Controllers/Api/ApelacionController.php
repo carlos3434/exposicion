@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Persona;
 use App\Apelacion;
 use App\Sancion;
+use App\Pago;
+use App\EstadoPago;
 use App\PersonaInhabilitada;
 use Illuminate\Http\Request;
 use App\Http\Requests\Apelacion as ApelacionRequest;
@@ -63,6 +65,8 @@ class ApelacionController extends Controller
     public function store(ApelacionRequest $request, FileUploader $fileUploader)
     {
         $all = $request->all();
+        $today = date('Y-m-d');
+        $yesterday = date('Y-m-d' , strtotime($today.'- 1days') );
         if ( $request->has('url_documento') ) {
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/apelaciones');
         }
@@ -70,13 +74,25 @@ class ApelacionController extends Controller
         //update: proceso_disciplinarios con documento_id
         $apelacion->documento->is_apelacion = 1;
         $apelacion->push();
+        if ($apelacion->documento->sancion_id == Sancion::EXPULSION ) {
+            $perInhabil = PersonaInhabilitada::where('fecha_fin', '3099-01-01')
+            ->where('fecha_inicio', $apelacion->documento->fecha_inicio)
+            ->where('persona_id', $apelacion->documento->persona_id )
+            ->orderBy('id', 'desc')->first();
+
+            $perInhabil->fecha_fin = $yesterday;
+            $perInhabil->save();
+
+            $persona = Persona::find( $apelacion->documento->persona_id );
+            $persona->is_habilitado = true;
+            $persona->save();
+        }
         //buscar si persona tiene sancion de suspencion relacionada 
         if ($apelacion->documento->sancion_id == Sancion::SUSPENCION ) {
             //actualizar PersonaInhabilitada, el campo fecha_fin con today
-            $today = date('Y-m-d');
-            $yesterday = date('Y-m-d' , strtotime($today.'- 1days') );
-            
-            $perInhabil = PersonaInhabilitada::where('persona_id', $apelacion->documento->persona_id )
+            $perInhabil = PersonaInhabilitada::where('fecha_inicio', $apelacion->documento->fecha_inicio)
+            ->where('fecha_fin', $apelacion->documento->fecha_fin)
+            ->where('persona_id', $apelacion->documento->persona_id )
             ->orderBy('id', 'desc')->first();
             
 
@@ -85,6 +101,16 @@ class ApelacionController extends Controller
             //habilitar persona
             $persona = Persona::find( $apelacion->documento->persona_id );
             $persona->is_habilitado = true;
+            $persona->save();
+        }
+        if ( $apelacion->documento->sancion_id == Sancion::MULTA ) {
+            //buscar pago relacionado al proceso disciplinario
+            $pago = Pago::where('proceso_id', $request->documento_id)->first();
+            $pago->estado_pago_id = EstadoPago::ELIMINADO;
+            $pago->save();
+
+            $persona = Persona::find( $apelacion->documento->persona_id );
+            $persona->multa_pendiente -= $apelacion->documento->monto_multa;
             $persona->save();
         }
         return response()->json($apelacion, 201);

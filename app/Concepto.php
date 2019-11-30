@@ -14,6 +14,7 @@ class Concepto extends Model
 
     const INSCRIPCION = 1;
     const CUOTA = 2;
+    const MULTA = 43;
     /**
      * The attributes that are fillable via mass assignment.
      *

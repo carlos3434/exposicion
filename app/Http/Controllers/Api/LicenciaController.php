@@ -62,6 +62,7 @@ class LicenciaController extends Controller
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/licencias');
         }
         $licencia = Licencia::create( $all );
+        $licencia->persona->update(['is_licencia' => true ]);
         return response()->json($licencia, 201);
     }
 

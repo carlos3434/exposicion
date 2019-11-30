@@ -34,6 +34,31 @@ return [
     */
 
     'channels' => [
+
+        'registrar_pagos' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/registrar_pagos.log'),
+            'level' => 'info',
+        ],
+
+        'verificar_pagos' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/verificar_pagos.log'),
+            'level' => 'info',
+        ],
+
+        'verificar_suspenciones' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/verificar_suspenciones.log'),
+            'level' => 'info',
+        ],
+
+        'verificar_licencias' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/verificar_licencias.log'),
+            'level' => 'info',
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['daily'],
