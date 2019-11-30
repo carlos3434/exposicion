@@ -86,6 +86,7 @@ class CreatePersonasTable extends Migration
             $table->date('fecha_firma_consejo')->nullable();
 
             $table->boolean('is_pago_colegiatura')->default(0);
+            $table->boolean('is_licencia')->default(0);
             $table->boolean('is_inscripcion')->default(0);
             $table->string('estado_solicitud')->nullable();//Aprovado / Denegado
             $table->boolean('is_solicitud')->default(0);

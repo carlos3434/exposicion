@@ -60,6 +60,7 @@ class Persona extends Model
         'is_habilitado',
         'is_juramentacion_programada',
         'is_juramentacion_validada',
+        'is_licencia',
         'numero_incidencias',
         'numero_procesos_disciplinarios',
         'is_carnet',

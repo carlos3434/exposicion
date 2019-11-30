@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\RegisteredPagos',
     ];
 
     /**
@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('verificar:pagosvencidos')->dailyAt('05:00');
+        $schedule->command('registered:pagos')->monthly(1, '06:00');
     }
 
     /**

@@ -90,6 +90,7 @@ class Persona extends JsonResource
             'is_pago_colegiatura'           => $this->is_pago_colegiatura,
             'is_inscripcion'                => $this->is_inscripcion,
             'is_solicitud'                  => $this->is_solicitud,
+            'is_licencia'                   => $this->is_licencia,
             'is_pago_cuota_mensual'         => $this->is_pago_cuota_mensual,
 
             "estado_registro"               => new EstadoRegistroColegiadoCollection($this->estadoRegistroColegiado),

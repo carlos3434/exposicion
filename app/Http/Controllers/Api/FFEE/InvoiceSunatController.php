@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\Concepto;
 use App\EstadoPago;
+use App\Pago;
+use App\PersonaInhabilitada;
 use App\TipoDocumentoPago;
 use Illuminate\Http\Request;
 
@@ -120,7 +122,6 @@ class InvoiceSunatController extends Controller
                 ];
 
                 if (isset( $invoiceDetail->pago_id )) {
-                    //$this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::PENDIENTE );
                     //si el pago es primera cuota
 
                     if ( $invoiceDetail->concepto->id == Concepto::CUOTA ) {
@@ -140,28 +141,23 @@ class InvoiceSunatController extends Controller
 
                     if ( $invoiceDetail->pago->estado_pago_id == EstadoPago::ADELANTO ) {
                         $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::ELIMINADO );
-                        //$invoiceDetail->pago->save(['estado_pago_id' => EstadoPago::ELIMINADO]);
                     } else {
                         $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::PENDIENTE );
                     }
-                    // actualizar pago a elimnado
+                }
+                if ( $persona->is_habilitado == true ) {
+                    $today = date("Y-m-d");
+                    //si no es habil buscar si tiene registros en persona inhabilitada y deudas vencidas
+                    $cantidadPagosVencidos = Pago::where('estado_pago_id',EstadoPago::PENDIENTE)
+                    ->where('fecha_vencimiento','<', $today )
+                    ->where('persona_id',$persona->id)->count();
 
-                }/* else {
-                    //eliminar pagos relacionados
-
-                    //si no tiene pago generado, quiere decir que es un adelanto
-                    if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
-                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
-                        //$personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
-                        $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
-                        $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
-                        $personaArray = array_merge($personaArray , ['numero_meses_adelanto'    => $numero_meses_adelanto]);
-                        $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 0]);
+                    if ($cantidadPagosVencidos > 0 ) {
+                        $personaArray = array_merge( $personaArray , ['is_habilitado'=> false]);
+                        //actualizar el PersonaInhabilitada
+                        PersonaInhabilitada::create(['fecha_inicio', $today,'persona_id' => $persona->id]);
                     }
-                    if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
-                        $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>0]);
-                    }
-                }*/
+                }
                 $persona->update($personaArray);
             }
         } else {
@@ -279,6 +275,7 @@ class InvoiceSunatController extends Controller
                 $persona = $comprobantePago->persona;
 
                 $mes_cuota = date("m", strtotime( $persona->fecha_inscripcion));
+                $anio_cuota = date("Y", strtotime( $persona->fecha_inscripcion));
                 if (isset($persona->ultimo_mes_pago)) {
                     $ultimo_mes_pago  = MonthLetter::nextMonth( MonthLetter::toNumber( $persona->ultimo_mes_pago ));
                 } else {
@@ -286,7 +283,7 @@ class InvoiceSunatController extends Controller
                 }
                 $numero_meses_aportado  = $persona->numero_meses_aportado  + 1;
                 $numero_meses_deuda     = $persona->numero_meses_deuda     - 1;
-                //$ultimo_mes_pago        = MonthLetter::toLetter( (int) $mes_cuota ) ;
+
                 $total_aportado         = $persona->total_aportado      + $invoiceDetail->precio;
                 $total_faf              = $persona->total_faf           + 0.25 * $invoiceDetail->precio;
                 $total_departamental    = $persona->total_departamental + 0.55 * $invoiceDetail->precio;
@@ -325,8 +322,9 @@ class InvoiceSunatController extends Controller
                 } else {
                     //generar pagos de Adelantos
                     $pago = $persona->pagos()->create([
-                        'name' => $invoiceDetail->concepto->name ,
-                        'mes_cuota' =>  $mes_cuota ,
+                        'name' => $invoiceDetail->concepto->name .' '.MonthLetter::toLetter( (int) $mes_cuota ).' '.$anio_cuota,
+                        'mes_cuota'  => $mes_cuota ,
+                        'anio_cuota' => $anio_cuota ,
                         'monto' => $invoiceDetail->concepto->precio,
                         'fecha_vencimiento' => date("Y-m-d"),
                         'estado_pago_id' => EstadoPago::ADELANTO,
@@ -343,6 +341,23 @@ class InvoiceSunatController extends Controller
                     }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
+                    }
+                }
+                if ($persona->is_habilitado == false) {
+                    $today = date("Y-m-d");
+                    //si no es habil buscar si tiene registros en persona inhabilitada y deudas vencidas
+                    $cantidadPagosVencidos = Pago::where('estado_pago_id',EstadoPago::PENDIENTE)
+                    ->where('fecha_vencimiento','<', $today )
+                    ->where('persona_id',$persona->id)->count();
+
+                    $registroInhabil = PersonaInhabilitada::where('persona_id',$persona->id)
+                    ->whereNull( 'fecha_fin' )->count();
+                    if ($cantidadPagosVencidos == 0 && $registroInhabil > 0) {
+                        $personaArray = array_merge( $personaArray , ['is_habilitado'=> true]);
+                        //actualizar el PersonaInhabilitada
+                        PersonaInhabilitada::where('persona_id', $persona->id )
+                                          ->whereNull('fecha_fin')
+                                          ->update(['fecha_fin' => $today]);
                     }
                 }
                 $persona->update($personaArray);

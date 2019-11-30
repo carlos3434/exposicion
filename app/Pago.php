@@ -17,6 +17,7 @@ class Pago extends Model
         'monto',
         'name',
         'mes_cuota',
+        'anio_cuota',
         'is_primera_cuota',
         'fecha_vencimiento',
         'estado_pago_id',

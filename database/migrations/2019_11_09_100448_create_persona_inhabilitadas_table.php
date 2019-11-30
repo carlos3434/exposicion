@@ -17,7 +17,7 @@ class CreatePersonaInhabilitadasTable extends Migration
             $table->bigIncrements('id');
 
             $table->date('fecha_inicio');
-            $table->date('fecha_fin');
+            $table->date('fecha_fin')->nullable();
 
             $table->unsignedBigInteger('persona_id')->index();
             $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');

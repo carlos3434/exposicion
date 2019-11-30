@@ -115,13 +115,15 @@ class ProcesoColegiadoController extends Controller
         ] );
 
         $cuota       = Concepto::find( Concepto::CUOTA );
-        $fechaVencimientoCuota = date('Y-m-d', strtotime($today. '+ '.$inscripcion->plazo_dias.'days'));
-        $fechaVencimientoCuota = date('Y-m-d', strtotime($fechaVencimientoCuota. '+ '.$inscripcion->plazo_meses.'months'));
+        $fechaVencimientoCuota = date('Y-m-d', strtotime($today. '+ '.$cuota->plazo_dias.'days'));
+        $fechaVencimientoCuota = date('Y-m-d', strtotime($fechaVencimientoCuota. '+ '.$cuota->plazo_meses.'months'));
         $mes_cuota = date("m", strtotime( $request->fecha_inscripcion));
+        $anio_cuota = date("Y", strtotime( $request->fecha_inscripcion));
         $persona->pagos()->create([
-            'name' => $cuota->name .' '. MonthLetter::toLetter( (int) $mes_cuota ),
+            'name' => $cuota->name .' '. MonthLetter::toLetter( (int) $mes_cuota ) .' ' . $anio_cuota,
             'is_primera_cuota'   => 1,
             'mes_cuota' =>  $mes_cuota ,
+            'anio_cuota' =>  $anio_cuota ,
             'monto' => $cuota->precio,
             'fecha_vencimiento' => $fechaVencimientoCuota,
             'estado_pago_id' => EstadoPago::PENDIENTE,
