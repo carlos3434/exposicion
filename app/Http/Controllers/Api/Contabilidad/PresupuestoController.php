@@ -12,11 +12,16 @@ use App\Http\Resources\Presupuesto\PresupuestoCollection;
 use App\Http\Resources\Presupuesto\PresupuestoExcelCollection;
 use App\Http\Resources\Presupuesto\Presupuesto as PresupuestoResource;
 
+use App\Exports\PresupuestoExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PresupuestoController extends Controller
 {
-    public function __construct()
+    private $excel;
+    //public function __construct()
+    public function __construct(PresupuestoExport $excel)
     {
+        $this->excel = $excel;
         $this->middleware('can:CREATE_PRESUPUESTO')->only(['create','store']);
         $this->middleware('can:READ_PRESUPUESTO')->only('index');
         $this->middleware('can:UPDATE_PRESUPUESTO')->only(['edit','update']);
@@ -28,7 +33,7 @@ class PresupuestoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, PresupuestoExport $export)
     {
         $query = Presupuesto::filter($request)
             ->with([
@@ -36,7 +41,48 @@ class PresupuestoController extends Controller
                 'tipoPresupuesto',
                 'concepto'
         ]);
-        if ( !empty($request->excel) || !empty($request->pdf) ){
+        if ( !empty($request->excel) ){
+            //$query->select($headings);
+            //$rows = $query->get()->toArray();
+            //$export = new PresupuestoExport();
+            $name = 'Presupuestos_'.date('m-d-Y_hia').'.xlsx';
+            $type = '.xlsx';
+            //return $excel->download($export, 'invoices.xlsx');
+            return Excel::download($export, $name. $type);
+
+            /*$type = ($request->excel) ? '.xlsx' : '.pdf';
+            
+            $query->select($headings);
+            $rows = $query->get()->toArray();
+            $export = new PresupuestoExport($rows,$headings);
+            return Excel::download($export, $name. $type);
+*/
+            /*
+            $data = array(
+                array('data1', 'data2'),
+                array('data3', 'data4')
+            );
+
+            $this->excel->create('test', function($excel) use ($data) {
+                $excel->sheet('Sheetname', function($sheet) use($data) {
+
+                    $sheet->fromArray($data);
+
+                });
+            })->export('xls');
+            */
+/*
+            Excel::create('Filename', function($excel) use($data) {
+
+                $excel->sheet('Sheetname', function($sheet) use($data) {
+
+                    $sheet->fromArray($data);
+
+                });
+
+            })->export('xls');*/
+
+/*
             if ($query->count() > 0) {
                 $result = new PresupuestoExcelCollection( $query->get() );
 
@@ -45,7 +91,7 @@ class PresupuestoController extends Controller
                     $writerType = null,
                     $headings = true
                 );
-            }
+            }*/
         }
         return new PresupuestoCollection($query->sort()->paginate());
     }

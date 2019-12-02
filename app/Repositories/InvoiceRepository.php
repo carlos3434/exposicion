@@ -20,6 +20,12 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             Invoice::filter($request)->sort()->paginate()
         );
     }
+    public function allForExcel($request)
+    {
+        return new InvoiceCollection(
+            Invoice::filter($request)->get()
+        );
+    }
     public function getOne(Invoice $invoice)
     {
         return new InvoiceResource($invoice);

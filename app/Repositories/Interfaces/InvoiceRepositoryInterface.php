@@ -10,6 +10,7 @@ use App\Http\Requests\Invoice as InvoiceRequest;
 interface InvoiceRepositoryInterface
 {
     public function all($request);
+    public function allForExcel($request);
     public function getOne(Invoice $invoice);
     public function newOne(InvoiceRequest $request);
     public function updateOne(InvoiceRequest $request, Invoice $invoice);

@@ -26,6 +26,10 @@ use App\Repositories\ResponsableRepository;
 use App\Repositories\Interfaces\ResponsableRepositoryInterface;
 use App\Repositories\PagoRepository;
 use App\Repositories\Interfaces\PagoRepositoryInterface;
+use App\Repositories\PresupuestoRepository;
+use App\Repositories\Interfaces\PresupuestoRepositoryInterface;
+use App\Repositories\ConceptoRepository;
+use App\Repositories\Interfaces\ConceptoRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -47,6 +51,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind( GastoDetailRepositoryInterface::class, GastoDetailRepository::class );
         $this->app->bind( ResponsableRepositoryInterface::class, ResponsableRepository::class );
         $this->app->bind( PagoRepositoryInterface::class, PagoRepository::class );
+        $this->app->bind( PresupuestoRepositoryInterface::class, PresupuestoRepository::class );
+        $this->app->bind( ConceptoRepositoryInterface::class, ConceptoRepository::class );
     }
 
     /**

@@ -24,6 +24,9 @@ class CreateConceptosTable extends Migration
             $table->boolean('tipo')->default(0);//ingreso 0, egreso 1
             $table->string('plazo_dias',5)->default(0);
             $table->string('plazo_meses',5)->default(0);
+
+            $table->unsignedBigInteger('tipo_concepto_id')->index();
+            $table->foreign('tipo_concepto_id')->references('id')->on('tipo_concepto')->onDelete('cascade');
             $table->timestamps();
         });
     }
