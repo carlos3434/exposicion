@@ -6,6 +6,7 @@ use App\Presupuesto;
 use App\TipoConcepto;
 use App\Pago;
 use App\EstadoPago;
+use App\GastoDetail;
 use DB;
 
 use Maatwebsite\Excel\Concerns\FromArray;
@@ -175,6 +176,21 @@ class PresupuestoExport implements FromArray, WithEvents, WithColumnFormatting
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 $anio = $this->request->anio;
+                $monto = $totalConcepto = $totalRubro = $total = 0;
+                $totalIngresos = $totalEgresos = $totalMes = [
+                    '1' => 0,
+                    '2' => 0,
+                    '3' => 0,
+                    '4' => 0,
+                    '5' => 0,
+                    '6' => 0,
+                    '7' => 0,
+                    '8' => 0,
+                    '9' => 0,
+                    '10' => 0,
+                    '11' => 0,
+                    '12' => 0,
+                ];
                 if (!isset($anio)) {
                     $anio = '2019';
                 }
@@ -214,20 +230,33 @@ class PresupuestoExport implements FromArray, WithEvents, WithColumnFormatting
                     $event->sheet->setCellValue('A'.$i, $concepto->codigo);
                     $event->sheet->setCellValue('B'.$i, $concepto->name);
                     //recorrer meses
+                    $totalConcepto = 0;
                     foreach ($this->getMeses() as $key => $mes) {
                         //recorrer ingresos en BD
                         $monto = Pago::where('estado_pago_id', EstadoPago::COMPLETADA)
                         ->where(DB::raw('YEAR(created_at)'), $anio)
                         ->where(DB::raw('MONTH(created_at)'), $key )
                         ->where('concepto_id', $concepto->id)
-                        ->sum(DB::raw('FORMAT(monto,2)'));
+                        ->where('is_fraccion', 0)
+                        ->sum('monto');
+
                         $event->sheet->setCellValue($this->getColumnaMes($key).$i, $monto );
+                        $totalConcepto += $monto;
+                        $totalMes[$key] += $monto;
                     }
+                    $event->sheet->setCellValue('O'.$i, $totalConcepto);
 
                     $i++;
                 }
                 $event->sheet->setCellValue('B'.$i, 'TOTAL RUBRO INGRESOS')->getStyle('B'.$i)->getFont()->setBold(true);
                 //totales por mes
+                $totalRubro = 0;
+                foreach ($this->getMeses() as $key => $mes) {
+                    $event->sheet->setCellValue($this->getColumnaMes($key).$i, $totalMes[$key] );
+                    $totalRubro += $totalMes[$key];
+                    $totalIngresos[$key] += $totalMes[$key];
+                }
+                $event->sheet->setCellValue('O'.$i, $totalRubro);
 
                 $i += 2;
 
@@ -236,34 +265,62 @@ class PresupuestoExport implements FromArray, WithEvents, WithColumnFormatting
                 $i++;
                 $tipoConceptos = TipoConcepto::where('id','<>','1')->get();
                 foreach ($tipoConceptos as $key => $tipoConcepto) {
+                    $monto = 0;
                     $event->sheet->setCellValue('A'.$i, $tipoConcepto->name)->getStyle('A'.$i)->getFont()->setBold(true);
                     $i++;
+                    //setear total mes a cero
+                    foreach ($this->getMeses() as $key => $mes) {
+                        $totalMes[$key] = 0;
+                    }
                     foreach ($this->conceptos->getEgresosByTipo($tipoConcepto->id) as $key => $concepto) {
                         $event->sheet->setCellValue('A'.$i, $concepto->codigo);
                         $event->sheet->setCellValue('B'.$i, $concepto->name);
-
+                        $totalConcepto = 0;
                         //recorrer meses
                         foreach ($this->getMeses() as $key => $mes) {
                             //recorrer ingresos en BD
-                            $monto = Pago::where('estado_pago_id', EstadoPago::COMPLETADA)
-                            ->where(DB::raw('YEAR(created_at)'), $anio)
+                            $monto = GastoDetail::where(DB::raw('YEAR(created_at)'), $anio)
                             ->where(DB::raw('MONTH(created_at)'), $key )
                             ->where('concepto_id', $concepto->id)
-                            ->sum(DB::raw('FORMAT(monto,2)'));
+                            ->sum('monto');
+                            $totalMes[$key] += $monto;
                             $event->sheet->setCellValue($this->getColumnaMes($key).$i, $monto );
+
+                            $totalConcepto += $monto;
                         }
+                        $event->sheet->setCellValue('O'.$i, $totalConcepto);
 
                         $i++;
                     }
+                    $totalRubro = 0;
                     $event->sheet->setCellValue('B'.$i, 'TOTAL RUBRO: ')->getStyle('B'.$i)->getFont()->setBold(true);
                     //totales por mes
+                    foreach ($this->getMeses() as $key => $mes) {
+                        $event->sheet->setCellValue($this->getColumnaMes($key).$i, $totalMes[$key] );
+                        $totalRubro += $totalMes[$key];
+                        $totalEgresos[$key] += $totalMes[$key];
+                    }
+                    $event->sheet->setCellValue('O'.$i, $totalRubro);
 
                     $i+=2;
                 }
 
                 $event->sheet->setCellValue('B'.$i, 'TOTAL EGRESOS')->getStyle('B'.$i)->getFont()->setBold(true);
+                //totales por mes
+                foreach ($this->getMeses() as $key => $mes) {
+                    $event->sheet->setCellValue($this->getColumnaMes($key).$i, 0 );
+                }
+                $event->sheet->setCellValue('O'.$i, 0);
                 $i += 2;
                 $event->sheet->setCellValue('B'.$i, 'RESULTADO NETO')->getStyle('B'.$i)->getFont()->setBold(true);
+
+                //totales por mes
+                foreach ($this->getMeses() as $key => $mes) {
+                    $total = $total + ($totalIngresos[$key] - $totalEgresos[$key]);
+                    $event->sheet->setCellValue($this->getColumnaMes($key).$i, $totalIngresos[$key] - $totalEgresos[$key] );
+                }
+                //restar ingresos con egresos
+                $event->sheet->setCellValue('O'.$i, $total);
 
             }
         ];

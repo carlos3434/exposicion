@@ -35,11 +35,11 @@ class CreateGastosTable extends Migration
             $table->string('retorno',50);
             $table->date('fecha_salida',50);
             $table->date('fecha_retorno',50);
-            $table->string('monto_recibido',10);
-            $table->string('monto_retenido',10);
-            $table->string('devolucion',10);
-            $table->string('pendiente_rendicion',10);
-            $table->string('total',10);
+            $table->string('monto_recibido',10)->default(0);
+            $table->string('monto_retenido',10)->default(0);
+            $table->string('devolucion',10)->default(0);
+            $table->string('pendiente_rendicion',10)->default(0);
+            $table->string('total',10)->default(0);
 
             $table->timestamps();
         });
