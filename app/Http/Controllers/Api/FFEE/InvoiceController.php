@@ -92,7 +92,10 @@ class InvoiceController extends Controller
         $cliente = $request->cliente;
 
         $clienteDB = $this->clienteRepository->getByDni($cliente);
-
+        $fecha_emision = date("Y-m-d");
+        $fecha_vencimiento = date("Y-m-d");
+        $request->merge([ 'fecha_emision' => $fecha_emision ]);
+        $request->merge([ 'fecha_vencimiento' => $fecha_vencimiento ]);
         $request->merge([ 'cliente_id' => $clienteDB->id ]);
         $request->merge([ 'numero' => $numero ]);
 
