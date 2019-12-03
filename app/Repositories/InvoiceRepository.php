@@ -78,6 +78,6 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     }
     public function getEstadoInvoice(Invoice $invoice)
     {
-        return isset($invoice->cdr_path)? 1 : 0;
+        return ($invoice->cdr_path!='')? true : false;
     }
 }
