@@ -1,0 +1,32 @@
+[
+   {
+      "rol": "BASIC",
+      "permission": [
+         "canCreateAccount",
+         "canReadAccount",
+         "canUpdateAccount",
+         "canDeleteAccount"
+      ]
+   },
+   {
+      "rol": "ADMIN",
+      "permission": [
+         "manageCash",
+         "canCreateAccount",
+         "canReadAccount",
+         "canUpdateAccount",
+         "canDeleteAccount",
+         
+         "canCreateIncome",
+         "canReadIncome",
+         "canUpdateIncome",
+         "canDeleteIncome",
+
+         "manageTracking",
+         "manageRealTimeTracking",
+
+         "manageAdmin",
+         "canCreateUser"
+      ]
+   }
+]

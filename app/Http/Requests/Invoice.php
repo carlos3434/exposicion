@@ -47,10 +47,10 @@ class Invoice extends FormRequest
             'cliente.tipo_documento_identidad_id'       => 'required|integer|tipo_documento_identidad',
             'cliente.numero_documento_identidad'        => 'required|integer|numero_documento_identidad',
             'cliente.razon_social'                      => 'required|string',
-            'cliente.direccion'                         => 'string',
-            'cliente.telefono'                          => 'string',
-            'cliente.celular'                           => 'string',
-            'cliente.email'                             => 'email',
+            'cliente.direccion'                         => 'required|string',
+            'cliente.telefono'                          => 'nullable|string',
+            'cliente.celular'                           => 'nullable|string',
+            'cliente.email'                             => 'nullable|email',
         ];
         if ($this->request->has('invoiceDetail')) {
             foreach($this->request->get('invoiceDetail') as $key => $val)
