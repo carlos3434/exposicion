@@ -126,7 +126,7 @@ final class Util
                 $item->setDescuentos([(
                     new Charge())
                     ->setCodTipo('00')
-                    ->setFactor( $invoiceDetail->descuento_linea / $montoBase )
+                    ->setFactor( round($invoiceDetail->descuento_linea / $montoBase,4) )
                     ->setMonto( $invoiceDetail->descuento_linea )
                     ->setMontoBase( $montoBase )
                 ]);
@@ -202,7 +202,7 @@ final class Util
                 $item->setDescuentos([(
                     new Charge())
                     ->setCodTipo('00')
-                    ->setFactor( $invoiceDetail->descuento_linea / $montoBase )
+                    ->setFactor( round($invoiceDetail->descuento_linea / $montoBase,4) )
                     ->setMonto( $invoiceDetail->descuento_linea )
                     ->setMontoBase( $montoBase )
                 ]);
@@ -276,7 +276,7 @@ final class Util
                 $item->setDescuentos([(
                     new Charge())
                     ->setCodTipo('00')
-                    ->setFactor( $invoiceDetail->descuento_linea / $montoBase )
+                    ->setFactor( round($invoiceDetail->descuento_linea / $montoBase,4) )
                     ->setMonto( $invoiceDetail->descuento_linea )
                     ->setMontoBase( $montoBase )
                 ]);
