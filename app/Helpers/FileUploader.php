@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Helpers;
-
+//UploadFile
 class FileUploader
 {
     /** @var Storage */
@@ -29,5 +29,11 @@ class FileUploader
         $fileName = time().'.'.$file->getClientOriginalExtension();
         $this->storage::put('uploads/'.$fileFolder.'/'.$fileName, $this->fileManager::get($file), 'public');
         return $fileName;
+    }
+    public function uploadStorage($file, $fileFolder, $fileName )
+    {
+        $this->storage::put('uploads/'.$fileFolder.'/'.$fileName,  $file, 'public');
+        return $fileName;
+        //$this->storage::disk('tenant')->put('uploads/'.$fileFolder.'/'.$filename, $file_content);
     }
 }

@@ -105,6 +105,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('presupuestos','Api\Contabilidad\PresupuestoController');
         Route::apiResource('cajaChica','Api\Contabilidad\CajaChicaController');
 
+        Route::get('persona/perfil/{personaId}','Api\PersonaController@perfil');
         Route::post('sunat/envio/{invoiceId}','Api\FFEE\InvoiceSunatController@boletaFactura');
         Route::post('sunat/notacredito','Api\FFEE\InvoiceSunatController@notaCredito');
         Route::post('sunat/notadebito','Api\FFEE\InvoiceSunatController@notaDebito');

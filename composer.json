@@ -28,7 +28,8 @@
         "laravelcollective/html": "^5.8",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpspreadsheet": "^1.10",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "mpdf/mpdf": "^7.1"
     },
     "require-dev": {
         "greenter/data": "^3.0",

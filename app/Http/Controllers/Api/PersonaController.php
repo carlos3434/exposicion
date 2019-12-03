@@ -16,6 +16,7 @@ use App\Http\Resources\Persona\PersonaCollection;
 use App\Http\Resources\Persona\PersonaExcelCollection;
 
 use App\Helpers\FileUploader;
+use mikehaertl\wkhtmlto\Pdf;
 
 class PersonaController extends Controller
 {
@@ -87,6 +88,56 @@ class PersonaController extends Controller
         $persona = Persona::create( $all );
 
         return response()->json($persona, 201);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Persona  $persona
+     * @return \Illuminate\Http\Response
+     */
+    public function perfil( $personaId , FileUploader $fileUploader)
+    {
+        $persona = Persona::find($personaId);
+        if (!$persona ) {
+            return response()->json('Persona no registrada', 500);
+        }
+        $persona = new PersonaResource($persona);
+
+        $html = view('pdf.persona.perfil', compact('persona') )->render();
+        $fileUploader->uploadStorage($html, 'files_personas', $persona->id.'.html');
+        $file_path_pdf  = storage_path('app/uploads/files_personas/'.$persona->id.'.pdf');
+        $file_path_html = storage_path('app/uploads/files_personas/'.$persona->id.'.html');
+
+        $tmpFolder = base_path() . '/storage/tmpJuan/';
+        $pdf = new Pdf();
+        $pdf->setOptions([
+            'margin-top'    => 0,
+            'margin-right'  => 0,
+            'margin-bottom' => 0,
+            'margin-left'   => 0,
+
+            'no-outline',
+            'encoding' => 'UTF-8',
+            //'orientation' => 'Landscape',
+            'orientation' => 'Portrait',
+            'page-width'     => '216mm',
+            'page-height'     => '279mm',
+            //'page-width' => '401cm',
+            //'page-height' => '29.7cm',
+            'user-style-sheet' => 'css/style_perfil.css',
+            //'enable-javascript' => true , no permitido
+        ]);
+        $pdf->addPage( $file_path_html );
+
+        if (!$pdf->saveAs( $file_path_pdf )) {
+            // an error has occurred notify the user
+            //echo $pdf->getError();
+            //die;
+            return response()->json($pdf->getError(), 500);
+        } else {
+            return response()->file( $file_path_pdf );
+        }
     }
 
     /**
