@@ -10,7 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/',function () {
+    View::addExtension('html','php');
+    return View::make('index');
+});
 Route::get('greenter/test','GreenterExampleController@test');
 Route::get('greenter/envio','GreenterExampleController@envio');
 Route::get('greenter/factura/{numero}','GreenterExampleController@factura');
@@ -21,10 +24,10 @@ Route::get('greenter/resumen','GreenterExampleController@resumen');
 Route::get('/peruconsult/dni/{dni}', 'PeruConsultController@dni');
 Route::get('/peruconsult/ruc/{ruc}', 'PeruConsultController@ruc');
 Route::get('/peruconsult/sol/{ruc}/{u}', 'PeruConsultController@sol');
-
+/*
 Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 Route::resource('shares', 'ShareController');
 
