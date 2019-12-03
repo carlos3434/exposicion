@@ -31,7 +31,7 @@ class Pago extends FormRequest
             'is_fraccion'         => 'required|boolean',
             'fecha_vencimiento'   => 'required|date_format:Y-m-d',
             'estado_pago_id'      => 'required|exists:estado_pagos,id',
-            'concepto_id'         => 'required|exists:conceptos,id',
+            //'concepto_id'         => 'required_if:pago_id|exists:conceptos,id',
             'persona_id'          => 'required|exists:personas,id',
             'pago_id'             => 'required_if:is_fraccion,1|exists:pagos,id',
             //'clave' => 'required|exists:calendarizaciones,clave'
