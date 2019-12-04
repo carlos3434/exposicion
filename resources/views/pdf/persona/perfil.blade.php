@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <td width="18%">
-                    <img class="current"  alt="">
+                    <img class="current" src="" alt="">
                 </td>
                 <td width="80%" colspan="3" style="padding-left: 20px;">
                     <div>

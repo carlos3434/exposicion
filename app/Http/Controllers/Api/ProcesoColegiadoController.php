@@ -97,7 +97,7 @@ class ProcesoColegiadoController extends Controller
         $persona = Persona::find($request->persona_id);
         $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::INSCRITO ]);
         $request->merge(['is_inscripcion' => 1 ]);
-
+/*
         //generar pago de inscripcion y primera cuota
         $inscripcion = Concepto::find( Concepto::INSCRIPCION );
         $today = date("Y-m-d");
@@ -132,6 +132,7 @@ class ProcesoColegiadoController extends Controller
 
         $request->merge(['total_deuda' => $cuota->precio + $inscripcion->precio ]);
         $request->merge(['numero_meses_deuda' => 1 ]);
+        */
         $persona->update( $request->all() );
         return new PersonaResource($persona);
     }
@@ -201,6 +202,8 @@ class ProcesoColegiadoController extends Controller
         $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::JURAMENTACION_VALIDADA ]);
         $request->merge(['is_juramentacion_validada' => 1 ]);
         $persona->update( $request->all() );
+        //si ha realizado los pagos Habilitar a la persona
+        
         return new PersonaResource($persona);
     }
 

@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
          $this->call(TipoIncidenteTableSeeder::class);
          $this->call(TipoProcesoDisciplinarioTableSeeder::class);
          $this->call(UniversidadTableSeeder::class);
+         $this->call(SancionsTableSeeder::class);
     }
 }

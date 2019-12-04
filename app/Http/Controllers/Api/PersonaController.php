@@ -1,10 +1,12 @@
 <?php
 namespace App\Http\Controllers\Api;
 use App\Persona;
+use App\Concepto;
+use App\EstadoPago;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Persona as PersonaRequest;
-
+use App\Helpers\MonthLetter;
 use Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -85,7 +87,46 @@ class PersonaController extends Controller
             $all['url_foto'] = $fileUploader->upload( $request->file('url_foto'), 'photos' );
         }*/
 
+        $inscripcion = Concepto::find( Concepto::INSCRIPCION );
+        $cuota       = Concepto::find( Concepto::CUOTA );
+
+        $all['total_deuda'] = $cuota->precio + $inscripcion->precio ;
+        $all['numero_meses_deuda'] = 1 ;
+
         $persona = Persona::create( $all );
+
+
+        //generar pago de inscripcion y primera cuota
+
+        $today = date("Y-m-d");
+
+        $fechaVencimientoInscripcion = date('Y-m-d', strtotime($today. '+ '.$inscripcion->plazo_dias.'days'));
+        $fechaVencimientoInscripcion = date('Y-m-d', strtotime($fechaVencimientoInscripcion. '+ '.$inscripcion->plazo_meses.'months'));
+
+        $persona->pagos()->create([
+            'name' => $inscripcion->name,
+            //'is_primera_cuota' => 1,
+            'monto' => $inscripcion->precio,
+            'fecha_vencimiento' => $fechaVencimientoInscripcion,
+            'estado_pago_id' => EstadoPago::PENDIENTE,
+            'concepto_id' => $inscripcion->id
+        ] );
+
+
+        $fechaVencimientoCuota = date('Y-m-d', strtotime($today. '+ '.$cuota->plazo_dias.'days'));
+        $fechaVencimientoCuota = date('Y-m-d', strtotime($fechaVencimientoCuota. '+ '.$cuota->plazo_meses.'months'));
+        $mes_cuota = date("m", strtotime( $today ));
+        $anio_cuota = date("Y", strtotime( $today ));
+        $persona->pagos()->create([
+            'name' => $cuota->name .' '. MonthLetter::toLetter( (int) $mes_cuota ) .' ' . $anio_cuota,
+            'is_primera_cuota'   => 1,
+            'mes_cuota' =>  $mes_cuota ,
+            'anio_cuota' =>  $anio_cuota ,
+            'monto' => $cuota->precio,
+            'fecha_vencimiento' => $fechaVencimientoCuota,
+            'estado_pago_id' => EstadoPago::PENDIENTE,
+            'concepto_id' => $cuota->id
+        ]);
 
         return response()->json($persona, 201);
     }
@@ -121,11 +162,11 @@ class PersonaController extends Controller
             'encoding' => 'UTF-8',
             //'orientation' => 'Landscape',
             'orientation' => 'Portrait',
-            'page-width'     => '216mm',
-            'page-height'     => '279mm',
+            //'page-width'     => '216mm',
+            //'page-height'     => '279mm',
             //'page-width' => '401cm',
             //'page-height' => '29.7cm',
-            'user-style-sheet' => 'css/style_perfil.css',
+            //'user-style-sheet' => 'css/style_perfil.css',
             //'enable-javascript' => true , no permitido
         ]);
         $pdf->addPage( $file_path_html );

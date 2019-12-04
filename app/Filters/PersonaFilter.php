@@ -11,7 +11,7 @@ class PersonaFilter extends AbstractFilter
         'full_name'                         => Persona\FullNameFilter::class,
         'nombres'                           => Persona\NombresFilter::class,
         'departamento_colegiado_id'         => Persona\DepartamentoColegiadoFilter::class, //nombre del campo en el request
-        'tipo_documento_identidad_id'       => Persona\TipoDocumentoIdentidadFilter::class,
+        //'tipo_documento_identidad_id'       => Persona\TipoDocumentoIdentidadFilter::class,
         'numero_documento_identidad'        => Persona\NumeroDocumentoIdentidadFilter::class,
         'nacionalidad_id'                   => Persona\NacionalidadFilter::class,
         'estado_civil_id'                   => Persona\EstadoCivilFilter::class,

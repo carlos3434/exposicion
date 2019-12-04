@@ -313,7 +313,7 @@ class InvoiceSunatController extends Controller
                     $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
 
                     if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
-                        if ( $invoiceDetail->pago->is_primera_cuota == true ) {
+                        if ( $invoiceDetail->pago->is_primera_cuota == true && $persona->is_juramentacion_validada == 1 ) {
                             $personaArray = array_merge( $personaArray , ['is_habilitado'=>1]);
                         }
                         //aumentar numero de meses aportados
