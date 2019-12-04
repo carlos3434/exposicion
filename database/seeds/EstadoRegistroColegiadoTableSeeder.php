@@ -15,10 +15,25 @@ class EstadoRegistroColegiadoTableSeeder extends Seeder
             'name'        => 'Nuevo',
         ]);
         EstadoRegistroColegiado::create([
-            'name'        => 'Llegada en Fisico',
+            'name'        => 'Inscrito',
         ]);
         EstadoRegistroColegiado::create([
-            'name'        => 'Validado',
+            'name'        => 'Solicitud Pendiente',
+        ]);
+        EstadoRegistroColegiado::create([
+            'name'        => 'Solicitud Resuelta',
+        ]);
+        EstadoRegistroColegiado::create([
+            'name'        => 'Solicitud Validada',
+        ]);
+        EstadoRegistroColegiado::create([
+            'name'        => 'Carnet Generado',
+        ]);
+        EstadoRegistroColegiado::create([
+            'name'        => 'Programar Juramentacion',
+        ]);
+        EstadoRegistroColegiado::create([
+            'name'        => 'Validar Juramentacion',
         ]);
     }
 }

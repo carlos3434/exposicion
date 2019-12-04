@@ -13,7 +13,7 @@ class TipoDocumentoIdentidadTableSeeder extends Seeder
     {
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '0',
-            'name'          => 'Doc TRib No Dom Sin Ruc'
+            'name'          => 'Doc Trib No Dom Sin Ruc'
         ]);
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '1',
@@ -25,7 +25,7 @@ class TipoDocumentoIdentidadTableSeeder extends Seeder
         ]);
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '6',
-            'name'          => 'REgistro Unico de Contribuyentes'
+            'name'          => 'Registro Unico de Contribuyentes'
         ]);
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '7',
