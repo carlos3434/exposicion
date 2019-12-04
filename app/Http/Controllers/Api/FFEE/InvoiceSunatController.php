@@ -214,7 +214,7 @@ class InvoiceSunatController extends Controller
 
         $util->setCompany( array_merge($comprobantePago->empresa->toArray(), $ubigeo) );
         $util->setClient( $comprobantePago->cliente );
-        $notaCredito = $util->setNotaCredito( $comprobantePago );
+        $notaCredito = $util->setNotaDebito( $comprobantePago );
         $util->setEmpresa($comprobantePago->empresa);
 
         try {

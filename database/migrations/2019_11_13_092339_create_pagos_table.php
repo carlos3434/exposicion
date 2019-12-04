@@ -20,7 +20,7 @@ class CreatePagosTable extends Migration
             $table->string('mes_cuota',2)->nullable();// numero de mes cuota 1 - 12
             $table->string('anio_cuota',4)->nullable();// numero de mes cuota 1 - 12
 
-            $table->boolean('is_primera_cuota');
+            $table->boolean('is_primera_cuota')->nullable();
 
             $table->decimal('monto')->default(0);
             $table->boolean('is_fraccion')->default(0);

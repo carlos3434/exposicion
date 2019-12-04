@@ -41,13 +41,16 @@ class CreateInvoicesTable extends Migration
             $table->decimal('monto_gravada')->default(0);
             $table->decimal('monto_gratuito')->default(0);
             $table->decimal('igv_total')->default(0);
-            //$table->decimal('monto_total')->default(0);
+            $table->decimal('monto_total')->default(0);
             $table->decimal('valor_venta')->default(0);
             $table->decimal('monto_importe_total_venta')->default(0);
 
             $table->unsignedBigInteger('empresa_id')->index();
             $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade');
 
+            $table->string('xml_path',100)->default('');
+            $table->string('pdf_path',100)->default('');
+            $table->string('cdr_path',100)->default('');
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->unsignedBigInteger('tipo_nota_id')->nullable();//catalogo SUNAT
             $table->string('motivo',100)->nullable();

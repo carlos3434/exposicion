@@ -17,6 +17,7 @@ class CreateTipoDocumentoPagosTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('codigo_sunat');
+            $table->string('prefijo',4)->nullable();
             $table->timestamps();
         });
     }
