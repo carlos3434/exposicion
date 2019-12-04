@@ -109,7 +109,7 @@ class ProcesoDisciplinarioController extends Controller
                 'estado_pago_id' => EstadoPago::PENDIENTE,
                 'concepto_id' => $concepto->id,
                 'persona_id' => $request->persona_id,
-                'name' => ''.$request->descripcion,
+                'name' => ''.$request->descripcion .' - F. V.' .$fechaVencimiento,
                 'proceso_id' => $procesoDisciplinario->id,
             ]);
             $persona = Persona::find($request->persona_id);

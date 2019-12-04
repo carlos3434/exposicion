@@ -11,6 +11,7 @@ use App\Http\Resources\Persona\PersonaCollection;
 use App\Http\Resources\Persona\PersonaExcelCollection;
 use App\EstadoRegistroColegiado;
 use App\EstadoPago;
+use App\Pago;
 use App\Concepto;
 use App\Repositories\Interfaces\PersonaRepositoryInterface;
 use App\Helpers\MonthLetter;
@@ -97,42 +98,6 @@ class ProcesoColegiadoController extends Controller
         $persona = Persona::find($request->persona_id);
         $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::INSCRITO ]);
         $request->merge(['is_inscripcion' => 1 ]);
-/*
-        //generar pago de inscripcion y primera cuota
-        $inscripcion = Concepto::find( Concepto::INSCRIPCION );
-        $today = date("Y-m-d");
-
-        $fechaVencimientoInscripcion = date('Y-m-d', strtotime($today. '+ '.$inscripcion->plazo_dias.'days'));
-        $fechaVencimientoInscripcion = date('Y-m-d', strtotime($fechaVencimientoInscripcion. '+ '.$inscripcion->plazo_meses.'months'));
-
-        $persona->pagos()->create([
-            'name' => $inscripcion->name,
-            //'is_primera_cuota' => 1,
-            'monto' => $inscripcion->precio,
-            'fecha_vencimiento' => $fechaVencimientoInscripcion,
-            'estado_pago_id' => EstadoPago::PENDIENTE,
-            'concepto_id' => $inscripcion->id
-        ] );
-
-        $cuota       = Concepto::find( Concepto::CUOTA );
-        $fechaVencimientoCuota = date('Y-m-d', strtotime($today. '+ '.$cuota->plazo_dias.'days'));
-        $fechaVencimientoCuota = date('Y-m-d', strtotime($fechaVencimientoCuota. '+ '.$cuota->plazo_meses.'months'));
-        $mes_cuota = date("m", strtotime( $request->fecha_inscripcion));
-        $anio_cuota = date("Y", strtotime( $request->fecha_inscripcion));
-        $persona->pagos()->create([
-            'name' => $cuota->name .' '. MonthLetter::toLetter( (int) $mes_cuota ) .' ' . $anio_cuota,
-            'is_primera_cuota'   => 1,
-            'mes_cuota' =>  $mes_cuota ,
-            'anio_cuota' =>  $anio_cuota ,
-            'monto' => $cuota->precio,
-            'fecha_vencimiento' => $fechaVencimientoCuota,
-            'estado_pago_id' => EstadoPago::PENDIENTE,
-            'concepto_id' => $cuota->id
-        ]);
-
-        $request->merge(['total_deuda' => $cuota->precio + $inscripcion->precio ]);
-        $request->merge(['numero_meses_deuda' => 1 ]);
-        */
         $persona->update( $request->all() );
         return new PersonaResource($persona);
     }
@@ -201,9 +166,16 @@ class ProcesoColegiadoController extends Controller
         $persona = Persona::find($request->persona_id);
         $request->merge(['estado_registro_colegiado_id' => EstadoRegistroColegiado::JURAMENTACION_VALIDADA ]);
         $request->merge(['is_juramentacion_validada' => 1 ]);
-        $persona->update( $request->all() );
+
         //si ha realizado los pagos Habilitar a la persona
-        
+        $cantidaPagos = Pago::where('persona_id',$request->persona_id)
+        ->where('is_primera_cuota', 1)
+        ->where('estado_pago_id', EstadoPago::COMPLETADA)
+        ->count('id');
+        if ($cantidaPagos > 0) {
+            $request->merge(['is_habilitado' => 1 ]);
+        }
+        $persona->update( $request->all() );
         return new PersonaResource($persona);
     }
 

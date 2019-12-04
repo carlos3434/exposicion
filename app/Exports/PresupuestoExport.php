@@ -233,10 +233,13 @@ class PresupuestoExport implements FromArray, WithEvents, WithColumnFormatting
                     $totalConcepto = 0;
                     foreach ($this->getMeses() as $key => $mes) {
                         //recorrer ingresos en BD
-                        $monto = Pago::where('estado_pago_id', EstadoPago::COMPLETADA)
+                        $monto = Pago::where('concepto_id', $concepto->id)
                         ->where(DB::raw('YEAR(created_at)'), $anio)
                         ->where(DB::raw('MONTH(created_at)'), $key )
-                        ->where('concepto_id', $concepto->id)
+                        ->where(function($query) {
+                            $query->where('estado_pago_id', EstadoPago::COMPLETADA);
+                            $query->orWhere('estado_pago_id', EstadoPago::ADELANTO);
+                        })
                         ->where('is_fraccion', 0)
                         ->sum('monto');
 
