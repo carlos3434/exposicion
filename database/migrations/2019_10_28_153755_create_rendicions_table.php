@@ -27,11 +27,8 @@ class CreateRendicionsTable extends Migration
             $table->foreign('departamento_id')->references('id')->on('ubigeos')->onDelete('cascade');
 
             $table->unsignedBigInteger('concepto_cobro_id')->index();
-            $table->foreign('concepto_cobro_id')->references('id')->on('concepto_cobro')->onDelete('cascade');
-/*
-            $table->unsignedBigInteger('responsable_id')->index();
-            $table->foreign('responsable_id')->references('id')->on('responsables')->onDelete('cascade');
-*/
+            $table->foreign('concepto_cobro_id')->references('id')->on('conceptos')->onDelete('cascade');
+
             $table->integer('tipo_documento_identidad_id');
             $table->string('numero_documento_identidad',11);
 
