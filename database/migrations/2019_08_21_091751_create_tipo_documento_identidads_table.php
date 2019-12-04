@@ -28,6 +28,6 @@ class CreateTipoDocumentoIdentidadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_documento_identidads');
+        Schema::dropIfExists('tipo_documento_identidad');
     }
 }
