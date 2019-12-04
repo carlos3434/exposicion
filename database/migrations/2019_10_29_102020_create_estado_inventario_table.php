@@ -27,6 +27,6 @@ class CreateEstadoInventarioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_inventario_');
+        Schema::dropIfExists('estado_inventario');
     }
 }

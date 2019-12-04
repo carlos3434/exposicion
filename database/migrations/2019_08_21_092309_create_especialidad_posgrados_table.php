@@ -27,6 +27,6 @@ class CreateEspecialidadPosgradosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('especialidad_posgrados');
+        Schema::dropIfExists('especialidad_posgrado');
     }
 }

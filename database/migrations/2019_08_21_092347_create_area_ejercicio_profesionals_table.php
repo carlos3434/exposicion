@@ -27,6 +27,6 @@ class CreateAreaEjercicioProfesionalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('area_ejercicio_profesionals');
+        Schema::dropIfExists('area_ejercicio_profesional');
     }
 }

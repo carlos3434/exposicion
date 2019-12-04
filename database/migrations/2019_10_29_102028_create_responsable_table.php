@@ -29,6 +29,6 @@ class CreateResponsableTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('responsable');
+        Schema::dropIfExists('responsables');
     }
 }

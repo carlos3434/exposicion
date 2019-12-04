@@ -27,6 +27,6 @@ class CreateEstadoCuentaSistemasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_cuenta_sistemas');
+        Schema::dropIfExists('estado_cuenta_sistema');
     }
 }

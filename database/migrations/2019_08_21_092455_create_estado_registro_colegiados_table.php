@@ -27,6 +27,6 @@ class CreateEstadoRegistroColegiadosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_registro_colegiados');
+        Schema::dropIfExists('estado_registro_colegiado');
     }
 }
