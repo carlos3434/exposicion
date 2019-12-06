@@ -237,6 +237,7 @@ class PresupuestoExport implements FromArray, WithEvents, WithColumnFormatting
                         $monto = Pago::where('concepto_id', $concepto->id)
                         ->where(DB::raw('YEAR(created_at)'), $anio)
                         ->where(DB::raw('MONTH(created_at)'), $key )
+                        ->where('departamento_id', $departamentoId)
                         ->where(function($query) {
                             $query->where('estado_pago_id', EstadoPago::COMPLETADA);
                             $query->orWhere('estado_pago_id', EstadoPago::ADELANTO);
@@ -283,10 +284,12 @@ class PresupuestoExport implements FromArray, WithEvents, WithColumnFormatting
                         //recorrer meses
                         foreach ($this->getMeses() as $key => $mes) {
                             //recorrer ingresos en BD
-                            $monto = GastoDetail::where(DB::raw('YEAR(created_at)'), $anio)
-                            ->where(DB::raw('MONTH(created_at)'), $key )
-                            ->where('concepto_id', $concepto->id)
-                            ->sum('monto');
+                            $monto = GastoDetail::join('gastos','gasto_detail.gasto_id','=','gastos.id')
+                            ->where(DB::raw('YEAR(gasto_detail.created_at)'), $anio)
+                            ->where(DB::raw('MONTH(gasto_detail.created_at)'), $key )
+                            ->where('gastos.departamento_id', $departamentoId)
+                            ->where('gasto_detail.concepto_id', $concepto->id)
+                            ->sum('gasto_detail.monto');
                             $totalMes[$key] += $monto;
                             $event->sheet->setCellValue($this->getColumnaMes($key).$i, $monto );
 
