@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoIncidente extends Model
 {
+    const MULTAELECCIONES = 9;
     /**
      * The attributes that are fillable via mass assignment.
      *

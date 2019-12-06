@@ -176,6 +176,7 @@ class PresupuestoExport implements FromArray, WithEvents, WithColumnFormatting
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 $anio = $this->request->anio;
+                $departamentoId = $this->request->departamento_id;
                 $monto = $totalConcepto = $totalRubro = $total = 0;
                 $totalIngresos = $totalEgresos = $totalMes = [
                     '1' => 0,
@@ -198,7 +199,7 @@ class PresupuestoExport implements FromArray, WithEvents, WithColumnFormatting
                 //$objPHPExcel->getActiveSheet()->getStyle('B4')->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER_00);
 
                 $event->sheet->getDefaultRowDimension()->setRowHeight(15);
-                $event->sheet->getDefaultColumnDimension()->setWidth(12);
+                $event->sheet->getDefaultColumnDimension()->setWidth(14);
                 $event->sheet->getColumnDimension('B')->setWidth(50);
                 $event->sheet->getParent()->getDefaultStyle()->applyFromArray([
                     'font' => [

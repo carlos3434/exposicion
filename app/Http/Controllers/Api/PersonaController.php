@@ -105,7 +105,7 @@ class PersonaController extends Controller
 
         $persona->pagos()->create([
             'name' => $inscripcion->name,
-            //'is_primera_cuota' => 1,
+            'departamento_id' => $request->departamento_id,
             'monto' => $inscripcion->precio,
             'fecha_vencimiento' => $fechaVencimientoInscripcion,
             'estado_pago_id' => EstadoPago::PENDIENTE,
@@ -119,6 +119,7 @@ class PersonaController extends Controller
         $anio_cuota = date("Y", strtotime( $today ));
         $persona->pagos()->create([
             'name' => $cuota->name .' '. MonthLetter::toLetter( (int) $mes_cuota ) .' ' . $anio_cuota,
+            'departamento_id' => $request->departamento_id,
             'is_primera_cuota'   => 1,
             'mes_cuota' =>  $mes_cuota ,
             'anio_cuota' =>  $anio_cuota ,

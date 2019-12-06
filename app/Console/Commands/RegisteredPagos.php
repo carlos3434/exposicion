@@ -78,7 +78,8 @@ class RegisteredPagos extends Command
                     'monto' => $cuota->precio,
                     'fecha_vencimiento' => $fechaVencimientoCuota,
                     'estado_pago_id' => EstadoPago::PENDIENTE,
-                    'concepto_id' => $cuota->id
+                    'concepto_id' => $cuota->id,
+                    'departamento_id' => $persona->departamento_id
                 ];
                 $persona->pagos()->create($pago);
                 $creates++;

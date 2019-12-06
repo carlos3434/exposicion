@@ -41,6 +41,9 @@ class CreatePagosTable extends Migration
             $table->unsignedBigInteger('persona_id')->index();
             $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
 
+            $table->unsignedBigInteger('departamento_id')->index();
+            $table->foreign('departamento_id')->references('id')->on('ubigeos')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

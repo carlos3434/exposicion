@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Incidente;
+use App\TipoIncidente;
+use App\Concepto;
+use App\Persona;
+use App\EstadoPago;
 use Illuminate\Http\Request;
 use App\Http\Requests\Incidente as IncidenteRequest;
 use App\Http\Controllers\Controller;
@@ -59,8 +63,26 @@ class IncidenteController extends Controller
     public function store(IncidenteRequest $request, FileUploader $fileUploader)
     {
         $all = $request->all();
+        $today = date("Y-m-d");
         if ( $request->has('url_documento') ) {
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/incidentes');
+        }
+        if ($request->tipo_incidente_id == TipoIncidente::MULTAELECCIONES ) {
+            $concepto = Concepto::find(Concepto::MULTAELECCIONES);
+
+            $persona = Persona::find($request->persona_id);
+            $persona->pagos()->create([
+                'departamento_id' => $persona->departamento_id,
+                'monto' => $request->monto_multa,
+                'fecha_vencimiento' => $today,
+                'estado_pago_id' => EstadoPago::PENDIENTE,
+                'concepto_id' => $concepto->id,
+                'name' => $concepto->name.' - F. V.' .$today
+            ]);
+
+            $persona->is_habilitado = false;
+            $persona->multa_pendiente += $request->monto_multa;
+            $persona->save();
         }
         $incidente = Incidente::create( $all );
         $incidente->persona->save(['numero_incidencias'=>$incidente->persona->numero_incidencias++]);

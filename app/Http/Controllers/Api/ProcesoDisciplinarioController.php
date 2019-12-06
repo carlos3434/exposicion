@@ -73,26 +73,23 @@ class ProcesoDisciplinarioController extends Controller
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/procesosDisciplinarios');
         }
         if ( $request->sancion_id == Sancion::EXPULSION ) {
-            PersonaInhabilitada::create([
-                'persona_id'    => $request->persona_id,
+
+            $persona = Persona::find($request->persona_id);
+            $persona->personaInhabilitada()->create([
                 'fecha_inicio'  => $today,
                 'fecha_fin'     => '3099-01-01',
             ]);
-            $persona = Persona::find($request->persona_id);
             $persona->is_habilitado = false;
             $persona->save();
-            //crear proceso automatico que habilite a una persona despues de la fecha fin de suspencion
         }
         if ( $request->sancion_id == Sancion::SUSPENCION ) {
-            PersonaInhabilitada::create([
-                'persona_id'    => $request->persona_id,
+            $persona = Persona::find($request->persona_id);
+            $persona->personaInhabilitada()->create([
                 'fecha_inicio'  => $request->fecha_inicio,
                 'fecha_fin'     => $request->fecha_fin,
             ]);
-            $persona = Persona::find($request->persona_id);
             $persona->is_habilitado = false;
             $persona->save();
-            //crear proceso automatico que habilite a una persona despues de la fecha fin de suspencion
         }
 
         $procesoDisciplinario = ProcesoDisciplinario::create($all);
@@ -103,16 +100,17 @@ class ProcesoDisciplinarioController extends Controller
             $fechaVencimiento = date('Y-m-d', strtotime($today. '+ '.$concepto->plazo_dias.'days'));
             $fechaVencimiento = date('Y-m-d', strtotime($fechaVencimiento. '+ '.$concepto->plazo_meses.'months'));
 
-            Pago::create([
+            $persona = Persona::find($request->persona_id);
+            $persona->pagos()->create([
+                'departamento_id' => $persona->departamento_id,
                 'monto' => $request->monto_multa,
                 'fecha_vencimiento' => $fechaVencimiento,
                 'estado_pago_id' => EstadoPago::PENDIENTE,
                 'concepto_id' => $concepto->id,
-                'persona_id' => $request->persona_id,
                 'name' => ''.$request->descripcion .' - F. V.' .$fechaVencimiento,
                 'proceso_id' => $procesoDisciplinario->id,
             ]);
-            $persona = Persona::find($request->persona_id);
+
             $persona->multa_pendiente += $request->monto_multa;
             $persona->save();
         }

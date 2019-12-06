@@ -140,6 +140,11 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['multa_pendiente' => $multa_pendiente]);
                         $personaArray = array_merge($personaArray , ['multa_pagadas' => $multa_pagadas]);
                     }
+                    if ( $invoiceDetail->concepto_id == Concepto::MULTAELECCIONES ) {
+                        $personaArray = array_merge($personaArray , ['multa_pendiente' => $multa_pendiente]);
+                        $personaArray = array_merge($personaArray , ['multa_pagadas' => $multa_pagadas]);
+                        $personaArray = array_merge($personaArray , ['is_habilitado' => false]);
+                    }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>0]);
                     }
@@ -308,7 +313,7 @@ class InvoiceSunatController extends Controller
                     'total_consejo' => $total_consejo,
                 ];
 
-                if (isset( $invoiceDetail->pago_id )) {
+                if (isset( $invoiceDetail->pago_id )) {//si es un pago de una deuda
 
                     $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
 
@@ -326,15 +331,21 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['multa_pendiente' => $multa_pendiente]);
                         $personaArray = array_merge($personaArray , ['multa_pagadas' => $multa_pagadas]);
                     }
+                    if ( $invoiceDetail->concepto_id == Concepto::MULTAELECCIONES ) {
+                        $personaArray = array_merge($personaArray , ['multa_pendiente' => $multa_pendiente]);
+                        $personaArray = array_merge($personaArray , ['multa_pagadas' => $multa_pagadas]);
+                        $personaArray = array_merge($personaArray , ['is_habilitado' => true]);
+                    }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
                     }
                     $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
 
-                } else {
+                } else {//si es un pago adelatado
                     //generar pagos de Adelantos
                     $pago = $persona->pagos()->create([
                         'name' => $invoiceDetail->concepto->name .' '.MonthLetter::toLetter( (int) $mes_cuota ).' '.$anio_cuota,
+                        'departamento_id' => $persona->departamento_id,
                         'mes_cuota'  => $mes_cuota ,
                         'anio_cuota' => $anio_cuota ,
                         'monto' => $invoiceDetail->concepto->precio,
