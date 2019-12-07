@@ -62,9 +62,20 @@ class TransladoController extends Controller
         if ( $request->has('url_documento') ) {
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/translados');
         }
+        $persona = Persona::find($request->persona_id);
+
+        if ($persona->is_habilitado==0) {
+            return response()->json('Colegiado no se encuentra Habilitado', 412 );
+        }
+        if ($persona->total_deuda > 0) {
+            return response()->json('Colegiado tiene deuda pendiente de: S/.'.$persona->total_deuda, 412 );
+        }
+        if ($persona->multa_pendiente > 0) {
+            return response()->json('Colegiado tiene multa pendiente de: S/.'.$persona->multa_pendiente, 412 );
+        }
         $translado = Translado::create( $all );
         if ($translado) {
-            $persona = Persona::find($request->persona_id);
+            
             $data = ['departamento_colegiado_id' => $request->destino_departamento_id];
             $persona->update( $data );
         }

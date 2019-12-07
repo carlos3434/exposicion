@@ -115,14 +115,6 @@ class InvoiceSunatController extends Controller
                 $total_adelanto         = $persona->total_adelanto      - $invoiceDetail->precio;
                 $numero_meses_adelanto  = $persona->numero_meses_adelanto      - 1;
 
-                $personaArray = [
-                    //'total_deuda' => $total_deuda,
-                    'total_aportado' => $total_aportado,
-                    'total_faf' => $total_faf,
-                    'total_departamental' => $total_departamental,
-                    'total_consejo' => $total_consejo,
-                ];
-
                 if (isset( $invoiceDetail->pago_id )) {
                     //si el pago es primera cuota
 
@@ -130,7 +122,10 @@ class InvoiceSunatController extends Controller
                         if ($invoiceDetail->concepto->pago->is_primera_cuota == true) {
                             $personaArray = array_merge($personaArray , ['is_habilitado' => false]);
                         }
-                        //aumentar numero de meses aportados
+                        $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
+                        $personaArray = array_merge($personaArray , ['total_faf' => $total_faf]);
+                        $personaArray = array_merge($personaArray , ['total_departamental' => $total_departamental]);
+                        $personaArray = array_merge($personaArray , ['total_consejo' => $total_consejo]);
                         $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
                         $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
                         $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
@@ -305,14 +300,6 @@ class InvoiceSunatController extends Controller
                 $total_adelanto         = $persona->total_adelanto      + $invoiceDetail->precio;
                 $numero_meses_adelanto  = $persona->numero_meses_adelanto      + 1;
 
-                $personaArray = [
-                    //'total_deuda' => $total_deuda,
-                    'total_aportado' => $total_aportado,
-                    'total_faf' => $total_faf,
-                    'total_departamental' => $total_departamental,
-                    'total_consejo' => $total_consejo,
-                ];
-
                 if (isset( $invoiceDetail->pago_id )) {//si es un pago de una deuda
 
                     $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
@@ -321,7 +308,11 @@ class InvoiceSunatController extends Controller
                         if ( $invoiceDetail->pago->is_primera_cuota == true && $persona->is_juramentacion_validada == 1 ) {
                             $personaArray = array_merge( $personaArray , ['is_habilitado'=>1]);
                         }
-                        //aumentar numero de meses aportados
+
+                        $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
+                        $personaArray = array_merge($personaArray , ['total_faf' => $total_faf]);
+                        $personaArray = array_merge($personaArray , ['total_departamental' => $total_departamental]);
+                        $personaArray = array_merge($personaArray , ['total_consejo' => $total_consejo]);
                         $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
                         $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
                         $personaArray = array_merge($personaArray , ['ultimo_mes_pago'       => $ultimo_mes_pago]);
