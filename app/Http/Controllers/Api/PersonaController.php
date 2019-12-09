@@ -60,7 +60,7 @@ class PersonaController extends Controller
                 'estadoCuentaSistema'
         ]);
         if ($departamentoId !== Ubigeo::PERU) {
-            $query->where('departamento_id',$departamentoId);
+            $query->where('departamento_colegiado_id',$departamentoId);
         }
         if ( !empty($request->excel) || !empty($request->pdf) ){
 
