@@ -88,7 +88,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::FE_BETA);
+        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
@@ -227,7 +227,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::FE_BETA);
+        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
@@ -270,7 +270,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::FE_BETA);
+        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
         $res = $see->send($invoice);
         $util->writeXml($invoice, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
