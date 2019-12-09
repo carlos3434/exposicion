@@ -58,6 +58,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('personas','Api\PersonaController');
 
         Route::get('colegiados','Api\ColegiadoController@index');
+        Route::get('ingresos','Api\IngresosController@reporte');
         Route::get('personasPagos','Api\ColegiadoController@personasPagos');
 
         //Tipos

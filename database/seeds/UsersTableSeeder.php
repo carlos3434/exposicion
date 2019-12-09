@@ -193,6 +193,10 @@ class UsersTableSeeder extends Seeder
             'email'             => 'lima@gmail.com',
             'password'          => bcrypt(12345678)
         ]);
+
+        $user->roles()->sync( [4] );
+        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+
         //Loreto
         $user = User::create([
             'name'              => 'Loreto',
