@@ -221,8 +221,7 @@ class PersonaController extends Controller
 
         $all = $request->all();
         if ( $request->has('url_cv') ) {
-            $urlCV = $imageUploader->upload( $request->file('url_cv'), 'cvs');
-            $all['url_cv'] = $urlCV;
+            $all['url_cv'] = $fileUploader->upload( $request->file('url_cv'), 'cvs' );
         }
 
         $persona->update( $all );
