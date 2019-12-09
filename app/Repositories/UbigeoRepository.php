@@ -25,9 +25,9 @@ class UbigeoRepository implements UbigeoRepositoryInterface
             'prov.id as provincia_id'
         )
         ->where('prov.id', $provinciaId) // 3967
-        ->where('prov.level', 4)
-        ->where('dis.level', 3)
-        ->where('dep.level', 2)
+        ->where('prov.level', 3)
+        ->where('dis.level', 2)
+        ->where('dep.level', 1)
         ->first();
     }
 }
