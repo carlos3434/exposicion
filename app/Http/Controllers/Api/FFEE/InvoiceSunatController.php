@@ -88,7 +88,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::FE_BETA);
+        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
@@ -99,6 +99,7 @@ class InvoiceSunatController extends Controller
             foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
 
                 $persona = $comprobantePago->persona;
+                $personaArray = $persona->toArray();
 
                 $ultimo_mes_pago  = MonthLetter::previuosMonth( MonthLetter::toNumber( $persona->ultimo_mes_pago ));
 
@@ -144,12 +145,11 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>0]);
                     }
                     $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
-
+                    $estadoPago = EstadoPago::PENDIENTE;
                     if ( $invoiceDetail->pago->estado_pago_id == EstadoPago::ADELANTO ) {
-                        $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::ELIMINADO );
-                    } else {
-                        $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::PENDIENTE );
+                        $estadoPago = EstadoPago::ELIMINADO;
                     }
+                    $invoiceDetail->pago->update([ 'estado_pago_id' => $estadoPago ]);
                 }
                 if ( $persona->is_habilitado == true ) {
                     $today = date("Y-m-d");
@@ -161,7 +161,10 @@ class InvoiceSunatController extends Controller
                     if ($cantidadPagosVencidos > 0 ) {
                         $personaArray = array_merge( $personaArray , ['is_habilitado'=> false]);
                         //actualizar el PersonaInhabilitada
-                        PersonaInhabilitada::create(['fecha_inicio', $today,'persona_id' => $persona->id]);
+                        $persona->personaInhabilitada()->create([
+                            'fecha_inicio', $today
+                        ]);
+                        //PersonaInhabilitada::create(['fecha_inicio', $today,'persona_id' => $persona->id]);
                     }
                 }
                 $persona->update($personaArray);
@@ -224,7 +227,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::FE_BETA);
+        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
@@ -267,18 +270,17 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::FE_BETA);
+        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
         $res = $see->send($invoice);
         $util->writeXml($invoice, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($invoice, $res->getCdrZip());
-            //completar los pagos pendientes
-            
+
             foreach ($comprobantePago->invoiceDetail as $key => $invoiceDetail) {
 
-                //$persona = $invoiceDetail->pago->persona;
                 $persona = $comprobantePago->persona;
+                $personaArray = $persona->toArray();
 
                 $mes_cuota = date("m", strtotime( $persona->fecha_inscripcion));
                 $anio_cuota = date("Y", strtotime( $persona->fecha_inscripcion));
@@ -302,8 +304,11 @@ class InvoiceSunatController extends Controller
 
                 if (isset( $invoiceDetail->pago_id )) {//si es un pago de una deuda
 
-                    $this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
-
+                    //$this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
+                    $invoiceDetail->pago->update([
+                        'estado_pago_id' => EstadoPago::COMPLETADA,
+                        'monto' => $invoiceDetail->precio
+                    ]);
                     if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
                         if ( $invoiceDetail->pago->is_primera_cuota == true && $persona->is_juramentacion_validada == 1 ) {
                             $personaArray = array_merge( $personaArray , ['is_habilitado'=>1]);

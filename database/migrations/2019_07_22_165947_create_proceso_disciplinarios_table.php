@@ -18,8 +18,8 @@ class CreateProcesoDisciplinariosTable extends Migration
             $table->date('fecha_registro');
             $table->text('descripcion')->nullable();
             $table->string('documento');
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_fin')->nullable();
             $table->string('monto_multa',5);
 
             $table->integer('persona_id');

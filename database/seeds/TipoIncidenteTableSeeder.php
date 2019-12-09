@@ -36,5 +36,8 @@ class TipoIncidenteTableSeeder extends Seeder
         TipoIncidente::create([
             'name'          => 'Donaciones'
         ]);
+        TipoIncidente::create([
+            'name'          => 'Multa por Elecciones'
+        ]);
     }
 }
