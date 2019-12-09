@@ -25,6 +25,7 @@ class Invoice extends FormRequest
     public function rules()
     {
         $rules = [
+            'persona_id'                                => 'required|exists:personas,id',
             'tipo_documento_pago_id'                    => 'required|exists:tipo_documento_pago,id',
             'serie_id'                                  => 'required|exists:series,id',
             'numero'                                    => 'string',

@@ -11,7 +11,7 @@ class TipoDocumentoIdentidad extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','codigo_sunat'];
+    protected $fillable = ['name','codigo_sunat','alias'];
     const SINRUC = 1;
     const DNI = 2;
     const CARNET_EXTRANJERIA = 3;

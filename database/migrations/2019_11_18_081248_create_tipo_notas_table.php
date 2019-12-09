@@ -16,7 +16,7 @@ class CreateTipoNotasTable extends Migration
         Schema::create('tipo_notas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('codigo');
+            $table->string('codigo')->nullable();
             $table->string('codigo_sunat')->nullable();
             $table->boolean('tipo')->default(0);//1: credito, 2 debito
             $table->timestamps();

@@ -13,11 +13,13 @@ class TipoDocumentoPagoTableSeeder extends Seeder
     {
         TipoDocumentoPago::create([
             'codigo_sunat'  => '01',
-            'name'          => 'Factura'
+            'name'          => 'Factura',
+            'prefijo'       => 'F'
         ]);
         TipoDocumentoPago::create([
             'codigo_sunat'  => '03',
-            'name'          => 'Boleta de Venta'
+            'name'          => 'Boleta de Venta',
+            'prefijo'       => 'B'
         ]);
         TipoDocumentoPago::create([
             'codigo_sunat'  => '07',

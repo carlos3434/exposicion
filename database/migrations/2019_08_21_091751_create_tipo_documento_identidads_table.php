@@ -16,6 +16,7 @@ class CreateTipoDocumentoIdentidadsTable extends Migration
         Schema::create('tipo_documento_identidad', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('alias',50);
             $table->string('codigo_sunat');
             $table->timestamps();
         });

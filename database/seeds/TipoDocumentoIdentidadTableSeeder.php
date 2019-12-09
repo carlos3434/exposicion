@@ -13,27 +13,33 @@ class TipoDocumentoIdentidadTableSeeder extends Seeder
     {
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '0',
-            'name'          => 'Doc Trib No Dom Sin Ruc'
+            'name'          => 'Doc Trib No Dom Sin Ruc',
+            'alias'         => 'Sin RUC'
         ]);
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '1',
-            'name'          => 'Documento Nacional de Identidad'
+            'name'          => 'Documento Nacional de Identidad',
+            'alias'         => 'DNI'
         ]);
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '4',
-            'name'          => 'Carnet de Extranjeria'
+            'name'          => 'Carnet de Extranjeria',
+            'alias'         => 'Carnet Extranjeria'
         ]);
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '6',
-            'name'          => 'Registro Unico de Contribuyentes'
+            'name'          => 'Registro Unico de Contribuyentes',
+            'alias'         => 'RUC'
         ]);
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => '7',
-            'name'          => 'Pasaporte'
+            'name'          => 'Pasaporte',
+            'alias'         => 'Pasaporte'
         ]);
         TipoDocumentoIdentidad::create([
             'codigo_sunat'  => 'A',
-            'name'          => 'Cedula diplomatica de identidad'
+            'name'          => 'Cedula diplomatica de identidad',
+            'alias'         => 'CEDULA'
         ]);
     }
 }

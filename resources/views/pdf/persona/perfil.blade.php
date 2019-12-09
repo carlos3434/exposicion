@@ -35,42 +35,45 @@
             </tr>
             <tr>
                 <td width="18%">
-                    <img class="current" src="" alt="">
+                    <img class="current" src="{{URL::to('/photos/'.$persona->url_foto)}}" alt="">
                 </td>
                 <td width="80%" colspan="3" style="padding-left: 20px;">
                     <div>
                         <div>
-                            <h3>Carhuaz Arenas Luis Alberto
-                                <span class="active">Habilitado</span>
-                                <!-- <span class="inactive">No habilitado</span> -->
+                            <h3>{{$persona->fullName}}
+                                @if ( $persona->is_habilitado )
+                                    <span class="active">Habilitado</span>
+                                @else
+                                    <span class="inactive">No habilitado</span>
+                                @endif
                             </h3>
                         </div>
                         <div class="grid grid-3">
                             <div>
                                 <label>Fecha de Inscripción:</label>
-                                <p><b>12/10/2019</b></p>
+                                <p><b>{{$persona->fecha_inscripcion}}</b></p>
                             </div>
                             <div>
                                 <label>Fecha de colegiatura:</label>
-                                <p><b>29/10/2019</b></p>
+                                <p><b>{{$persona->fecha_colegiatura}}</b></p>
                             </div>
                             <div>
                                 <label>Fecha de aprobación del consejo:</label>
-                                <p><b>30/10/2019</b></p>
+                                <p><b>{{$persona->fecha_aprobacion_consejo}}</b></p>
                             </div>
                         </div>
                         <div class="grid grid-3">
                             <div>
                                 <label>Último mes pagado:</label>
-                                <p><b>Enero 2019</b></p>
+                                <p><b>{{$persona->ultimo_mes_pago}}</b></p>
                             </div>
                             <div>
                                 <label>Número de incidencias:</label>
-                                <p><b>10</b></p>
+                                <p><b>{{$persona->numero_incidencias}}</b></p>
                             </div>
                             <div>
                                 <label>Número de procesos disciplinarios:</label>
-                                <p><b>0</b></p>
+                                <p><b>{{$persona->numero_procesos_disciplinarios}}</b></p>
                             </div>
                         </div>
                     </div>
@@ -88,31 +91,31 @@
                             <div class="grid grid-2">
                                 <div>
                                     <label>Tipo documento:</label>
-                                    <div><b>DNI</b></div>
+                                    <div><b>{{$persona->tipoDocumentoIdentidad->alias}}</b></div>
                                 </div>
                                 <div>
                                     <label>Documento:</label>
-                                    <div><b>46009090</b></div>
+                                    <div><b>{{$persona->numero_documento_identidad}}</b></div>
                                 </div>
                                 <div>
                                     <label>Fecha de nacimiento:</label>
-                                    <div><b>12/10/1990</b></div>
+                                    <div><b>{{$persona->fecha_nacimiento}}</b></div>
                                 </div>
                                 <div>
                                     <label>Apellidos:</label>
-                                    <div><b>Carhuaz Arenas</b></div>
+                                    <div><b>{{$persona->apellido_paterno . ' ' . $persona->apellido_materno }}</b></div>
                                 </div>
                                 <div>
                                     <label>Nombres:</label>
-                                    <div><b>Luis Alberto</b></div>
+                                    <div><b>{{$persona->nombres}}</b></div>
                                 </div>
                                 <div>
                                     <label>Nacionalidad:</label>
-                                    <div><b>Peruano</b></div>
+                                    <div><b>{{$persona->nacionalidad->name}}</b></div>
                                 </div>
                                 <div nz-col class="gutter-row" nzSpan="8">
                                     <label>Estado civil:</label>
-                                    <div><b>Soltero</b></div>
+                                    <div><b>{{$persona->estadoCivil->name}}</b></div>
                                 </div>
                             </div>
                         </div>
@@ -127,28 +130,31 @@
                             <div class="grid grid-2">
                                 <div>
                                     <label>Dirección:</label>
-                                    <div><b>Av. Risoto 23, SBJ</b></div>
+                                    <div><b>{{$persona->direccion}}</b></div>
                                 </div>
                                 <div>
                                     <label>Ubigeo:</label>
-                                    <div><b>Miraflores, Lima, Lima
-                                        </b></div>
+                                    <div>
+                                        <b>
+                                        {{$persona->departamento->name . ', ' . $persona->distrito->name . ', ' . $persona->provincia->name }}
+                                        </b>
+                                    </div>
                                 </div>
                                 <div>
                                     <label>Email:</label>
-                                    <div><b>personal@email.com</b></div>
+                                    <div><b>{{$persona->email_uno}}</b></div>
                                 </div>
                                 <div>
                                     <label>Email secundario:</label>
-                                    <div><b>secundario@email.com</b></div>
+                                    <div><b>{{$persona->email_dos}}</b></div>
                                 </div>
                                 <div>
                                     <label>Teléfono fijo:</label>
-                                    <div><b>01 099090</b></div>
+                                    <div><b>{{$persona->telefono_fijo}}</b></div>
                                 </div>
                                 <div>
                                     <label>Celular:</label>
-                                    <div><b>98787878</b></div>
+                                    <div><b>{{$persona->celular_uno}}</b></div>
                                 </div>
                             </div>
                         </div>
@@ -165,51 +171,65 @@
                             <div class="grid grid-2">
                                 <div>
                                     <label>Departamento colegiado:</label>
-                                    <div><b>Apurimac</b></div>
+                                    <div><b>{{$persona->departamentoColegiado->name}}</b></div>
                                 </div>
                                 <div>
                                     <label>Universidad de procedencia:</label>
-                                    <div><b>Universidad Nacional del Centro del Perú</b></div>
+                                    <div><b>
+                                    @if ( $persona->universidadProcedencia )
+                                        {{$persona->universidadProcedencia->name}}
+                                    @endif
+                                    </b></div>
                                 </div>
                             </div>
                             <div class="grid grid-2">
                                 <div>
                                     <label>Fecha bachiller:</label>
-                                    <div><b>12/02/2017</b></div>
+                                    <div><b>{{$persona->fecha_bachiller}}</b></div>
                                 </div>
                                 <div>
                                     <label>Fecha titulación:</label>
-                                    <div><b>12/02/2018</b></div>
+                                    <div><b>{{$persona->fecha_titulacion}}</b></div>
                                 </div>
                             </div>
                             <div class="grid grid-2">
                                 <div>
                                     <label>Especialidad/Post grado:</label>
                                     <div>
-                                        <b>Animales menores</b>
+                                        <b>
+                                            @if ( $persona->especialidadPosgrado )
+                                                {{$persona->especialidadPosgrado->name}}
+                                            @endif
+                                        </b>
                                     </div>
                                 </div>
                                 <div>
                                     <label>Area ejercicio profesional:</label>
                                     <div>
-                                        <b>Odontolgía canina</b>
+                                        <b>
+                                            @if ( $persona->areaEjercicioProfesional )
+                                                {{$persona->areaEjercicioProfesional->name}}
+                                            @endif
+                                        </b>
                                     </div>
                                 </div>
                             </div>
                             <div class="grid grid-2">
                                 <div>
                                     <label>Centro laboral:</label>
-                                    <div><b>Centro Veterinaria SA</b></div>
+                                    <div><b>
+                                        {{$persona->nombre_centro_laboral}}
+                                    </b></div>
                                 </div>
                                 <div>
                                     <label>Dirección centro laboral:</label>
-                                    <div><b>Av. Flores S/N, Lima, Lima</b></div>
+                                    <div><b>{{$persona->direccion_centro_laboral}}</b></div>
                                 </div>
                             </div>
                             <div class="grid grid-2">
                                 <div>
                                     <label>Teléfono centro laboral:</label>
-                                    <div><b>01899020</b></div>
+                                    <div><b>{{$persona->telefono_centro_laboral}}</b></div>
                                 </div>
                             </div>
                         </div>
@@ -224,17 +244,23 @@
                             <div class="grid grid-2">
                                 <div>
                                     <label>Voluntario:</label>
-                                    <div><b>NO</b></div>
+                                    <div><b>
+                                        @if ( $persona->is_voluntario )
+                                            Si
+                                        @else
+                                            No
+                                        @endif
+                                    </b></div>
                                 </div>
                                 <div>
                                     <label>Grupo sanguíneo:</label>
-                                    <div><b>O+</b></div>
+                                    <div><b>{{$persona->grupo_sanguineo}}</b></div>
                                 </div>
                             </div>
                             <div class="grid grid-2">
                                 <div>
                                     <label>Fecha de registro:</label>
-                                    <div><b>12/10/2019</b></div>
+                                    <div><b>{{$persona->fecha_registro}}</b></div>
                                 </div>
                             </div>
                         </div>
