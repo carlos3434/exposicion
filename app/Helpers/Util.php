@@ -298,7 +298,7 @@ final class Util
         $see->setService($endpoint);
         // Storage::get('public/'.$this->empresa->certificado_digital);
         //Storage::get('uploads/'.$this->empresa->certificado_digital);
-        $see->setCertificate( Storage::get('uploads/'.$this->empresa->certificado_digital) );
+        $see->setCertificate( Storage::get('uploads/certificados/'.$this->empresa->certificado_digital) );
         $see->setCredentials($this->empresa->user_sunat, $this->empresa->password_sunat );
         //$see->setCachePath(__DIR__ . '/../cache');
         $see->setCachePath(false);

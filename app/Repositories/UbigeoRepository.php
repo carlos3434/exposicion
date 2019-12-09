@@ -24,10 +24,10 @@ class UbigeoRepository implements UbigeoRepositoryInterface
             'dis.id as distrito_id',
             'prov.id as provincia_id'
         )
-        ->where('prov.id', $provinciaId) // 3967
-        ->where('prov.level', 3)
-        ->where('dis.level', 2)
-        ->where('dep.level', 1)
+        ->where('prov.id', $provinciaId) // 3967 Santiago de Surco
+        ->where('prov.level', 4)
+        ->where('dis.level', 3)
+        ->where('dep.level', 2)
         ->first();
     }
 }
