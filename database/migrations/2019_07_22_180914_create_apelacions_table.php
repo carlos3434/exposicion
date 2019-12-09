@@ -24,9 +24,9 @@ class CreateApelacionsTable extends Migration
             $table->integer('deleted_by')->nullable();
             $table->softDeletes();
             $table->boolean('is_titular');
-            $table->string('representanteNombres');
-            $table->string('representanteApellidoPaterno');
-            $table->string('representanteApellidoMaterno');
+            $table->string('representanteNombres')->nullable();
+            $table->string('representanteApellidoPaterno')->nullable();
+            $table->string('representanteApellidoMaterno')->nullable();
             $table->string('url_documento')->nullable();
             $table->unsignedBigInteger('documento_id')->index();
             $table->foreign('documento_id')->references('id')->on('proceso_disciplinarios')->onDelete('cascade');

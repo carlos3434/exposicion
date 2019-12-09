@@ -14,6 +14,7 @@ use App\CargoPostulante;
 use App\TipoGasto;
 use App\Serie;
 use App\TipoNota;
+use App\Ubigeo;
 
 use App\Http\Resources\Rendicion\TipoDocumentoPagoCollection;
 use App\Http\Resources\Rendicion\TipoDocumentoIdentidadCollection;
@@ -35,6 +36,7 @@ use App\Http\Resources\Serie\SerieCollection;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ListaController extends Controller
 {
@@ -82,11 +84,19 @@ class ListaController extends Controller
     }
     public function invoices()
     {
+        $departamentoId = Auth::user()->departamento_id;
+        //
+        if ($departamentoId == Ubigeo::PERU) {
+            $series = Serie::all();
+        } else {
+            $series = Serie::where('departamento_id',$departamentoId)->get();
+        }
+
         $response = [
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03'])->get() ),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::whereIn('codigo_sunat',[1, 6])->get() ),
             'conceptos' => new InvoiceConceptoCollection( Concepto::where('tipo',0)->get() ),
-            'series' => new SerieCollection( Serie::all() ),
+            'series' => new SerieCollection( $series ),
         ];
         return response()->json($response, 200);
     }
@@ -102,8 +112,15 @@ class ListaController extends Controller
     }
     public function listasInvoices()
     {
+        $departamentoId = Auth::user()->departamento_id;
+        //
+        if ($departamentoId == Ubigeo::PERU) {
+            $series = Serie::all();
+        } else {
+            $series = Serie::where('departamento_id',$departamentoId)->get();
+        }
         $response = [
-            'series' => new SerieCollection( Serie::all() ),
+            'series' => new SerieCollection( $series ),
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03','07','08'])->get() ),
             'tipoNota' => new TipoNotaCollection( TipoNota::all() ),
             'conceptos' => new ConceptoCollection( Concepto::where('tipo', 1)->get() ),
