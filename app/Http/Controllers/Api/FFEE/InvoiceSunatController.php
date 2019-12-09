@@ -88,7 +88,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
+        $see = $util->getSee(SunatEndpoints::FE_BETA);
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
@@ -227,7 +227,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
+        $see = $util->getSee(SunatEndpoints::FE_BETA);
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
@@ -270,7 +270,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
+        $see = $util->getSee(SunatEndpoints::FE_BETA);
         $res = $see->send($invoice);
         $util->writeXml($invoice, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
@@ -352,6 +352,10 @@ class InvoiceSunatController extends Controller
                     $invoiceDetail->update( [ 'pago_id' => $pago->id ] );
                     //si no tiene pago generado, quiere decir que es un adelanto
                     if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
+                        $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
+                        $personaArray = array_merge($personaArray , ['total_faf' => $total_faf]);
+                        $personaArray = array_merge($personaArray , ['total_departamental' => $total_departamental]);
+                        $personaArray = array_merge($personaArray , ['total_consejo' => $total_consejo]);
                         $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
                         $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
                         $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
