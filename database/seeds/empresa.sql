@@ -1,3 +1,3 @@
 INSERT INTO `empresas` (`id`, `ruc`, `nombre_comercial`, `certificado_digital`, `razon_social`, `direccion_web`, `telefono`, `email`, `direccion`, `logo`, `ubigeo_id`, `user_sunat`, `password_sunat`, `entorno`, `updated_by`, `created_by`, `deleted_by`, `deleted_at`, `created_at`, `updated_at`)
 VALUES
-    (1, '20144793413', '-', 'certificados/1572927045.pem', 'COLEGIO MEDICO VETERINARIO DEL PERU', 'http://www.cmvp.org.pe/', '964142677', 'car@test.com', 'CAL.PEDRO IRIGOYEN NRO. 208 RES.  SANTA RITA', '1572927045.jpeg', 3967, '20144793413MODDATOS', 'MODDATOS', 0, 1, 1, NULL, NULL, '2019-09-17 12:57:46', '2019-11-04 23:10:45');
+    (1, '20144793413', '-', '1572927045.pem', 'COLEGIO MEDICO VETERINARIO DEL PERU', 'http://www.cmvp.org.pe/', '964142677', 'car@test.com', 'CAL.PEDRO IRIGOYEN NRO. 208 RES.  SANTA RITA', '1572927045.jpeg', 3967, '20144793413MODDATOS', 'MODDATOS', 0, 1, 1, NULL, NULL, '2019-09-17 12:57:46', '2019-11-04 23:10:45');

@@ -23,7 +23,7 @@ class CreatePersonasTable extends Migration
             $table->string('apellido_paterno');
             $table->string('apellido_materno');
             $table->string('nombres');
-            $table->string('ruc',11);
+            $table->string('ruc',11)->nullable();
             $table->date('fecha_nacimiento');
             $table->integer('estado_civil_id');
 

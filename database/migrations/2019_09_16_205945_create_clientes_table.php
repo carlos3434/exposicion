@@ -21,9 +21,9 @@ class CreateClientesTable extends Migration
             $table->integer('tipo_documento_identidad_id');
             $table->string('numero_documento_identidad',11);
 
-            $table->string('telefono')->default('');
-            $table->string('celular')->default('');
-            $table->string('email')->default('');
+            $table->string('telefono')->nullable();
+            $table->string('celular')->nullable();
+            $table->string('email')->nullable();
             
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();
