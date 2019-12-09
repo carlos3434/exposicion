@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 use App\Persona;
+use App\Ubigeo;
 use App\Concepto;
 use App\EstadoPago;
 use Illuminate\Http\Request;
@@ -20,6 +21,8 @@ use App\Http\Resources\Persona\PersonaExcelCollection;
 use App\Helpers\FileUploader;
 use mikehaertl\wkhtmlto\Pdf;
 
+use Illuminate\Support\Facades\Auth;
+
 class PersonaController extends Controller
 {
     public function __construct()
@@ -37,6 +40,10 @@ class PersonaController extends Controller
      */
     public function index(Request $request)
     {
+        $departamentoId = Auth::user()->departamento_id;
+        //
+
+
         $query = Persona::filter($request)
             ->with([
                 'tipoDocumentoIdentidad',
@@ -52,6 +59,9 @@ class PersonaController extends Controller
                 'estadoRegistroColegiado',
                 'estadoCuentaSistema'
         ]);
+        if ($departamentoId !== Ubigeo::PERU) {
+            $query->where('departamento_id',$departamentoId);
+        }
         if ( !empty($request->excel) || !empty($request->pdf) ){
 
             if ($query->count() > 0) {
