@@ -28,6 +28,9 @@ class CreateClientesTable extends Migration
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('deleted_by')->nullable();
+
+            $table->unsignedBigInteger('persona_id')->index();
+            $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

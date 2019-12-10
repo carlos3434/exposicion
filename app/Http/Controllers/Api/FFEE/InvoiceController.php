@@ -90,6 +90,7 @@ class InvoiceController extends Controller
 
         $invoiceDetail = $request->invoiceDetail;
         $cliente = $request->cliente;
+        $cliente = array_merge($cliente, [ 'persona_id' => $request->persona_id ]);
 
         $clienteDB = $this->clienteRepository->getByDni($cliente);
         $fecha_emision = date("Y-m-d");

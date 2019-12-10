@@ -21,7 +21,7 @@ class Concepto extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','codigo_sunat','unidad_medida','codigo','tipo_afecta_igv','precio','tipo','plazo_dias','plazo_meses'];
+    protected $fillable = ['name','tipo_concepto_id','codigo_sunat','unidad_medida','codigo','tipo_afecta_igv','precio','tipo','plazo_dias','plazo_meses'];
 
     /**
      * Create a new Permission instance.

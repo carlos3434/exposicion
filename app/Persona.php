@@ -144,6 +144,15 @@ class Persona extends Model
         return "{$this->apellido_paterno} {$this->apellido_materno} {$this->nombres}";
     }
     /**
+     * Get the user's razon social
+     *
+     * @return string
+     */
+    public function getRazonSocialAttribute()
+    {
+        return "{$this->nombres} {$this->apellido_paterno} {$this->apellido_materno}";
+    }
+    /**
      * Get the TipoDocumentoIdentidad
      */
     public function tipoDocumentoIdentidad()

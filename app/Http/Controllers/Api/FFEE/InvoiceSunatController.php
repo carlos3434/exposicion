@@ -102,6 +102,9 @@ class InvoiceSunatController extends Controller
                 $personaArray = $persona->toArray();
 
                 $ultimo_mes_pago  = MonthLetter::previuosMonth( MonthLetter::toNumber( $persona->ultimo_mes_pago ));
+                if ($invoiceDetail->pago->is_primera_cuota == true) {
+                    $ultimo_mes_pago = null;
+                }
 
                 $numero_meses_aportado  = $persona->numero_meses_aportado  - 1;
                 $numero_meses_deuda     = $persona->numero_meses_deuda     + 1;
@@ -120,20 +123,22 @@ class InvoiceSunatController extends Controller
                     //si el pago es primera cuota
 
                     if ( $invoiceDetail->concepto->id == Concepto::CUOTA ) {
-                        if ($invoiceDetail->concepto->pago->is_primera_cuota == true) {
+                        if ($invoiceDetail->pago->is_primera_cuota == true) {
                             $personaArray = array_merge($personaArray , ['is_habilitado' => false]);
                         }
                         //validar si el pago fue un adelanto, en este caso no se deberia restar la deuda, sino solo los aportes
-                        if ($invoiceDetail->concepto->pago->estado_pago_id !== EstadoPago::ADELANTO ) {
-                            $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
-                        } else {
+                        if ($invoiceDetail->pago->estado_pago_id == EstadoPago::ADELANTO ) {
                             $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
+                            $personaArray = array_merge($personaArray , ['numero_meses_adelanto'    => $numero_meses_adelanto]);
+                        } else {
+                            $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
+                            $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
                         }
+                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
                         $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
                         $personaArray = array_merge($personaArray , ['total_faf' => $total_faf]);
                         $personaArray = array_merge($personaArray , ['total_departamental' => $total_departamental]);
                         $personaArray = array_merge($personaArray , ['total_consejo' => $total_consejo]);
-                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
                         $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
                         $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 0]);
                     }
@@ -147,7 +152,7 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['is_habilitado' => false]);
                     }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
-                        $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>0]);
+                        $personaArray = array_merge($personaArray , ['is_pago_colegiatura'=>0]);
                     }
 
                     //total_deuda se debe regresar como estaba siempre y cunado no ha sido un adelanto
@@ -155,7 +160,6 @@ class InvoiceSunatController extends Controller
                         $estadoPago = EstadoPago::ELIMINADO;
                     } else {
                         $estadoPago = EstadoPago::PENDIENTE;
-                        $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
                     }
                     $invoiceDetail->pago->update([ 'estado_pago_id' => $estadoPago ]);
                 }
@@ -321,7 +325,10 @@ class InvoiceSunatController extends Controller
                         if ( $invoiceDetail->pago->is_primera_cuota == true && $persona->is_juramentacion_validada == 1 ) {
                             $personaArray = array_merge( $personaArray , ['is_habilitado'=>1]);
                         }
-
+                        //la deuda se ve afectada siempre y cuando no sea un adelanto
+                        if ( $invoiceDetail->pago->estado_pago_id !== EstadoPago::ADELANTO ) {
+                            $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
+                        }
                         $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
                         $personaArray = array_merge($personaArray , ['total_faf' => $total_faf]);
                         $personaArray = array_merge($personaArray , ['total_departamental' => $total_departamental]);
@@ -343,7 +350,7 @@ class InvoiceSunatController extends Controller
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
                     }
-                    $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
+
 
                 } else {//si es un pago adelatado
                     //generar pagos de Adelantos

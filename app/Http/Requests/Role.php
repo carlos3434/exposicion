@@ -26,7 +26,7 @@ class Role extends FormRequest
     {
         return [
 
-            'name' => 'required|alpha_num_spaces|unique:roles,name,'. (isset($this->id) ? $this->id : 0),
+            'name' => 'required|alpha_num_spaces|unique:roles,name,'. (isset($this->role->id) ? $this->role->id : 0),
             'slug' => 'alpha_dash|unique:roles,slug',
             'description' => 'required|alpha_num_spaces',
             'special' => 'in:all-access',

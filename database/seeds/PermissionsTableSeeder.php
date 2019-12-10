@@ -91,205 +91,205 @@ class PermissionsTableSeeder extends Seeder
         Permission::create([
             'name'          => 'Navegar Secretaria',
             'slug'          => 'NAV_SECRETARY',
-            'description'   => '',
+            'description'   => 'Lista y Navega en Secretaria',
         ]);
         Permission::create([
             'name'          => 'Navegar Contabilidad',
             'slug'          => 'NAV_ACCOUNTANT',
-            'description'   => '',
+            'description'   => 'Lista y Navega en Contabilidad',
         ]);
         Permission::create([
             'name'          => 'Navegar Elecciones',
             'slug'          => 'NAV_ELECTIONS',
-            'description'   => '',
+            'description'   => 'Lista y Navega en Elecciones',
         ]);
         Permission::create([
             'name'          => 'Navegar Reportes',
             'slug'          => 'NAV_REPORTS',
-            'description'   => '',
+            'description'   => 'Lista y Navega en Reportes',
         ]);
         Permission::create([
             'name'          => 'Creación Colegiado',
             'slug'          => 'CREATE_COLEGIADO',
-            'description'   => '',
+            'description'   => 'Podría crear nuevos Colegiados',
         ]);
         Permission::create([
             'name'          => 'Navegar Colegiado',
             'slug'          => 'READ_COLEGIADO',
-            'description'   => '',
+            'description'   => 'Lista y Navega Colegiados',
         ]);
         Permission::create([
             'name'          => 'Edicion Colegiado',
             'slug'          => 'UPDATE_COLEGIADO',
-            'description'   => '',
+            'description'   => 'Podria editar cualquier Colegiado',
         ]);
         Permission::create([
             'name'          => 'Ver Colegiado',
             'slug'          => 'DETAIL_COLEGIADO',
-            'description'   => '',
+            'description'   => 'Ver detalle de un colegiado',
         ]);
         //Editar campos numero colegiado y fecha de registro
         Permission::create([
             'name'          => 'Edicion Colegiado Num Colegiado, Fecha Registro',
             'slug'          => 'UPDATE_COLEGIADO_ESP',
-            'description'   => '',
+            'description'   => 'Poria editar Numero de Colegiado, Fecha Registro',
         ]);
         Permission::create([
             'name'          => 'Exportar Colegiado',
             'slug'          => 'EXPORT_COLEGIADO',
-            'description'   => '',
+            'description'   => 'Podria Exportar Lista de Colegiados',
         ]);
         Permission::create([
             'name'          => 'Creación Diplomas',
             'slug'          => 'CREATE_DIPLOMAS',
-            'description'   => '',
+            'description'   => 'Podria Crear Diplomas',
         ]);
         Permission::create([
             'name'          => 'ver Diplomas',
             'slug'          => 'READ_DIPLOMAS',
-            'description'   => '',
+            'description'   => 'Lista y Navega Diplomas',
         ]);
         Permission::create([
             'name'          => 'Eliminar Diplomas',
             'slug'          => 'DELETE_DIPLOMAS',
-            'description'   => '',
+            'description'   => 'Podria aliminar Diplomas',
         ]);
         Permission::create([
             'name'          => 'Creación Incidentes',
             'slug'          => 'CREATE_INDICENTES',
-            'description'   => '',
+            'description'   => 'Podria crear nuevos incidentes',
         ]);
         Permission::create([
             'name'          => 'ver Incidentes',
             'slug'          => 'READ_INCIDENTES',
-            'description'   => '',
+            'description'   => 'Lista y navega Incidentes',
         ]);
         Permission::create([
             'name'          => 'Eliminar Incidentes',
             'slug'          => 'DELETE_INCIDENTES',
-            'description'   => '',
+            'description'   => 'Podria eliminar Incidentes',
         ]);
         Permission::create([
             'name'          => 'Eliminar Translados',
             'slug'          => 'CREATE_TRASLADOS',
-            'description'   => '',
+            'description'   => 'Podria eliminar Translados',
         ]);
         Permission::create([
             'name'          => 'Ver Translados',
             'slug'          => 'READ_TRASLADOS',
-            'description'   => '',
+            'description'   => 'Lista y navega Translados',
         ]);
         Permission::create([
             'name'          => 'Eliminar Translados',
             'slug'          => 'DELETE_TRASLADOS',
-            'description'   => '',
+            'description'   => 'Podria eliminar Translados',
         ]);
         Permission::create([
             'name'          => 'Creación Licencias',
             'slug'          => 'CREATE_LICENCIAS',
-            'description'   => '',
+            'description'   => 'Podria crear Licencias',
         ]);
         Permission::create([
             'name'          => 'Ver Licencias',
             'slug'          => 'READ_LICENCIAS',
-            'description'   => '',
+            'description'   => 'Lista y navega Licencias',
         ]);
         Permission::create([
             'name'          => 'Eliminar Licencias',
             'slug'          => 'DELETE_LICENCIAS',
-            'description'   => '',
+            'description'   => 'Podria eliminar Licencias',
         ]);
         Permission::create([
             'name'          => 'Ver Habilidad',
             'slug'          => 'DETAIL_HABILIDAD',
-            'description'   => '',
+            'description'   => 'Lista y navega Habilidad',
         ]);
         Permission::create([
             'name'          => 'Ver Cuentas',
             'slug'          => 'DETAIL_CUENTAS',
-            'description'   => '',
+            'description'   => 'Lista y Navega Estado de Cuenta',
         ]);
         Permission::create([
             'name'          => 'Creación Procesos',
             'slug'          => 'CREATE_PROCESO',
-            'description'   => '',
+            'description'   => 'Podria crear Procesos Disciplinarios',
         ]);
         Permission::create([
             'name'          => 'Ver Procesos',
             'slug'          => 'READ_PROCESO',
-            'description'   => '',
+            'description'   => 'Lista y navega Procesos Disciplinarios',
         ]);
         Permission::create([
             'name'          => 'Eliminar Procesos',
             'slug'          => 'DELETE_PROCESO',
-            'description'   => '',
+            'description'   => 'Podria eliminar Procesos Disciplinarios',
         ]);
         Permission::create([
             'name'          => 'Creación Apelaciones',
             'slug'          => 'CREATE_APELACIONES',
-            'description'   => '',
+            'description'   => 'Podria crear Apelaciones',
         ]);
         Permission::create([
-            'name'          => 'Eliminar Apelaciones',
+            'name'          => 'Ver Apelaciones',
             'slug'          => 'READ_APELACIONES',
-            'description'   => '',
+            'description'   => 'Lista y navega Apelaciones',
         ]);
         Permission::create([
             'name'          => 'Eliminar Apelaciones',
             'slug'          => 'DELETE_APELACIONES',
-            'description'   => '',
+            'description'   => 'Podria Eliminar Apelaciones',
         ]);
 
         Permission::create([
             'name'          => 'Validar Inscripcion',//Seretaria 46
             'slug'          => 'UPDATE_COLEGIADO_STEP_1',
-            'description'   => '',
+            'description'   => 'Podria Validar Inscripcion',
         ]);
         Permission::create([
             'name'          => 'Solicitar Colegiatura',//departamental 47
             'slug'          => 'UPDATE_COLEGIADO_STEP_2',//
-            'description'   => '',
+            'description'   => 'Podria Solicitar Colegiatura',
         ]);
         Permission::create([
             'name'          => 'Resolver Solicitud Colegiatura',//departamental 48
             'slug'          => 'UPDATE_COLEGIADO_STEP_3',
-            'description'   => '',
+            'description'   => 'Podria Resolver Solicitud Colegiatura',
         ]);
         Permission::create([
-            'name'          => 'Validadar Solicitud Colegiatura',//Seretaria 49 
+            'name'          => 'Validar Solicitud Colegiatura',//Seretaria 49 
             'slug'          => 'UPDATE_COLEGIADO_STEP_4',
-            'description'   => '',
+            'description'   => 'Podria Validar Solicitud Colegiatura',
         ]);
         Permission::create([
             'name'          => 'Generar Carnet',//departamental 50 
             'slug'          => 'UPDATE_COLEGIADO_STEP_5',
-            'description'   => '',
+            'description'   => 'Podria Generar Carnet',
         ]);
         Permission::create([
             'name'          => 'Programar Juramentacion',//departamental 51
             'slug'          => 'UPDATE_COLEGIADO_STEP_6',
-            'description'   => '',
+            'description'   => 'Podria Programar Juramentacion',
         ]);
         Permission::create([
             'name'          => 'Validar Juramentacion',//departamental 52
             'slug'          => 'UPDATE_COLEGIADO_STEP_7',
-            'description'   => '',
+            'description'   => 'Podria Validar Juramentacion',
         ]);
 
         Permission::create([
             'name'          => 'Ver Beneficiario',
             'slug'          => 'READ_BENEFICIARIO',
-            'description'   => '',
+            'description'   => 'Lista y navega Beneficiario',
         ]);
         Permission::create([
             'name'          => 'Creación Beneficiario',
             'slug'          => 'CREATE_BENEFICIARIO',
-            'description'   => '',
+            'description'   => 'Lista y navega Beneficiario',
         ]);
         Permission::create([
             'name'          => 'Eliminar Beneficiario',
             'slug'          => 'DELETE_BENEFICIARIO',
-            'description'   => '',
+            'description'   => 'Podria eliminar Beneficiario',
         ]);
         //permission_user
 

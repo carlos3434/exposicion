@@ -24,6 +24,7 @@ class Cliente extends Model
         'telefono',
         'celular',
         'email',
+        'persona_id',
         'updated_by', 'created_by', 'deleted_by'
     ];
 
@@ -49,5 +50,12 @@ class Cliente extends Model
     public function tipoDocumentoIdentidad()
     {
         return $this->belongsTo('App\TipoDocumentoIdentidad');
+    }
+    /**
+     * Get the TipoDocumentoIdentidad
+     */
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona');
     }
 }

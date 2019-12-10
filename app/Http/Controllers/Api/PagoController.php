@@ -65,24 +65,15 @@ class PagoController extends Controller
                 return response()->json('El pago al que intenta fraccionar ya se ha completado y no se puede realizar fraccionamiento', 500);
             }
             //validar si la sumatoria de pagos no excede al total del padre
-            
-            $montoTotal = $pagoPadre->monto;
-            $sum = 0;
-            foreach ($pagoPadre->childrenPagos as $pagoChildren) {
-                $sum += $pagoChildren->monto;
-            }
-            $sum += $request->monto;
-            if ( $sum > $montoTotal ) {
-                return response()->json('La sumatoria de los pagos fraccionados no debe superar el total del pago', 500);
-            }
 
             $pagoPadre->is_fraccion = 1;
             $pagoPadre->estado_pago_id = EstadoPago::FRACCIONADA;
             $pagoPadre->save();
             $request->merge([
-                'is_fraccion' => 0,
-                'concepto_id' => $pagoPadre->concepto_id,
-                'departamento_id' => $pagoPadre->departamento_id
+                'is_fraccion'       => 0,
+                'concepto_id'       => $pagoPadre->concepto_id,
+                'name'              => $pagoPadre->concepto->name . ' F.V. '. $request->fecha_vencimiento,
+                'departamento_id'   => $pagoPadre->departamento_id
             ]);
         }
         $pago = Pago::create($request->all());

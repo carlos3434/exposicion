@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Persona;
+use App\Cliente;
+use App\TipoDocumentoIdentidad;
 use Illuminate\Support\Facades\Auth;
 
 class PersonaObserver
@@ -38,6 +40,12 @@ class PersonaObserver
     public function updating(Persona $persona)
     {
         $persona->updated_by = Auth::id();
+        if ($persona->isDirty('ruc')){
+            // email has changed
+            Cliente::where('persona_id',$persona->id)
+            ->where('tipo_documento_identidad_id',TipoDocumentoIdentidad::RUC)
+            ->update(['numero_documento_identidad' => $persona->ruc]);
+        }
     }
     /**
      * Handle the Persona "deleted" event.

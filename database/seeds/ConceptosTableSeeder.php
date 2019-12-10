@@ -28,7 +28,7 @@ class ConceptosTableSeeder extends Seeder
             'codigo'                => '701003',
             'codigo_sunat'          => '',
             'tipo_afecta_igv'       => '30',
-            'precio'                => 0,
+            'precio'                => 15,
             'tipo'                  => 0,
             'tipo_concepto_id'      => 1
         ]);
