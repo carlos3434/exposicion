@@ -23,7 +23,7 @@ class Rendicion extends Model
         'numero',
         'tipo_documento_identidad_id',
         'departamento_id',
-        //'responsable_id',
+        'concepto_id',
         'numero_documento_identidad',
         'razon_social',
         'base',

@@ -31,7 +31,7 @@ class Rendicion extends FormRequest
             'fecha'                             => 'required|date_format:Y-m-d',
             'tipo_documento_pago_id'            => 'required|exists:tipo_documento_pago,id',
             'departamento_id'                   => 'required|exists:ubigeos,id',
-            //'responsable_id',            => 'required|exists:tipo_documento_pago,id',
+            'concepto_id'                       => 'required|exists:conceptos,id',
             'serie'                             => 'alpha_num',
             'numero'                            => 'alpha_num',
             'tipo_documento_identidad_id'       => 'required|exists:tipo_documento_identidad,id',
