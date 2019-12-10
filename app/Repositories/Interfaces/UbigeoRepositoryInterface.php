@@ -6,5 +6,5 @@ use App\Ubigeo;
 
 interface UbigeoRepositoryInterface
 {
-    public function getByProvinciaId($provinciaId);
+    public function getByDistritoId($provinciaId);
 }

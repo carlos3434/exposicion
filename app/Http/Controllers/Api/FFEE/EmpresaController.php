@@ -80,7 +80,7 @@ class EmpresaController extends Controller
      */
     public function show(Empresa $empresa)
     {
-        $ubigeo = $this->ubigeoRepository->getByProvinciaId( $empresa->ubigeo_id);
+        $ubigeo = $this->ubigeoRepository->getByDistritoId( $empresa->ubigeo_id);
         //return (array_merge($empresa->toArray(),$ubigeo));
         return response()->json(array_merge($empresa->toArray(),$ubigeo), 200);
     }

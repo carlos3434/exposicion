@@ -9,14 +9,13 @@ use App\Repositories\Interfaces\UbigeoRepositoryInterface;
  */
 class UbigeoRepository implements UbigeoRepositoryInterface
 {
-    public function getByProvinciaId( $provinciaId)
+    public function getByDistritoId( $distritoId)
     {
         return (array) DB::table('ubigeos as dep')
-        ->join('ubigeos as dis','dep.id', '=','dis.parent_id')
-        ->join('ubigeos as prov','dis.id', '=','prov.parent_id')
+        ->join('ubigeos as prov','dep.id', '=','prov.parent_id')
+        ->join('ubigeos as dis','prov.id', '=','dis.parent_id')
         ->select(
-            DB::raw('concat(dep.code , dis.code , prov.code ) as ubigeo'),
-            'prov.id',
+            DB::raw('concat(dep.code  , prov.code , dis.code ) as ubigeo'),
             'dep.name as departamento',
             'dis.name as distrito',
             'prov.name as provincia',
@@ -24,9 +23,9 @@ class UbigeoRepository implements UbigeoRepositoryInterface
             'dis.id as distrito_id',
             'prov.id as provincia_id'
         )
-        ->where('prov.id', $provinciaId) // 3967 Santiago de Surco
-        ->where('prov.level', 4)
-        ->where('dis.level', 3)
+        ->where('dis.id', $distritoId) // 3967 Santiago de Surco
+        ->where('dis.level', 4)
+        ->where('prov.level', 3)
         ->where('dep.level', 2)
         ->first();
     }

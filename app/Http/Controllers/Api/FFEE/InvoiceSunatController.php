@@ -71,7 +71,7 @@ class InvoiceSunatController extends Controller
         //actualizar el comprobante ya que se emitio una nota
         $nota->afectado->update(['is_nota' => 1]);
 
-        $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
+        $ubigeo = $this->ubigeoRepository->getByDistritoId( $comprobantePago->empresa->ubigeo_id);
 
         //armar company con helper
         $util = Util::getInstance();
@@ -123,12 +123,17 @@ class InvoiceSunatController extends Controller
                         if ($invoiceDetail->concepto->pago->is_primera_cuota == true) {
                             $personaArray = array_merge($personaArray , ['is_habilitado' => false]);
                         }
+                        //validar si el pago fue un adelanto, en este caso no se deberia restar la deuda, sino solo los aportes
+                        if ($invoiceDetail->concepto->pago->estado_pago_id !== EstadoPago::ADELANTO ) {
+                            $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
+                        } else {
+                            $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
+                        }
                         $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
                         $personaArray = array_merge($personaArray , ['total_faf' => $total_faf]);
                         $personaArray = array_merge($personaArray , ['total_departamental' => $total_departamental]);
                         $personaArray = array_merge($personaArray , ['total_consejo' => $total_consejo]);
                         $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
-                        $personaArray = array_merge($personaArray , ['numero_meses_deuda'    => $numero_meses_deuda]);
                         $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
                         $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 0]);
                     }
@@ -144,10 +149,13 @@ class InvoiceSunatController extends Controller
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>0]);
                     }
-                    $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
-                    $estadoPago = EstadoPago::PENDIENTE;
+
+                    //total_deuda se debe regresar como estaba siempre y cunado no ha sido un adelanto
                     if ( $invoiceDetail->pago->estado_pago_id == EstadoPago::ADELANTO ) {
                         $estadoPago = EstadoPago::ELIMINADO;
+                    } else {
+                        $estadoPago = EstadoPago::PENDIENTE;
+                        $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
                     }
                     $invoiceDetail->pago->update([ 'estado_pago_id' => $estadoPago ]);
                 }
@@ -210,7 +218,7 @@ class InvoiceSunatController extends Controller
         //actualizar el comprobante ya que se emitio una nota
         $nota->afectado->update(['is_nota' => 1]);
 
-        $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
+        $ubigeo = $this->ubigeoRepository->getByDistritoId( $comprobantePago->empresa->ubigeo_id);
 
         //armar company con helper
         $util = Util::getInstance();
@@ -253,7 +261,7 @@ class InvoiceSunatController extends Controller
         //consulta invoice y envio a sunat
         $comprobantePago = $this->invoiceRepository->getResourceById($invoiceId);
 
-        $ubigeo = $this->ubigeoRepository->getByProvinciaId( $comprobantePago->empresa->ubigeo_id);
+        $ubigeo = $this->ubigeoRepository->getByDistritoId( $comprobantePago->empresa->ubigeo_id);
 
         //armar company con helper
         $util = Util::getInstance();
