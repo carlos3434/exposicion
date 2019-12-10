@@ -26,7 +26,7 @@ class User extends FormRequest
     {
         return [
             'name' => 'required|alpha_num_spaces',
-            'email' => 'required|email|unique:users',
+            'email'        => 'required|unique:users,email,'. (isset($this->id) ? $this->id : 0),
             'departamento_id' => 'required|exists:ubigeos,id',
             //'password' => 'required|min:8',
             'roles' => 'exists:roles,id',
