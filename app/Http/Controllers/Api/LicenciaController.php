@@ -18,11 +18,11 @@ class LicenciaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_LICENCIA')->only(['create','store']);
-        $this->middleware('can:READ_LICENCIA')->only('index');
-        $this->middleware('can:UPDATE_LICENCIA')->only(['edit','update']);
-        $this->middleware('can:DETAIL_LICENCIA')->only('show');
-        $this->middleware('can:DELETE_LICENCIA')->only('destroy');
+        $this->middleware('can:CREATE_LICENCIAS')->only(['create','store']);
+        $this->middleware('can:READ_LICENCIAS')->only('index');
+        $this->middleware('can:UPDATE_LICENCIAS')->only(['edit','update']);
+        $this->middleware('can:DETAIL_LICENCIAS')->only('show');
+        $this->middleware('can:DELETE_LICENCIAS')->only('destroy');
     }
     /**
      * Display a listing of the resource.

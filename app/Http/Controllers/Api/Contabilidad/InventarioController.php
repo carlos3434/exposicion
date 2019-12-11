@@ -21,11 +21,11 @@ class InventarioController extends Controller
     public function __construct(ResponsableRepositoryInterface $responsableRepository)
     {
         $this->responsableRepository = $responsableRepository;
-        $this->middleware('can:CREATE_INVENTARIO')->only(['create','store']);
-        $this->middleware('can:READ_INVENTARIO')->only('index');
-        $this->middleware('can:UPDATE_INVENTARIO')->only(['edit','update']);
-        $this->middleware('can:DETAIL_INVENTARIO')->only('show');
-        $this->middleware('can:DELETE_INVENTARIO')->only('destroy');
+        $this->middleware('can:CREATE_INVENTARIOS')->only(['create','store']);
+        $this->middleware('can:READ_INVENTARIOS')->only('index');
+        $this->middleware('can:UPDATE_INVENTARIOS')->only(['edit','update']);
+        $this->middleware('can:DETAIL_INVENTARIOS')->only('show');
+        $this->middleware('can:DELETE_INVENTARIOS')->only('destroy');
     }
     /**
      * Display a listing of the resource.

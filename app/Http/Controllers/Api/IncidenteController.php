@@ -22,11 +22,11 @@ class IncidenteController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_INCIDENTE')->only(['create','store']);
-        $this->middleware('can:READ_INCIDENTE')->only('index');
-        $this->middleware('can:UPDATE_INCIDENTE')->only(['edit','update']);
-        $this->middleware('can:DETAIL_INCIDENTE')->only('show');
-        $this->middleware('can:DELETE_INCIDENTE')->only('destroy');
+        $this->middleware('can:CREATE_INCIDENTES')->only(['create','store']);
+        $this->middleware('can:READ_INCIDENTES')->only('index');
+        $this->middleware('can:UPDATE_INCIDENTES')->only(['edit','update']);
+        $this->middleware('can:DETAIL_INCIDENTES')->only('show');
+        $this->middleware('can:DELETE_INCIDENTES')->only('destroy');
     }
     /**
      * Display a listing of the resource.

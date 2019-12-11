@@ -17,11 +17,11 @@ class RendicionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_RENDICION')->only(['create','store']);
-        $this->middleware('can:READ_RENDICION')->only('index');
-        $this->middleware('can:UPDATE_RENDICION')->only(['edit','update']);
-        $this->middleware('can:DETAIL_RENDICION')->only('show');
-        $this->middleware('can:DELETE_RENDICION')->only('destroy');
+        $this->middleware('can:CREATE_RENDICIONES')->only(['create','store']);
+        $this->middleware('can:READ_RENDICIONES')->only('index');
+        $this->middleware('can:UPDATE_RENDICIONES')->only(['edit','update']);
+        $this->middleware('can:DETAIL_RENDICIONES')->only('show');
+        $this->middleware('can:DELETE_RENDICIONES')->only('destroy');
     }
     /**
      * Display a listing of the resource.

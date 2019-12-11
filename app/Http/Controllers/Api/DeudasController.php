@@ -14,7 +14,7 @@ class DeudasController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:READ_INGRESOS')->only('reporte');
+        $this->middleware('can:READ_DEUDAS')->only('reporte');
     }
 
     /**

@@ -16,15 +16,35 @@ class UsersTableSeeder extends Seeder
         //Permisions
         $permissions = \DB::table('permissions')
                         ->select( \DB::raw("group_concat(id) as ids") )
-                        ->whereNotIn('id',[1,46,47,48,49,50,51,52])
+                        ->whereNotIn('id',[47,48,51,52])
                         ->first('ids');
-        $permissionsArray = explode(',',$permissions->ids);
+        $permissionsSecretaria = explode(',',$permissions->ids);
+
+        $permissions = \DB::table('permissions')
+                        ->select( \DB::raw("group_concat(id) as ids") )
+                        ->where('id','>',15)
+                        ->whereNotIn('id',[46,47,48,49,50,51,52])
+                        ->first('ids');
+        $permissionsContador = explode(',',$permissions->ids);
+
+        $permissions = \DB::table('permissions')
+                        ->select( \DB::raw("group_concat(id) as ids") )
+                        ->where('id','>',15)
+                        ->whereNotIn('id',[46,49,50])
+                        //->whereNotIn('id',[17])//nav CONTABILIDAD
+                        ->whereNotIn('id',[18])//nav ELECCIONES
+                        ->whereNotIn('id',[19])//nav Reporteria
+                        ->whereNotIn('id',[53])//ver beneficiarios
+                        ->first('ids');
+        $permissionsDepartamental = explode(',',$permissions->ids);
+
+
 
         $user = User::create([
             'name'              => 'Admin',
             'departamento_id'   => 2533,
             'email'             => 'admin@gmail.com',
-            'password'          => bcrypt(12345678),
+            'password'          => bcrypt(1234567890),
         ]);
 
         $user->roles()->sync( [1] );
@@ -37,7 +57,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [2] );
-        $user->permissions()->sync( array_merge($permissionsArray,[46,49] ) );
+        $user->permissions()->sync( $permissionsSecretaria );
 
         $user = User::create([
             'name'              => 'Contador',
@@ -47,7 +67,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [3] );
-        $user->permissions()->sync( $permissionsArray );
+        $user->permissions()->sync( $permissionsContador );
 
         //Amazonas
         $user = User::create([
@@ -58,7 +78,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Ancash
         $user = User::create([
@@ -69,7 +89,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Apurimac
         $user = User::create([
@@ -80,7 +100,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Arequipa
         $user = User::create([
@@ -91,7 +111,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Ayacucho
         $user = User::create([
@@ -102,7 +122,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Cajamarca
         $user = User::create([
@@ -113,7 +133,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Cusco
         $user = User::create([
@@ -124,7 +144,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Huancavelica
         $user = User::create([
@@ -135,7 +155,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         $user = User::create([
             'name'              => 'Huanuco',
@@ -143,6 +163,8 @@ class UsersTableSeeder extends Seeder
             'email'             => 'huanuco@gmail.com',
             'password'          => bcrypt(12345678)
         ]);
+        $user->roles()->sync( [4] );
+        $user->permissions()->sync( $permissionsDepartamental );
         //Ica
         $user = User::create([
             'name'              => 'Ica',
@@ -152,7 +174,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Junin
         $user = User::create([
@@ -163,7 +185,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //La Libertad
         $user = User::create([
@@ -174,7 +196,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Lambayeque
         $user = User::create([
@@ -185,7 +207,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         $user = User::create([
             'name'              => 'Lima',
@@ -195,7 +217,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Loreto
         $user = User::create([
@@ -206,7 +228,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Madre
         $user = User::create([
@@ -217,7 +239,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Moquegua
         $user = User::create([
@@ -228,7 +250,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Pasco
         $user = User::create([
@@ -239,7 +261,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Piura
         $user = User::create([
@@ -250,7 +272,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Puno
         $user = User::create([
@@ -261,7 +283,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //San
         $user = User::create([
@@ -272,7 +294,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Tacna
         $user = User::create([
@@ -283,7 +305,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Tumbes
         $user = User::create([
@@ -294,7 +316,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
         //Ucayali
         $user = User::create([
@@ -305,7 +327,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->roles()->sync( [4] );
-        $user->permissions()->sync( array_merge($permissionsArray,[47,48,50,51,52] ) );
+        $user->permissions()->sync( $permissionsDepartamental );
 
     }
 }

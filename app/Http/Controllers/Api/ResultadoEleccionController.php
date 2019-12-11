@@ -17,11 +17,11 @@ class ResultadoEleccionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_RESULTADOELECCION')->only(['create','store']);
-        $this->middleware('can:READ_RESULTADOELECCION')->only('index');
-        $this->middleware('can:UPDATE_RESULTADOELECCION')->only(['edit','update']);
-        $this->middleware('can:DETAIL_RESULTADOELECCION')->only('show');
-        $this->middleware('can:DELETE_RESULTADOELECCION')->only('destroy');
+        $this->middleware('can:CREATE_RESULTADOELECCIONES')->only(['create','store']);
+        $this->middleware('can:READ_RESULTADOELECCIONES')->only('index');
+        $this->middleware('can:UPDATE_RESULTADOELECCIONES')->only(['edit','update']);
+        $this->middleware('can:DETAIL_RESULTADOELECCIONES')->only('show');
+        $this->middleware('can:DELETE_RESULTADOELECCIONES')->only('destroy');
     }
     /**
      * Display a listing of the resource.

@@ -16,11 +16,11 @@ class EntregaDiplomaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_ENTREGADIPLOMA')->only(['create','store']);
-        $this->middleware('can:READ_ENTREGADIPLOMA')->only('index');
-        $this->middleware('can:UPDATE_ENTREGADIPLOMA')->only(['edit','update']);
-        $this->middleware('can:DETAIL_ENTREGADIPLOMA')->only('show');
-        $this->middleware('can:DELETE_ENTREGADIPLOMA')->only('destroy');
+        $this->middleware('can:CREATE_DIPLOMAS')->only(['create','store']);
+        $this->middleware('can:READ_DIPLOMAS')->only('index');
+        $this->middleware('can:UPDATE_DIPLOMAS')->only(['edit','update']);
+        $this->middleware('can:DETAIL_DIPLOMAS')->only('show');
+        $this->middleware('can:DELETE_DIPLOMAS')->only('destroy');
     }
     /**
      * Display a listing of the resource.

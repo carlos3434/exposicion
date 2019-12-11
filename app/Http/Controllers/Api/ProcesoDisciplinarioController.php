@@ -24,11 +24,11 @@ class ProcesoDisciplinarioController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_PROCESODISCIPLINARIO')->only(['create','store']);
-        $this->middleware('can:READ_PROCESODISCIPLINARIO')->only('index');
-        $this->middleware('can:UPDATE_PROCESODISCIPLINARIO')->only(['edit','update']);
-        $this->middleware('can:DETAIL_PROCESODISCIPLINARIO')->only('show');
-        $this->middleware('can:DELETE_PROCESODISCIPLINARIO')->only('destroy');
+        $this->middleware('can:CREATE_PROCESO')->only(['create','store']);
+        $this->middleware('can:READ_PROCESO')->only('index');
+        $this->middleware('can:UPDATE_PROCESO')->only(['edit','update']);
+        $this->middleware('can:DETAIL_PROCESO')->only('show');
+        $this->middleware('can:DELETE_PROCESO')->only('destroy');
     }
     /**
      * Display a listing of the resource.

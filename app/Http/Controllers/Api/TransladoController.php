@@ -17,11 +17,11 @@ class TransladoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_TRANSLADO')->only(['create','store']);
-        $this->middleware('can:READ_TRANSLADO')->only('index');
-        $this->middleware('can:UPDATE_TRANSLADO')->only(['edit','update']);
-        $this->middleware('can:DETAIL_TRANSLADO')->only('show');
-        $this->middleware('can:DELETE_TRANSLADO')->only('destroy');
+        $this->middleware('can:CREATE_TRASLADOS')->only(['create','store']);
+        $this->middleware('can:READ_TRASLADOS')->only('index');
+        $this->middleware('can:UPDATE_TRASLADOS')->only(['edit','update']);
+        $this->middleware('can:DETAIL_TRASLADOS')->only('show');
+        $this->middleware('can:DELETE_TRASLADOS')->only('destroy');
     }
     /**
      * Display a listing of the resource.

@@ -42,11 +42,11 @@ class InvoiceController extends Controller
         $this->invoiceRepository = $invoiceRepository;
         $this->empresaRepository = $empresaRepository;
         $this->ubigeoRepository = $ubigeoRepository;
-        $this->middleware('can:CREATE_INVOICE')->only(['create','store']);
-        $this->middleware('can:READ_INVOICE')->only('index');
-        $this->middleware('can:UPDATE_INVOICE')->only(['edit','update']);
-        $this->middleware('can:DETAIL_INVOICE')->only('show');
-        $this->middleware('can:DELETE_INVOICE')->only('destroy');
+        $this->middleware('can:CREATE_INVOICES')->only(['create','store']);
+        $this->middleware('can:READ_INVOICES')->only('index');
+        $this->middleware('can:UPDATE_INVOICES')->only(['edit','update']);
+        $this->middleware('can:DETAIL_INVOICES')->only('show');
+        $this->middleware('can:DELETE_INVOICES')->only('destroy');
     }
     /**
      * Display a listing of the resource.

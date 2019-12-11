@@ -19,11 +19,11 @@ class PresupuestoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_PRESUPUESTO')->only(['create','store']);
-        $this->middleware('can:READ_PRESUPUESTO')->only('index');
-        $this->middleware('can:UPDATE_PRESUPUESTO')->only(['edit','update']);
-        $this->middleware('can:DETAIL_PRESUPUESTO')->only('show');
-        $this->middleware('can:DELETE_PRESUPUESTO')->only('destroy');
+        $this->middleware('can:CREATE_PRESUPUESTOS')->only(['create','store']);
+        $this->middleware('can:READ_PRESUPUESTOS')->only('index');
+        $this->middleware('can:UPDATE_PRESUPUESTOS')->only(['edit','update']);
+        $this->middleware('can:DETAIL_PRESUPUESTOS')->only('show');
+        $this->middleware('can:DELETE_PRESUPUESTOS')->only('destroy');
     }
     /**
      * Display a listing of the resource.

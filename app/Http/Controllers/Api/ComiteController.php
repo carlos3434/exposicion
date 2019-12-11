@@ -17,11 +17,11 @@ class ComiteController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_COMITE')->only(['create','store']);
-        $this->middleware('can:READ_COMITE')->only('index');
-        $this->middleware('can:UPDATE_COMITE')->only(['edit','update']);
-        $this->middleware('can:DETAIL_COMITE')->only('show');
-        $this->middleware('can:DELETE_COMITE')->only('destroy');
+        $this->middleware('can:CREATE_COMITES')->only(['create','store']);
+        $this->middleware('can:READ_COMITES')->only('index');
+        $this->middleware('can:UPDATE_COMITES')->only(['edit','update']);
+        $this->middleware('can:DETAIL_COMITES')->only('show');
+        $this->middleware('can:DELETE_COMITES')->only('destroy');
     }
     /**
      * Display a listing of the resource.

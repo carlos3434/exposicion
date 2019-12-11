@@ -17,11 +17,11 @@ class ListaPostulanteController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_LISTAPOSTULANTE')->only(['create','store']);
-        $this->middleware('can:READ_LISTAPOSTULANTE')->only('index');
-        $this->middleware('can:UPDATE_LISTAPOSTULANTE')->only(['edit','update']);
-        $this->middleware('can:DETAIL_LISTAPOSTULANTE')->only('show');
-        $this->middleware('can:DELETE_LISTAPOSTULANTE')->only('destroy');
+        $this->middleware('can:CREATE_LISTAPOSTULANTES')->only(['create','store']);
+        $this->middleware('can:READ_LISTAPOSTULANTES')->only('index');
+        $this->middleware('can:UPDATE_LISTAPOSTULANTES')->only(['edit','update']);
+        $this->middleware('can:DETAIL_LISTAPOSTULANTES')->only('show');
+        $this->middleware('can:DELETE_LISTAPOSTULANTES')->only('destroy');
     }
     /**
      * Display a listing of the resource.

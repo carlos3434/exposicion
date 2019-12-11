@@ -15,11 +15,11 @@ class ConceptoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_CONCEPTO')->only(['create','store']);
-        $this->middleware('can:READ_CONCEPTO')->only('index');
-        $this->middleware('can:UPDATE_CONCEPTO')->only(['edit','update']);
-        $this->middleware('can:DETAIL_CONCEPTO')->only('show');
-        $this->middleware('can:DELETE_CONCEPTO')->only('destroy');
+        $this->middleware('can:CREATE_CONCEPTOS')->only(['create','store']);
+        $this->middleware('can:READ_CONCEPTOS')->only('index');
+        $this->middleware('can:UPDATE_CONCEPTOS')->only(['edit','update']);
+        $this->middleware('can:DETAIL_CONCEPTOS')->only('show');
+        $this->middleware('can:DELETE_CONCEPTOS')->only('destroy');
     }
     /**
      * Display a listing of the resource.

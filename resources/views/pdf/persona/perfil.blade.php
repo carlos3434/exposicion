@@ -117,6 +117,10 @@
                                     <label>Estado civil:</label>
                                     <div><b>{{$persona->estadoCivil->name}}</b></div>
                                 </div>
+                                <div class="gutter-row">
+                                    <label>RUC:</label>
+                                    <div><b>{{$persona->ruc}}</b></div>
+                                </div>
                             </div>
                         </div>
                     </div>

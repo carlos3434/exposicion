@@ -29,11 +29,11 @@ class GastoController extends Controller
     {
         $this->gastoRepository = $gastoRepository;
         $this->gastoDetailRepository = $gastoDetailRepository;
-        $this->middleware('can:CREATE_GASTO')->only(['create','store']);
-        $this->middleware('can:READ_GASTO')->only('index');
-        $this->middleware('can:UPDATE_GASTO')->only(['edit','update']);
-        $this->middleware('can:DETAIL_GASTO')->only('show');
-        $this->middleware('can:DELETE_GASTO')->only('destroy');
+        $this->middleware('can:CREATE_GASTOS')->only(['create','store']);
+        $this->middleware('can:READ_GASTOS')->only('index');
+        $this->middleware('can:UPDATE_GASTOS')->only(['edit','update']);
+        $this->middleware('can:DETAIL_GASTOS')->only('show');
+        $this->middleware('can:DELETE_GASTOS')->only('destroy');
     }
     /**
      * Display a listing of the resource.

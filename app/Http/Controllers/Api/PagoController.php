@@ -16,11 +16,11 @@ class PagoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:CREATE_PAGO')->only(['create','store']);
-        $this->middleware('can:READ_PAGO')->only('index');
-        $this->middleware('can:UPDATE_PAGO')->only(['edit','update']);
-        $this->middleware('can:DETAIL_PAGO')->only('show');
-        $this->middleware('can:DELETE_PAGO')->only('destroy');
+        $this->middleware('can:CREATE_FRACCIONAMIENTO')->only(['create','store']);
+        $this->middleware('can:READ_FRACCIONAMIENTO')->only('index');
+        $this->middleware('can:UPDATE_FRACCIONAMIENTO')->only(['edit','update']);
+        $this->middleware('can:DETAIL_FRACCIONAMIENTO')->only('show');
+        $this->middleware('can:DELETE_FRACCIONAMIENTO')->only('destroy');
     }
     /**
      * Display a listing of the resource.

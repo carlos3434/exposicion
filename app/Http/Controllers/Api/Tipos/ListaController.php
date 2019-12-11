@@ -42,8 +42,13 @@ class ListaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:READ_RENDICION')->only('rendiciones');
-        $this->middleware('can:READ_INVENTARIO')->only('inventarios');
+        $this->middleware('can:READ_RENDICIONES')->only('rendiciones');
+        $this->middleware('can:READ_INVENTARIOS')->only('inventarios');
+        $this->middleware('can:READ_PRESUPUESTOS')->only('presupuestos');
+        $this->middleware('can:READ_CAJACHICA')->only('cajachica');
+        $this->middleware('can:READ_GASTOS')->only('gastos');
+        //$this->middleware('can:CREATE_INVOICES')->only('invoices');
+        //$this->middleware('can:READ_INVOICES')->only('listasInvoices');
     }
 
     public function rendiciones()
