@@ -119,6 +119,7 @@ class Persona extends JsonResource
             'banco_operacion'               => $this->banco_operacion,
             'fecha_operacion'               => $this->fecha_operacion,
             'monto_operacion'               => $this->monto_operacion,
+            'monto_inscripcion'             => $this->monto_inscripcion,
 
             'fecha_inscripcion'             => $this->fecha_inscripcion,
             'fecha_presentacion_solicitud'  => $this->fecha_presentacion_solicitud,

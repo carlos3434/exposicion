@@ -65,6 +65,7 @@ class Persona extends Model
         'numero_procesos_disciplinarios',
         'is_carnet',
         'is_inscripcion',
+        'monto_inscripcion',
         'is_solicitud',
         'is_resuelve_consejo',
         'is_pago_colegiatura',

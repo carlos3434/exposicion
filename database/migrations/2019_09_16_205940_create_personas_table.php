@@ -119,6 +119,7 @@ class CreatePersonasTable extends Migration
             $table->string('total_consejo')->default(0);//20% de cada cuota
             $table->string('multa_pendiente')->default(0);
             $table->string('multa_pagadas')->default(0);
+            $table->string('monto_inscripcion')->default(0);
 
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();

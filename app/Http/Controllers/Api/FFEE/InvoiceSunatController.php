@@ -152,6 +152,7 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['is_habilitado' => false]);
                     }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
+                        $personaArray = array_merge($personaArray , ['monto_inscripcion' => 0]);
                         $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
                         $personaArray = array_merge($personaArray , ['is_pago_colegiatura'=>0]);
                     }
@@ -349,6 +350,7 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['is_habilitado' => true]);
                     }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
+                        $personaArray = array_merge($personaArray , ['monto_inscripcion' => $invoiceDetail->precio]);
                         $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
                     }
