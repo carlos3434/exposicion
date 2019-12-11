@@ -78,7 +78,7 @@ class ListaController extends Controller
     {
         $response = [
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::all() ),
-            'conceptos' => new ConceptoCollection( Concepto::where('tipo',0)->get() ),
+            'conceptos' => new ConceptoCollection( Concepto::where('tipo',1)->get() ),
         ];
         return response()->json($response, 200);
     }
