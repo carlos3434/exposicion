@@ -30,6 +30,8 @@ use App\Repositories\PresupuestoRepository;
 use App\Repositories\Interfaces\PresupuestoRepositoryInterface;
 use App\Repositories\ConceptoRepository;
 use App\Repositories\Interfaces\ConceptoRepositoryInterface;
+use App\Repositories\DeudaRepository;
+use App\Repositories\Interfaces\DeudaRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -53,6 +55,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind( PagoRepositoryInterface::class, PagoRepository::class );
         $this->app->bind( PresupuestoRepositoryInterface::class, PresupuestoRepository::class );
         $this->app->bind( ConceptoRepositoryInterface::class, ConceptoRepository::class );
+        $this->app->bind( DeudaRepositoryInterface::class, DeudaRepository::class );
     }
 
     /**

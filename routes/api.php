@@ -59,6 +59,7 @@ Route::prefix('v1')->group(function(){
 
         Route::get('colegiados','Api\ColegiadoController@index');
         Route::get('ingresos','Api\IngresosController@reporte');
+        Route::get('deudas','Api\DeudasController@reporte');
         Route::get('personasPagos','Api\ColegiadoController@personasPagos');
 
         //Tipos
