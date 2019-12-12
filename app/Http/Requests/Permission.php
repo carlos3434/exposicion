@@ -26,7 +26,7 @@ class Permission extends FormRequest
     {
         return [
             'name' => 'required|alpha_num_spaces',
-            'slug' => 'required|alpha_dash|unique:permissions,slug,'. (isset($this->permission->id) ? $this->permission->id : 0).'|starts_with:,NAV_,EXPORT_,READ_,DETAIL_,CREATE_,UPDATE_,DELETE_',
+            'slug' => 'required|alpha_dash|unique:permissions,slug,'. (isset($this->permission->id) ? $this->permission->id : 0).'|starts_with:,SEND_,NAV_,EXPORT_,READ_,DETAIL_,CREATE_,UPDATE_,DELETE_',
             'description' => 'required|alpha_num_spaces'
         ];
     }
