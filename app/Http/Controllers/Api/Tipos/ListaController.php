@@ -15,6 +15,11 @@ use App\TipoGasto;
 use App\Serie;
 use App\TipoNota;
 use App\Ubigeo;
+use App\Universidad;
+use App\EspecialidadPosgrado;
+use App\EstadoCivil;
+
+use App\AreaEjercicioProfesional;
 
 use App\Http\Resources\Rendicion\TipoDocumentoPagoCollection;
 use App\Http\Resources\Rendicion\TipoDocumentoIdentidadCollection;
@@ -32,6 +37,7 @@ use App\Http\Resources\Concepto\ConceptoCollection as InvoiceConceptoCollection;
 use App\Http\Resources\Gasto\CargoPostulanteCollection;
 use App\Http\Resources\Gasto\TipoGastoCollection;
 
+use App\Http\Resources\Ubigeo\UbigeoCollection;
 use App\Http\Resources\Serie\SerieCollection;
 
 use Illuminate\Http\Request;
@@ -40,6 +46,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ListaController extends Controller
 {
+    public $departamentos;
     public function __construct()
     {
         $this->middleware('can:READ_RENDICIONES')->only('rendiciones');
@@ -49,11 +56,24 @@ class ListaController extends Controller
         $this->middleware('can:READ_GASTOS')->only('gastos');
         //$this->middleware('can:CREATE_INVOICES')->only('invoices');
         //$this->middleware('can:READ_INVOICES')->only('listasInvoices');
+
+    }
+    private function getDepartamentos()
+    {
+        $departamentoId = Auth::user()->departamento_id;
+
+        if ($departamentoId == Ubigeo::PERU) {
+            $this->departamentos = Ubigeo::where('level',2)->where('parent_id',2533)->get();
+        } else {
+            $this->departamentos = Ubigeo::where('id',$departamentoId)->get();
+        }
+        return $this->departamentos;
     }
 
     public function rendiciones()
     {
         $response = [
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::all() ),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::all() ),
             'tipoRendicion' => new TipoRendicionCollection( TipoRendicion::all() ),
@@ -64,7 +84,7 @@ class ListaController extends Controller
     public function inventarios()
     {
         $response = [
-            //'responsable' => new ResponsableCollection( Responsable::all() ),
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'tipoInventario' => new TipoInventarioCollection( TipoInventario::all() ),
             'estadoInventario' => new EstadoInventarioCollection( EstadoInventario::all() ),
         ];
@@ -73,8 +93,8 @@ class ListaController extends Controller
     public function presupuestos()
     {
         $response = [
-            //'responsable' => new ResponsableCollection( Responsable::all() ),
-            'tipoPresupuesto' => new TipoInventarioCollection( TipoInventario::all() ),
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
+            'tipoPresupuesto' => new TipoPresupuestoCollection( TipoPresupuesto::all() ),
             'conceptos' => new ConceptoCollection( Concepto::all() ),
         ];
         return response()->json($response, 200);
@@ -82,6 +102,7 @@ class ListaController extends Controller
     public function cajachica()
     {
         $response = [
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::all() ),
             'conceptos' => new ConceptoCollection( Concepto::where('tipo',1)->get() ),
         ];
@@ -98,6 +119,7 @@ class ListaController extends Controller
         }
 
         $response = [
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03'])->get() ),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::whereIn('codigo_sunat',[1, 6])->get() ),
             'conceptos' => new InvoiceConceptoCollection( Concepto::where('tipo',0)->get() ),
@@ -108,6 +130,7 @@ class ListaController extends Controller
     public function gastos()
     {
         $response = [
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::all() ),
             'cargoPostulante' => new CargoPostulanteCollection( CargoPostulante::all() ),
             'tipoGasto' => new TipoGastoCollection( TipoGasto::all() ),
@@ -125,10 +148,25 @@ class ListaController extends Controller
             $series = Serie::where('departamento_id',$departamentoId)->get();
         }
         $response = [
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'series' => new SerieCollection( $series ),
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::whereIn('codigo_sunat',['01', '03','07','08'])->get() ),
             'tipoNota' => new TipoNotaCollection( TipoNota::all() ),
             'conceptos' => new ConceptoCollection( Concepto::where('tipo', 1)->get() ),
+        ];
+        return response()->json($response, 200);
+    }
+    public function listasPersonas()
+    {
+        $response = [
+            'especialidadPosgrado' => EspecialidadPosgrado::all() ,
+            'areaEjercicioProfesional' => AreaEjercicioProfesional::all(),
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
+            'estadoCivil' => EstadoCivil::all(),
+            'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::all() ),
+            'universidades' => new SerieCollection( Universidad::all() ),
+            'nacionalidades' => new UbigeoCollection( Ubigeo::where('level',1)->get() ),
+
         ];
         return response()->json($response, 200);
     }
