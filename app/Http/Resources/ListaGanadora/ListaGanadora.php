@@ -17,7 +17,9 @@ class ListaGanadora extends JsonResource
         return [
             'id'                            => $this->id,
             'fecha_registro'                => $this->fecha_registro,
+            'fecha_instalacion'             => $this->fecha_instalacion,
             'periodo'                       => $this->periodo,
+            'credential_comite_electoral'   => $this->credential_comite_electoral,
 
             'cargo_postulante'              => new CargoPostulanteCollection( $this->cargoPostulante),
             'departamento'                  => new DepartamentoCollection( $this->departamento),

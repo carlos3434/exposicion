@@ -18,7 +18,9 @@ class CreateListaGanadorasTable extends Migration
 
 
             $table->date('fecha_registro');
+            $table->date('fecha_instalacion');
             $table->string('periodo')->nullable();
+            $table->string('credential_comite_electoral')->nullable();
             $table->unsignedBigInteger('cargo_postulante_id')->index();
             $table->foreign('cargo_postulante_id')->references('id')->on('cargo_postulantes')->onDelete('cascade');
             

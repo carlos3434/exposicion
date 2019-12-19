@@ -156,6 +156,10 @@ Route::prefix('v1')->group(function(){
             $pathToFile = storage_path('app/uploads/documentos/licencias/'.$path);
             return response()->file($pathToFile);
         });
+        Route::get('documentos/credentials/{path}', function ($path) {
+            $pathToFile = storage_path('app/uploads/documentos/credentials/'.$path);
+            return response()->file($pathToFile);
+        });
 
     });
 

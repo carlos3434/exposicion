@@ -16,7 +16,8 @@ class ListaGanadora extends Model
      *
      * @var array
      */
-    protected $fillable = ['fecha_registro','periodo', 'cargo_postulante_id', 'departamento_id', 
+    protected $fillable = ['fecha_registro','fecha_instalacion','credential_comite_electoral',
+    'periodo', 'cargo_postulante_id', 'departamento_id', 
     'persona_id', 'updated_by','created_by','deleted_by'];
 
     /**

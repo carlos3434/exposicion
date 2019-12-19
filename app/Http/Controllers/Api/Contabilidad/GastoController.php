@@ -44,7 +44,6 @@ class GastoController extends Controller
     {
         $query = Gasto::filter($request)
             ->with([
-                'persona',
                 'cargo',
                 'departamento'
         ]);

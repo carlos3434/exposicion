@@ -12,6 +12,7 @@ use App\Http\Requests\ListaGanadora as ListaGanadoraRequest;
 use App\Http\Resources\ListaGanadora\ListaGanadoraCollection;
 use App\Http\Resources\ListaGanadora\ListaGanadoraExcelCollection;
 use App\Http\Resources\ListaGanadora\ListaGanadora as ListaGanadoraResource;
+use App\Helpers\FileUploader;
 
 class ListaGanadoraController extends Controller
 {
@@ -57,9 +58,13 @@ class ListaGanadoraController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ListaGanadoraRequest $request)
+    public function store(ListaGanadoraRequest $request, FileUploader $fileUploader)
     {
-        $listaGanadora = ListaGanadora::create($request->all());
+        $all = $request->all();
+        if ( $request->has('credential_comite_electoral') ) {
+            $all['credential_comite_electoral'] = $fileUploader->upload( $request->file('credential_comite_electoral'), 'documentos/credentials');
+        }
+        $listaGanadora = ListaGanadora::create( $all );
         return response()->json($listaGanadora, 201);
     }
 
