@@ -44,7 +44,7 @@ use App\Http\Resources\Serie\SerieCollection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Resources\Presupuesto\TipoPresupuestoCollection;
 class ListaController extends Controller
 {
     public $departamentos;
