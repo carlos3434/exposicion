@@ -22,8 +22,12 @@ class CreateGastosTable extends Migration
             $table->integer('deleted_by')->nullable();
             $table->softDeletes();
 
-            $table->unsignedBigInteger('persona_id')->index();
-            $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
+            $table->string('apellido_paterno');
+            $table->string('apellido_materno');
+            $table->string('nombres');
+
+            //$table->unsignedBigInteger('persona_id')->index();
+            //$table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
             $table->unsignedBigInteger('cargo_id')->index();
             $table->foreign('cargo_id')->references('id')->on('cargo_postulantes')->onDelete('cascade');
             $table->unsignedBigInteger('departamento_id')->index();

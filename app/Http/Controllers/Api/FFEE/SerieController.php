@@ -30,8 +30,7 @@ class SerieController extends Controller
     {
         $query = Serie::filter($request)
             ->with([
-                'persona',
-                //'cargoPostulante'
+                'persona'
         ]);
         if ( !empty($request->excel) || !empty($request->pdf) ){
             if ($query->count() > 0) {

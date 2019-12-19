@@ -38,8 +38,10 @@ class Gasto extends FormRequest
             'pendiente_rendicion'       => 'numeric|between:0,9999.99',
             'total'                     => 'numeric|between:0,9999.99',
             'fecha_registro'            => 'required|date_format:Y-m-d',
-
-            'persona_id'                => 'required|exists:personas,id',
+            'apellido_paterno'          => 'required|alpha_num_spaces',
+            'apellido_materno'          => 'required|alpha_num_spaces',
+            'nombres'                   => 'required|alpha_num_spaces',
+            //'persona_id'                => 'required|exists:personas,id',
             'cargo_id'                  => 'required|exists:cargo_postulantes,id',
             'departamento_id'           => 'required|exists:ubigeos,id',
 

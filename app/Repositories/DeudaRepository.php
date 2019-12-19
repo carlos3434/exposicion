@@ -36,6 +36,9 @@ class DeudaRepository implements DeudaRepositoryInterface
         ->when($request->has('fecha_fin'), function ($query) use ($request)  {
             return $query->where('p.fecha_vencimiento','<=', $request->fecha_fin );
         })
+        ->when($request->has('persona_id'), function ($query) use ($request)  {
+            return $query->where('personas.id','=', $request->persona_id );
+        })
         ;
     }
 }

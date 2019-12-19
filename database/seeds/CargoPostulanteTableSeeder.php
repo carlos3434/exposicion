@@ -13,13 +13,29 @@ class CargoPostulanteTableSeeder extends Seeder
     public function run()
     {
         CargoPostulante::create([
+            'name'        => 'Decano',
+        ]);
+        CargoPostulante::create([
+            'name'        => 'Vicedecano',
+        ]);
+        CargoPostulante::create([
+            'name'        => 'Vocal',
+        ]);
+        CargoPostulante::create([
+            'name'        => 'Secretario',
+        ]);
+        CargoPostulante::create([
+            'name'        => 'Tesorero',
+        ]);
+
+        CargoPostulante::create([
             'name'        => 'Presidente',
         ]);
         CargoPostulante::create([
             'name'        => 'vice presidente',
         ]);
         CargoPostulante::create([
-            'name'        => 'secretario',
+            'name'        => 'Secretario',
         ]);
         CargoPostulante::create([
             'name'        => 'tesorero',

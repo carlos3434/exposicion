@@ -19,6 +19,7 @@ class Concepto extends JsonResource
             'name' => $this->name,
             'codigo' => $this->codigo,
             'tipo' => $this->tipo,
+            'fraccionable' => $this->fraccionable,
         ];
     }
 }

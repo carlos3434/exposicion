@@ -11,7 +11,7 @@ class TipoConcepto extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','order'];
+    protected $fillable = ['name','tipo','order'];
 
     /**
      * Create a new Permission instance.

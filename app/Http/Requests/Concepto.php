@@ -32,6 +32,7 @@ class Concepto extends FormRequest
             'tipo_afecta_igv'   => 'required_if:tipo,0|in:10,11,20,30',
             'precio'            => 'required|numeric|between:0,9999',
             'tipo'              => 'required|boolean',
+            'fraccionable'      => 'required|boolean',
             'plazo_dias'        => 'numeric|between:0,99',
             'plazo_meses'       => 'numeric|between:0,99'
         ];

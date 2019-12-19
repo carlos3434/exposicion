@@ -29,7 +29,10 @@ class Gasto extends Model
         'pendiente_rendicion',
         'total',
         'fecha_registro',
-        'persona_id',
+        //'persona_id',
+        'apellido_paterno',
+        'apellido_materno',
+        'nombres',
         'cargo_id',
         'departamento_id',
         'updated_by', 'created_by', 'deleted_by'];
@@ -53,10 +56,10 @@ class Gasto extends Model
     /**
      * Get the tipo_invoice
      */
-    public function persona()
+    /*public function persona()
     {
         return $this->belongsTo('App\Persona');
-    }
+    }*/
     /**
      * Get the tipo_invoice
      */

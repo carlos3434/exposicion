@@ -16,6 +16,7 @@ class CreateTipoConceptosTable extends Migration
         Schema::create('tipo_concepto', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('tipo',2);
             $table->integer('order');
             $table->timestamps();
         });

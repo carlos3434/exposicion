@@ -28,9 +28,12 @@ class GastoExcel extends JsonResource
             'pendiente_rendicion'       => $this->pendiente_rendicion,
             'total'                     => $this->total,
             'fecha_registro'            => $this->fecha_registro,
+            'apellido_paterno'          => $this->apellido_paterno,
+            'apellido_materno'          => $this->apellido_materno,
+            'nombres'                   => $this->nombres,
 
             'departamento'              => isset( $this->departamento->name) ? $this->departamento->name : '',
-            'persona'                   => isset( $this->persona->full_name) ? $this->persona->full_name : '',
+            //'persona'                   => isset( $this->persona->full_name) ? $this->persona->full_name : '',
             'cargo'                     => isset( $this->cargo->name) ? $this->cargo->name : '',
 
             'created_at'                    => $this->created_at->toDateTimeString(),

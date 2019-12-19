@@ -18,6 +18,7 @@ use App\Ubigeo;
 use App\Universidad;
 use App\EspecialidadPosgrado;
 use App\EstadoCivil;
+use App\TipoConcepto;
 
 use App\AreaEjercicioProfesional;
 
@@ -105,6 +106,13 @@ class ListaController extends Controller
             'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'tipoDocumentoPago' => new TipoDocumentoPagoCollection( TipoDocumentoPago::all() ),
             'conceptos' => new ConceptoCollection( Concepto::where('tipo',1)->get() ),
+        ];
+        return response()->json($response, 200);
+    }
+    public function conceptos()
+    {
+        $response = [
+            'tipoConcepto' =>  TipoConcepto::all() ,
         ];
         return response()->json($response, 200);
     }

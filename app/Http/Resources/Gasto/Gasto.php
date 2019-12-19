@@ -4,7 +4,7 @@ namespace App\Http\Resources\Gasto;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Http\Resources\Gasto\PersonaCollection;
+//use App\Http\Resources\Gasto\PersonaCollection;
 use App\Http\Resources\Gasto\CargoCollection;
 use App\Http\Resources\Gasto\DepartamentoCollection;
 use App\Http\Resources\Gasto\GastoDetailCollection;
@@ -34,8 +34,11 @@ class Gasto extends JsonResource
             'pendiente_rendicion'       => $this->pendiente_rendicion,
             'total'                     => $this->total,
             'fecha_registro'            => $this->fecha_registro,
+            'apellido_paterno'          => $this->apellido_paterno,
+            'apellido_materno'          => $this->apellido_materno,
+            'nombres'                   => $this->nombres,
 
-            'persona'                   => new PersonaCollection($this->persona),
+            //'persona'                   => new PersonaCollection($this->persona),
             'cargo'                     => new CargoCollection($this->cargo),
             'departamento'              => new DepartamentoCollection($this->departamento),
             'detail'                    => new GastoDetailCollection($this->gastoDetail),
