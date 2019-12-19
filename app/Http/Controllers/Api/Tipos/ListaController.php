@@ -19,6 +19,7 @@ use App\Universidad;
 use App\EspecialidadPosgrado;
 use App\EstadoCivil;
 use App\TipoConcepto;
+use App\TipoPresupuesto;
 
 use App\AreaEjercicioProfesional;
 
