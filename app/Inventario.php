@@ -29,7 +29,8 @@ class Inventario extends Model
         'ubicacion',
         'vida_util',
         'estado_inventario_id',
-        'valor_activo'
+        'valor_activo',
+        'partida_registral'
     ];
 
     /**

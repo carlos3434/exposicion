@@ -43,6 +43,7 @@ class CreateInventariosTable extends Migration
             $table->foreign('estado_inventario_id')->references('id')->on('estado_inventario')->onDelete('cascade');
 
             $table->decimal('valor_activo')->default(0);
+            $table->string('partida_registral')->nullable();
 
             $table->timestamps();
         });
