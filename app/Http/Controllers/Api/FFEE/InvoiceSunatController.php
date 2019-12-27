@@ -55,7 +55,7 @@ class InvoiceSunatController extends Controller
             return response()->json( "no se puede generar Nota de un comprobante que no es Boleta y/o Factura", 500);
         }
         if ( $comprobantePago->is_nota == 1 ) {
-            //return response()->json( "El comprobante ya tiene una Nota Generado", 500);
+            return response()->json( "El comprobante ya tiene una Nota Generado", 500);
         }
         //crear nota de credito
         $nota = $comprobantePago->replicate();
@@ -88,11 +88,11 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
+        $see = $util->getSee('');
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
-        if (true) {
-        //if ($res->isSuccess()) {
+
+        if ($res->isSuccess()) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($notaCredito, $res->getCdrZip());
             //actualizar los pagos pendientes
@@ -182,7 +182,6 @@ class InvoiceSunatController extends Controller
                         $persona->personaInhabilitada()->create([
                             'fecha_inicio', $today
                         ]);
-                        //PersonaInhabilitada::create(['fecha_inicio', $today,'persona_id' => $persona->id]);
                     }
                 }
                 $persona->update($personaArray);
@@ -245,7 +244,7 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
+        $see = $util->getSee('');
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
@@ -288,11 +287,10 @@ class InvoiceSunatController extends Controller
             return var_dump($e);
         }
         // Envio a SUNAT.
-        $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
+        $see = $util->getSee('');
         $res = $see->send($invoice);
         $util->writeXml($invoice, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
-        //if (1) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($invoice, $res->getCdrZip());
 
@@ -304,8 +302,8 @@ class InvoiceSunatController extends Controller
                 $mes_cuota = date("m", strtotime( $persona->fecha_inscripcion));
                 $anio_cuota = date("Y", strtotime( $persona->fecha_inscripcion));
                 $cantidad = $invoiceDetail->cantidad;
-                //dd($mes_cuota);
-                if (isset($persona->ultimo_mes_pago)) {    // dd( $persona->ultimo_mes_pago );
+
+                if (isset($persona->ultimo_mes_pago)) {
                     $mes_cuota = MonthLetter::toNumber( $persona->ultimo_mes_pago );
                     $ultimo_mes_pago  = MonthLetter::nextMonth ( $persona->ultimo_mes_pago , $cantidad );
                 } else {
@@ -367,8 +365,7 @@ class InvoiceSunatController extends Controller
                 } else {//si es un pago adelatado
                     //generar pagos de Adelantos
                     $pagoName = '';
-                    for ($i=0; $i < $cantidad; $i++) { 
-                        //$mes_cuota ++;
+                    for ($i=0; $i < $cantidad; $i++) {
                         $mes_cuota = MonthLetter::nextMonthNumber( (int) $mes_cuota );
                         $pagoName .= ' '.MonthLetter::toLetter( (int) $mes_cuota ).' ';
                     }

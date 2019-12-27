@@ -16,6 +16,8 @@ use Greenter\Model\Sale\Legend;
 use Greenter\Model\Sale\Charge;
 use Greenter\Model\Sale\Note;
 
+use Greenter\Ws\Services\SunatEndpoints;
+
 use Illuminate\Support\Facades\Storage;
 use File;
 
@@ -37,7 +39,7 @@ final class Util
         }
         return self::$current;
     }
-    public function setEmpresa($empresa){ //dd($empresa);
+    public function setEmpresa($empresa){
         $this->empresa = $empresa;
     }
     public function setCompany($empresa){
@@ -294,6 +296,11 @@ final class Util
      */
     public function getSee($endpoint)
     {
+        if ( $this->empresa->entorno === 1) {
+            $endpoint = SunatEndpoints::FE_PRODUCCION;
+        } else {
+            $endpoint = SunatEndpoints::NUBEACT_BETA;
+        }
         $see = new See();
         $see->setService($endpoint);
         // Storage::get('public/'.$this->empresa->certificado_digital);
@@ -377,7 +384,8 @@ HTML;
         $hash = $this->getHash($document);
         $params = $this->getParametersPdf();
         $params['system']['hash'] = $hash;
-        $params['user']['footer'] = '<div>consulte en <a href="https://github.com/giansalex/sufel">sufel.com</a></div>';
+        $params['user']['footer'] = '<div></div>';
+        //$params['user']['footer'] = '<div>consulte en <a href="https://github.com/giansalex/sufel">sufel.com</a></div>';
         $pdf = $render->render($document, $params);
         if ($pdf === false) {
             $error = $render->getExporter()->getError();
