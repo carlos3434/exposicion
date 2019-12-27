@@ -42,6 +42,7 @@ class ProcesoDisciplinarioController extends Controller
                 'persona',
                 'sancion',
                 'tipoProcesoDisciplinario',
+                'apelaciones',
         ]);
 
         if ( !empty($request->excel) || !empty($request->pdf) ){

@@ -60,4 +60,11 @@ class ProcesoDisciplinario extends Model
     {
         return $this->belongsTo('App\TipoProcesoDisciplinario','tipo_proceso_disciplinario_id');
     }
+    /**
+     * Get the Apelacion
+     */
+    public function apelaciones()
+    {
+        return $this->hasOne('App\Apelacion','documento_id');
+    }
 }

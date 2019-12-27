@@ -70,6 +70,9 @@ class ApelacionController extends Controller
         if ( $request->has('url_documento') ) {
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/apelaciones');
         }
+        if ( $request->has('url_documento_nacional') ) {
+            $all['url_documento_nacional'] = $fileUploader->upload( $request->file('url_documento_nacional'), 'documentos/apelaciones');
+        }
         $apelacion = Apelacion::create($all);
         //update: proceso_disciplinarios con documento_id
         $apelacion->documento->is_apelacion = 1;
@@ -135,11 +138,14 @@ class ApelacionController extends Controller
      * @param  \App\Apelacion  $apelacion
      * @return \Illuminate\Http\Response
      */
-    public function update(ApelacionRequest $request, Apelacion $apelacion, FileUploader $fileUploader)
+    public function update( Request $request, Apelacion $apelacion, FileUploader $fileUploader)
     {
         $all = $request->all();
         if ( $request->has('url_documento') ) {
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/apelaciones');
+        }
+        if ( $request->has('url_documento_nacional') ) {
+            $all['url_documento_nacional'] = $fileUploader->upload( $request->file('url_documento_nacional'), 'documentos/apelaciones');
         }
         $apelacion->update( $all );
         return response()->json($apelacion, 200);

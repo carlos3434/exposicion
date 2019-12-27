@@ -19,6 +19,8 @@ use App\Universidad;
 use App\EspecialidadPosgrado;
 use App\EstadoCivil;
 use App\TipoConcepto;
+use App\TipoProcesoDisciplinario;
+use App\Sancion;
 use App\TipoPresupuesto;
 
 use App\AreaEjercicioProfesional;
@@ -70,6 +72,14 @@ class ListaController extends Controller
             $this->departamentos = Ubigeo::where('id',$departamentoId)->get();
         }
         return $this->departamentos;
+    }
+    public function listasProcesos()
+    {
+        $response = [
+            'tipoProcesoDisciplinario' =>  TipoProcesoDisciplinario::all() ,
+            'sanciones' => Sancion::all() ,
+        ];
+        return response()->json($response, 200);
     }
 
     public function rendiciones()
