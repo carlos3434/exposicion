@@ -77,7 +77,7 @@ class IncidenteController extends Controller
                 'fecha_vencimiento' => $today,
                 'estado_pago_id' => EstadoPago::PENDIENTE,
                 'concepto_id' => $concepto->id,
-                'name' => $concepto->name.' - F. V.' .$today
+                'name' => $concepto->name.' - F. V. ' .$today
             ]);
 
             $persona->is_habilitado = false;

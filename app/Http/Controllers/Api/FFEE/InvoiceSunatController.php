@@ -91,7 +91,8 @@ class InvoiceSunatController extends Controller
         $see = $util->getSee(SunatEndpoints::NUBEACT_BETA);
         $res = $see->send($notaCredito);
         $util->writeXml($notaCredito, $see->getFactory()->getLastXml());
-        if ($res->isSuccess()) {
+        if (true) {
+        //if ($res->isSuccess()) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($notaCredito, $res->getCdrZip());
             //actualizar los pagos pendientes
@@ -101,23 +102,26 @@ class InvoiceSunatController extends Controller
                 $persona = $comprobantePago->persona;
                 $personaArray = $persona->toArray();
 
-                $ultimo_mes_pago  = MonthLetter::previuosMonth( MonthLetter::toNumber( $persona->ultimo_mes_pago ));
+                $cantidad = $invoiceDetail->cantidad;
+
+                $ultimo_mes_pago  = MonthLetter::previuosMonth(  $persona->ultimo_mes_pago, $cantidad );
                 if ($invoiceDetail->pago->is_primera_cuota == true) {
                     $ultimo_mes_pago = null;
                 }
+                $subtotal = $cantidad * $persona->precio;
+                $numero_meses_aportado  = $persona->numero_meses_aportado  - $subtotal;
+                $numero_meses_deuda     = $persona->numero_meses_deuda     + $subtotal;
+                $subtotal = $cantidad * $invoiceDetail->precio;
 
-                $numero_meses_aportado  = $persona->numero_meses_aportado  - 1;
-                $numero_meses_deuda     = $persona->numero_meses_deuda     + 1;
-
-                $total_aportado         = $persona->total_aportado      - $invoiceDetail->precio;
-                $multa_pagadas          = $persona->multa_pagadas       - $invoiceDetail->precio;
-                $multa_pendiente        = $persona->multa_pendiente     + $invoiceDetail->precio;
-                $total_faf              = $persona->total_faf           - 0.25 * $invoiceDetail->precio;
-                $total_departamental    = $persona->total_departamental - 0.55 * $invoiceDetail->precio;
-                $total_consejo          = $persona->total_consejo       - 0.20 * $invoiceDetail->precio;
-                $total_deuda            = $persona->total_deuda         + $invoiceDetail->precio;
-                $total_adelanto         = $persona->total_adelanto      - $invoiceDetail->precio;
-                $numero_meses_adelanto  = $persona->numero_meses_adelanto      - 1;
+                $total_aportado         = $persona->total_aportado      - $subtotal;
+                $multa_pagadas          = $persona->multa_pagadas       - $subtotal;
+                $multa_pendiente        = $persona->multa_pendiente     + $subtotal;
+                $total_faf              = $persona->total_faf           - 0.25 * $subtotal;
+                $total_departamental    = $persona->total_departamental - 0.55 * $subtotal;
+                $total_consejo          = $persona->total_consejo       - 0.20 * $subtotal;
+                $total_deuda            = $persona->total_deuda         + $subtotal;
+                $total_adelanto         = $persona->total_adelanto      - $subtotal;
+                $numero_meses_adelanto  = $persona->numero_meses_adelanto      - $cantidad;
 
                 if (isset( $invoiceDetail->pago_id )) {
                     //si el pago es primera cuota
@@ -288,6 +292,7 @@ class InvoiceSunatController extends Controller
         $res = $see->send($invoice);
         $util->writeXml($invoice, $see->getFactory()->getLastXml());
         if ($res->isSuccess()) {
+        //if (1) {
             $cdr = $res->getCdrResponse();
             $util->writeCdr($invoice, $res->getCdrZip());
 
@@ -298,30 +303,33 @@ class InvoiceSunatController extends Controller
 
                 $mes_cuota = date("m", strtotime( $persona->fecha_inscripcion));
                 $anio_cuota = date("Y", strtotime( $persona->fecha_inscripcion));
-                if (isset($persona->ultimo_mes_pago)) {
-                    $ultimo_mes_pago  = MonthLetter::nextMonth( MonthLetter::toNumber( $persona->ultimo_mes_pago ));
+                $cantidad = $invoiceDetail->cantidad;
+                //dd($mes_cuota);
+                if (isset($persona->ultimo_mes_pago)) {    // dd( $persona->ultimo_mes_pago );
+                    $mes_cuota = MonthLetter::toNumber( $persona->ultimo_mes_pago );
+                    $ultimo_mes_pago  = MonthLetter::nextMonth ( $persona->ultimo_mes_pago , $cantidad );
                 } else {
                     $ultimo_mes_pago = MonthLetter::toLetter( $mes_cuota );
                 }
-                $numero_meses_aportado  = $persona->numero_meses_aportado  + 1;
-                $numero_meses_deuda     = $persona->numero_meses_deuda     - 1;
+                $numero_meses_aportado  = $persona->numero_meses_aportado  + $cantidad;
+                $numero_meses_deuda     = $persona->numero_meses_deuda     - $cantidad;
+                $subtotal = $cantidad * $invoiceDetail->precio ;
 
-                $total_aportado         = $persona->total_aportado      + $invoiceDetail->precio;
-                $multa_pagadas          = $persona->multa_pagadas       + $invoiceDetail->precio;
-                $multa_pendiente        = $persona->multa_pendiente     - $invoiceDetail->precio;
-                $total_faf              = $persona->total_faf           + 0.25 * $invoiceDetail->precio;
-                $total_departamental    = $persona->total_departamental + 0.55 * $invoiceDetail->precio;
-                $total_consejo          = $persona->total_consejo       + 0.20 * $invoiceDetail->precio;
-                $total_deuda            = $persona->total_deuda         - $invoiceDetail->precio;
-                $total_adelanto         = $persona->total_adelanto      + $invoiceDetail->precio;
-                $numero_meses_adelanto  = $persona->numero_meses_adelanto      + 1;
+                $total_aportado         = $persona->total_aportado      + $subtotal;
+                $multa_pagadas          = $persona->multa_pagadas       + $subtotal;
+                $multa_pendiente        = $persona->multa_pendiente     - $subtotal;
+                $total_faf              = $persona->total_faf           + 0.25 * $subtotal;
+                $total_departamental    = $persona->total_departamental + 0.55 * $subtotal;
+                $total_consejo          = $persona->total_consejo       + 0.20 * $subtotal;
+                $total_deuda            = $persona->total_deuda         - $subtotal;
+                $total_adelanto         = $persona->total_adelanto      + $subtotal;
+                $numero_meses_adelanto  = $persona->numero_meses_adelanto      + $cantidad;
 
                 if (isset( $invoiceDetail->pago_id )) {//si es un pago de una deuda
 
-                    //$this->pagoRepository->updateEstadoPago( $invoiceDetail->pago_id,  EstadoPago::COMPLETADA );
                     $invoiceDetail->pago->update([
                         'estado_pago_id' => EstadoPago::COMPLETADA,
-                        'monto' => $invoiceDetail->precio
+                        'monto' => $subtotal
                     ]);
                     if ( $invoiceDetail->concepto_id == Concepto::CUOTA  ) {
                         if ( $invoiceDetail->pago->is_primera_cuota == true && $persona->is_juramentacion_validada == 1 ) {
@@ -350,7 +358,7 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['is_habilitado' => true]);
                     }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
-                        $personaArray = array_merge($personaArray , ['monto_inscripcion' => $invoiceDetail->precio]);
+                        $personaArray = array_merge($personaArray , ['monto_inscripcion' => $subtotal]);
                         $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
                     }
@@ -358,12 +366,18 @@ class InvoiceSunatController extends Controller
 
                 } else {//si es un pago adelatado
                     //generar pagos de Adelantos
+                    $pagoName = '';
+                    for ($i=0; $i < $cantidad; $i++) { 
+                        //$mes_cuota ++;
+                        $mes_cuota = MonthLetter::nextMonthNumber( (int) $mes_cuota );
+                        $pagoName .= ' '.MonthLetter::toLetter( (int) $mes_cuota ).' ';
+                    }
                     $pago = $persona->pagos()->create([
-                        'name' => $invoiceDetail->concepto->name .' '.MonthLetter::toLetter( (int) $mes_cuota ).' '.$anio_cuota,
+                        'name' => $invoiceDetail->concepto->name .' '.$pagoName.' '.$anio_cuota,
                         'departamento_id' => $persona->departamento_id,
                         'mes_cuota'  => $mes_cuota ,
                         'anio_cuota' => $anio_cuota ,
-                        'monto' => $invoiceDetail->concepto->precio,
+                        'monto' => $invoiceDetail->concepto->precio * $cantidad,
                         'fecha_vencimiento' => date("Y-m-d"),
                         'estado_pago_id' => EstadoPago::ADELANTO,
                         'concepto_id' => $invoiceDetail->concepto->id

@@ -108,7 +108,7 @@ class ProcesoDisciplinarioController extends Controller
                 'fecha_vencimiento' => $fechaVencimiento,
                 'estado_pago_id' => EstadoPago::PENDIENTE,
                 'concepto_id' => $concepto->id,
-                'name' => ''.$request->descripcion .' - F. V.' .$fechaVencimiento,
+                'name' => $concepto->name .' - F. V. ' .$fechaVencimiento,
                 'proceso_id' => $procesoDisciplinario->id,
             ]);
 
