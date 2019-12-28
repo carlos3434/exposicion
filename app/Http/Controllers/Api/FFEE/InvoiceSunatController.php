@@ -160,6 +160,15 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
                         $personaArray = array_merge($personaArray , ['is_pago_colegiatura'=>0]);
                     }
+                    if ( $invoiceDetail->concepto_id == Concepto::CUOTASOLOFAF ) {
+                        $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
+                        $personaArray = array_merge($personaArray , ['total_faf' => $subtotal]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
+                        $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
+                        $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_adelanto'    => $numero_meses_adelanto]);
+                        $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 1]);
+                    }
 
                     //total_deuda se debe regresar como estaba siempre y cunado no ha sido un adelanto
                     if ( $invoiceDetail->pago->estado_pago_id == EstadoPago::ADELANTO ) {
@@ -360,6 +369,15 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge($personaArray , ['total_deuda' => $total_deuda]);
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
                     }
+                    if ( $invoiceDetail->concepto_id == Concepto::CUOTASOLOFAF ) {
+                        $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
+                        $personaArray = array_merge($personaArray , ['total_faf' => $subtotal]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
+                        $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
+                        $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_adelanto'    => $numero_meses_adelanto]);
+                        $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 1]);
+                    }
 
 
                 } else {//si es un pago adelatado
@@ -371,7 +389,7 @@ class InvoiceSunatController extends Controller
                     }
                     $pago = $persona->pagos()->create([
                         'name' => $invoiceDetail->concepto->name .' '.$pagoName.' '.$anio_cuota,
-                        'departamento_id' => $persona->departamento_id,
+                        'departamento_id' => $persona->departamento_colegiado_id,
                         'mes_cuota'  => $mes_cuota ,
                         'anio_cuota' => $anio_cuota ,
                         'monto' => $invoiceDetail->concepto->precio * $cantidad,
@@ -394,6 +412,15 @@ class InvoiceSunatController extends Controller
                     }
                     if ( $invoiceDetail->concepto_id == Concepto::INSCRIPCION ) {
                         $personaArray = array_merge( $personaArray , ['is_pago_colegiatura'=>1]);
+                    }
+                    if ( $invoiceDetail->concepto_id == Concepto::CUOTASOLOFAF ) {
+                        $personaArray = array_merge($personaArray , ['total_aportado' => $total_aportado]);
+                        $personaArray = array_merge($personaArray , ['total_faf' => $subtotal]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_aportado' => $numero_meses_aportado]);
+                        $personaArray = array_merge($personaArray , ['ultimo_mes_pago'    => $ultimo_mes_pago]);
+                        $personaArray = array_merge($personaArray , ['total_adelanto'    => $total_adelanto]);
+                        $personaArray = array_merge($personaArray , ['numero_meses_adelanto'    => $numero_meses_adelanto]);
+                        $personaArray = array_merge($personaArray , ['is_pago_cuota_mensual' => 1]);
                     }
                 }
                 if ($persona->is_habilitado == false) {

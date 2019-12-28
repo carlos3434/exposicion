@@ -90,6 +90,8 @@ Route::prefix('v1')->group(function(){
         Route::get('listasParaListasInvoices','Api\Tipos\ListaController@listasInvoices');
         Route::get('listasParaConceptos','Api\Tipos\ListaController@conceptos');
         Route::get('listasParaPersonas','Api\Tipos\ListaController@listasPersonas');
+        Route::get('listasParaElecciones','Api\Tipos\ListaController@listasElecciones');
+        Route::get('listasParaComites','Api\Tipos\ListaController@listasComites');
         Route::get('listasParaProcesos','Api\Tipos\ListaController@listasProcesos');
 
         Route::apiResource('beneficiarios', 'Api\BeneficiarioController');

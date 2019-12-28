@@ -46,9 +46,12 @@ class RegisteredPagos extends Command
     {
         $today = date("Y-m-d");
 
-        $cuota       = Concepto::find( Concepto::CUOTA );
+        $cuota        = Concepto::find( Concepto::CUOTA );
+        $cuotaSoloFAF = Concepto::find( Concepto::CUOTASOLOFAF );
         $fechaVencimientoCuota = date('Y-m-d', strtotime($today. '+ '.$cuota->plazo_dias.'days'));
         $fechaVencimientoCuota = date('Y-m-d', strtotime($fechaVencimientoCuota. '+ '.$cuota->plazo_meses.'months'));
+        $fechaVencimientoCuotaSoloFAF = date('Y-m-d', strtotime($today. '+ '.$cuotaSoloFAF->plazo_dias.'days'));
+        $fechaVencimientoCuotaSoloFAF = date('Y-m-d', strtotime($fechaVencimientoCuota. '+ '.$cuotaSoloFAF->plazo_meses.'months'));
 
         $mes_today = date("m", strtotime( $today ));
         $anio_today = date("Y", strtotime( $today ));
@@ -57,7 +60,6 @@ class RegisteredPagos extends Command
         //insertar en la tabla pagos
         //fecha de vencimiento sera similar a la tabla plazos de conceptos
         $personas = Persona::where('is_licencia', 0)
-        //->join('ubigeos as dis','dep.id', '=','dis.parent_id')
         ->where('is_habilitado', 1)
         ->get();
         $creates = 0 ;
@@ -66,26 +68,56 @@ class RegisteredPagos extends Command
             $pagos = DB::table('pagos as p')
             ->where('mes_cuota',$mes_today )
             ->where('anio_cuota',$anio_today )
-            ->where('concepto_id', Concepto::CUOTA )
+            ->whereIn('concepto_id', [Concepto::CUOTA,Concepto::CUOTASOLOFAF] )
             ->where('p.persona_id',$persona->id )
             ->count();
             if ($pagos==0) {
                 $pago = [
                     'name' => $cuota->name .' '. MonthLetter::toLetter( (int) $mes_today ) .' ' . $anio_today,
-                    'is_primera_cuota'   => 1,
+                    'is_primera_cuota'   => 0,
                     'mes_cuota' =>  $mes_today ,
                     'anio_cuota' =>  $anio_today ,
                     'monto' => $cuota->precio,
                     'fecha_vencimiento' => $fechaVencimientoCuota,
                     'estado_pago_id' => EstadoPago::PENDIENTE,
                     'concepto_id' => $cuota->id,
-                    'departamento_id' => $persona->departamento_id
+                    'departamento_id' => $persona->departamento_colegiado_id
                 ];
                 $persona->pagos()->create($pago);
                 $creates++;
             }
 
         }
+        ///generar pagos de cuota para los que se encuentran de licencia, solo FAF
+        $personas = Persona::where('is_licencia', 1)
+        ->where('is_habilitado', 1)
+        ->get();
+
+        foreach ($personas as $key => $persona) {
+
+            $pagos = DB::table('pagos as p')
+            ->where('mes_cuota',$mes_today )
+            ->where('anio_cuota',$anio_today )
+            ->whereIn('concepto_id', [Concepto::CUOTA,Concepto::CUOTASOLOFAF] )
+            ->where('p.persona_id',$persona->id )
+            ->count();
+            if ($pagos==0) {
+                $pago = [
+                    'name' => $cuotaSoloFAF->name .' solo FAF '. MonthLetter::toLetter( (int) $mes_today ) .' ' . $anio_today,
+                    'is_primera_cuota'   => 0,
+                    'mes_cuota' =>  $mes_today ,
+                    'anio_cuota' =>  $anio_today ,
+                    'monto' => $cuotaSoloFAF->precio,
+                    'fecha_vencimiento' => $fechaVencimientoCuotaSoloFAF,
+                    'estado_pago_id' => EstadoPago::PENDIENTE,
+                    'concepto_id' => $cuotaSoloFAF->id,
+                    'departamento_id' => $persona->departamento_colegiado_id
+                ];
+                $persona->pagos()->create($pago);
+                $creates++;
+            }
+        }
+
         // consultar tabla personas inscritas. que noe sten conlicencias
         //recorrer la tabla y generar pagos egun fechas
         Log::channel('registrar_pagos')->info('Actualizacion de :'. $creates. "/".count($personas)." Personas.");

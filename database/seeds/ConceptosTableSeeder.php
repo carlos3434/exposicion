@@ -452,5 +452,15 @@ class ConceptosTableSeeder extends Seeder
             'tipo'                  => 0,
             'tipo_concepto_id'      => 10
         ]);
+        Concepto::create([
+            'name'                  => 'CUOTA SOLO FAF',
+            'unidad_medida'         => 'NIU',
+            'codigo'                => '701013',
+            'codigo_sunat'          => '',
+            'tipo_afecta_igv'       => '30',
+            'precio'                => 3.75,
+            'tipo'                  => 0,
+            'tipo_concepto_id'      => 1
+        ]);
     }
 }

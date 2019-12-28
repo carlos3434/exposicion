@@ -72,7 +72,7 @@ class IncidenteController extends Controller
 
             $persona = Persona::find($request->persona_id);
             $persona->pagos()->create([
-                'departamento_id' => $persona->departamento_id,
+                'departamento_id' => $persona->departamento_colegiado_id,
                 'monto' => $request->monto_multa,
                 'fecha_vencimiento' => $today,
                 'estado_pago_id' => EstadoPago::PENDIENTE,

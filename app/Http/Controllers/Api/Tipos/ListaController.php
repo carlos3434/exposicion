@@ -67,7 +67,10 @@ class ListaController extends Controller
         $departamentoId = Auth::user()->departamento_id;
 
         if ($departamentoId == Ubigeo::PERU) {
-            $this->departamentos = Ubigeo::where('level',2)->where('parent_id',2533)->get();
+            $this->departamentos = Ubigeo::where('level',2)
+            ->where('parent_id',2533)
+            ->orWhere('id',2533)
+            ->get();
         } else {
             $this->departamentos = Ubigeo::where('id',$departamentoId)->get();
         }
@@ -154,6 +157,21 @@ class ListaController extends Controller
             'cargoPostulante' => new CargoPostulanteCollection( CargoPostulante::all() ),
             'tipoGasto' => new TipoGastoCollection( TipoGasto::all() ),
             'conceptos' => new ConceptoCollection( Concepto::where('tipo', 1)->get() ),
+        ];
+        return response()->json($response, 200);
+    }
+    public function listasElecciones()
+    {
+        $response = [
+            'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
+            'cargoPostulante' => new CargoPostulanteCollection( CargoPostulante::where('id',1)->get() )
+        ];
+        return response()->json($response, 200);
+    }
+    public function listasComites()
+    {
+        $response = [
+            'cargoPostulante' => new CargoPostulanteCollection( CargoPostulante::where('id',1)->get() )
         ];
         return response()->json($response, 200);
     }

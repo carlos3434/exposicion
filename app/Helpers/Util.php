@@ -296,7 +296,7 @@ final class Util
      */
     public function getSee($endpoint)
     {
-        if ( $this->empresa->entorno === 1) {
+        if ( $this->empresa->entorno === 2) {
             $endpoint = SunatEndpoints::FE_PRODUCCION;
         } else {
             $endpoint = SunatEndpoints::NUBEACT_BETA;

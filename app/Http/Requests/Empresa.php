@@ -39,7 +39,7 @@ class Empresa extends FormRequest
             'ubigeo_id'                 => 'required|exists:ubigeos,id',
             'user_sunat'                => 'string',
             //'password_sunat'            => 'string',
-            'entorno'                   => 'in:0,1',
+            'entorno'                   => 'in:1,2',
 
         ];
     }

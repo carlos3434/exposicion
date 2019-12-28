@@ -22,6 +22,7 @@ class IngresosController extends Controller
     public function reporte(Request $request)
     {
         $result = Invoice::select(
+            'u.name as departamento',
             'invoices.fecha_emision as fecha_pago',
             's.name as serie',
             'invoices.numero',
