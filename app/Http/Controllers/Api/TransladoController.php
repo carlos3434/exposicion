@@ -64,14 +64,21 @@ class TransladoController extends Controller
         }
         $persona = Persona::find($request->persona_id);
 
+        $mensajeError = '';
         if ($persona->is_habilitado==0) {
-            return response()->json('Colegiado no se encuentra Habilitado', 412 );
+            $mensajeError = 'Colegiado no se encuentra Habilitado';
         }
         if ($persona->total_deuda > 0) {
-            return response()->json('Colegiado tiene deuda pendiente de: S/.'.$persona->total_deuda, 412 );
+            $mensajeError = 'Colegiado tiene deuda pendiente de: S/.'.$persona->total_deuda;
         }
         if ($persona->multa_pendiente > 0) {
-            return response()->json('Colegiado tiene multa pendiente de: S/.'.$persona->multa_pendiente, 412 );
+            $mensajeError = 'Colegiado tiene multa pendiente de: S/.'.$persona->multa_pendiente;
+        }
+        if ($mensajeError <> '') {
+             return response()->json([
+                'message' => $mensajeError,
+                'errors'  => 'The given data was invalid.',
+            ], 422 );
         }
         $translado = Translado::create( $all );
         if ($translado) {

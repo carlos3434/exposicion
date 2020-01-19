@@ -74,7 +74,7 @@ class ProcesoDisciplinarioController extends Controller
             $all['url_documento'] = $fileUploader->upload( $request->file('url_documento'), 'documentos/procesosDisciplinarios');
         }
         if ( $request->sancion_id == Sancion::EXPULSION ) {
-
+            $all['fecha_inicio'] = $today;
             $persona = Persona::find($request->persona_id);
             $persona->personaInhabilitada()->create([
                 'fecha_inicio'  => $today,

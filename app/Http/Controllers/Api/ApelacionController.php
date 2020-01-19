@@ -80,13 +80,13 @@ class ApelacionController extends Controller
         if ($apelacion->documento->sancion_id == Sancion::EXPULSION ) {
             $perInhabil = PersonaInhabilitada::where('fecha_fin', '3099-01-01')
             ->where('fecha_inicio', $apelacion->documento->fecha_inicio)
-            ->where('persona_id', $apelacion->documento->persona_id )
+            ->where('persona_id', $all['persona_id'] )
             ->orderBy('id', 'desc')->first();
 
             $perInhabil->fecha_fin = $yesterday;
             $perInhabil->save();
 
-            $persona = Persona::find( $apelacion->documento->persona_id );
+            $persona = Persona::find( $all['persona_id'] );
             $persona->is_habilitado = true;
             $persona->save();
         }
@@ -95,14 +95,14 @@ class ApelacionController extends Controller
             //actualizar PersonaInhabilitada, el campo fecha_fin con today
             $perInhabil = PersonaInhabilitada::where('fecha_inicio', $apelacion->documento->fecha_inicio)
             ->where('fecha_fin', $apelacion->documento->fecha_fin)
-            ->where('persona_id', $apelacion->documento->persona_id )
+            ->where('persona_id', $all['persona_id'] )
             ->orderBy('id', 'desc')->first();
             
 
             $perInhabil->fecha_fin = $yesterday;
             $perInhabil->save();
             //habilitar persona
-            $persona = Persona::find( $apelacion->documento->persona_id );
+            $persona = Persona::find( $all['persona_id'] );
             $persona->is_habilitado = true;
             $persona->save();
         }
@@ -112,7 +112,7 @@ class ApelacionController extends Controller
             $pago->estado_pago_id = EstadoPago::ELIMINADO;
             $pago->save();
 
-            $persona = Persona::find( $apelacion->documento->persona_id );
+            $persona = Persona::find( $all['persona_id'] );
             $persona->multa_pendiente -= $apelacion->documento->monto_multa;
             $persona->save();
         }
