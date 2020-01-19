@@ -17,7 +17,7 @@ class Concepto extends JsonResource
         return [
             'id'                            => $this->id,
             'name'                => $this->name,
-            'fraccionable'                => $this->fraccionable,
+            'fraccionable'                => boolval($this->fraccionable),
             //'created_at'                    => $this->created_at->toDateTimeString(),
         ];
     }
