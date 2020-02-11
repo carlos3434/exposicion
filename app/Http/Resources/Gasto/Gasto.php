@@ -19,6 +19,9 @@ class Gasto extends JsonResource
      */
     public function toArray($request)
     {
+        $persona = new \stdClass;
+        $persona->full_name = $this->apellido_paterno . ' ' . $this->apellido_materno .' '. $this->nombres;
+
         return [
 
             'id'                        => $this->id,
@@ -38,7 +41,7 @@ class Gasto extends JsonResource
             'apellido_materno'          => $this->apellido_materno,
             'nombres'                   => $this->nombres,
 
-            //'persona'                   => new PersonaCollection($this->persona),
+            'persona'                   => $persona,
             'cargo'                     => new CargoCollection($this->cargo),
             'departamento'              => new DepartamentoCollection($this->departamento),
             'detail'                    => new GastoDetailCollection($this->gastoDetail),

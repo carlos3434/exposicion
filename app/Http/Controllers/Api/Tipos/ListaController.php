@@ -76,6 +76,13 @@ class ListaController extends Controller
         }
         return $this->departamentos;
     }
+    private function getColegios()
+    { 
+        return Ubigeo::where('level',2)
+            ->where('parent_id',2533)
+            ->orWhere('id',2533)
+            ->get();
+    }
     public function listasProcesos()
     {
         $response = [
@@ -198,6 +205,7 @@ class ListaController extends Controller
         $response = [
             'especialidadPosgrado' => EspecialidadPosgrado::all() ,
             'areaEjercicioProfesional' => AreaEjercicioProfesional::all(),
+            'colegios' => new UbigeoCollection( $this->getColegios() ),
             'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'estadoCivil' => EstadoCivil::all(),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::all() ),

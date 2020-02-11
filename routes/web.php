@@ -71,5 +71,8 @@ Route::middleware(['auth' => true ])->group(function(){
     
 });
 
+Route::any('{catchall}', function() {
+    return redirect('/');
+})->where('catchall', '.*');
 
 

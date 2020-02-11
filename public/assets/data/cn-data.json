@@ -227,7 +227,7 @@
    {
       "table": "nacional",
       "data": [
-         { "id_ubigeo": 2400, "nombre_ubigeo": "Nacional", "codigo_ubigeo": "00" },
+         { "id_ubigeo": 2533, "nombre_ubigeo": "Nacional", "codigo_ubigeo": "00" },
          { "id_ubigeo": 2534, "nombre_ubigeo": "Amazonas", "codigo_ubigeo": "01" },
          { "id_ubigeo": 2625, "nombre_ubigeo": "Ancash", "codigo_ubigeo": "02" },
          { "id_ubigeo": 2812, "nombre_ubigeo": "Apurimac", "codigo_ubigeo": "03" },
