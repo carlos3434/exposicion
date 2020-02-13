@@ -39,4 +39,9 @@ class Serie extends Model
     {
         return $this->belongsTo('App\Persona');
     }
+
+    public function departamento()
+    {
+        return $this->hasOne('App\Ubigeo', 'id', 'departamento_id');
+    }
 }

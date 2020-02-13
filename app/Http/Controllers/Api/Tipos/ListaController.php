@@ -209,7 +209,7 @@ class ListaController extends Controller
             'departamentos' => new UbigeoCollection( $this->getDepartamentos() ),
             'estadoCivil' => EstadoCivil::all(),
             'tipoDocumentoIdentidad' => new TipoDocumentoIdentidadCollection( TipoDocumentoIdentidad::all() ),
-            'universidades' => new SerieCollection( Universidad::all() ),
+            'universidades' =>  Universidad::all() ,
             'nacionalidades' => new UbigeoCollection( Ubigeo::where('level',1)->get() ),
 
         ];

@@ -189,7 +189,7 @@ class InvoiceSunatController extends Controller
                         $personaArray = array_merge( $personaArray , ['is_habilitado'=> false]);
                         //actualizar el PersonaInhabilitada
                         $persona->personaInhabilitada()->create([
-                            'fecha_inicio', $today
+                            'fecha_inicio' => $today
                         ]);
                     }
                 }
