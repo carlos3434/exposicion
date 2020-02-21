@@ -30,6 +30,7 @@ class Rendicion extends Model
         'igv',
         'monto_no_gravado',
         'importe_total',
+        'glosa',
         'descripcion'
     ];
 

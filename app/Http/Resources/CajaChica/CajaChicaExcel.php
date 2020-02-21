@@ -4,7 +4,7 @@ namespace App\Http\Resources\CajaChica;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CajaChica extends JsonResource
+class CajaChicaExcel extends JsonResource
 {
     /**
      * Transform the resource into an array.

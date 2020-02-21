@@ -27,6 +27,7 @@ class RendicionExcel extends JsonResource
             'monto_no_gravado'                      => $this->monto_no_gravado,
             'importe_total'                         => $this->importe_total,
             'descripcion'                           => $this->descripcion,
+            'glosa'                                 => $this->glosa,
 
             'tipo_documento_pago'                   => isset($this->tipoDocumentoIdentidad->name) ? $this->tipoDocumentoIdentidad->name : '' ,
             'tipo_documento_identidad'              => isset($this->tipoRendicion->name) ? $this->tipoRendicion->name : '' ,

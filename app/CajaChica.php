@@ -24,6 +24,7 @@ class CajaChica extends Model
         'proveedor',
         'descripcion',
         'monto',
+        'glosa',
     ];
 
     /**

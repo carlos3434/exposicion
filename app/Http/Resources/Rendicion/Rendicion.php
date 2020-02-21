@@ -28,6 +28,7 @@ class Rendicion extends JsonResource
             'monto_no_gravado'                      => $this->monto_no_gravado,
             'importe_total'                         => $this->importe_total,
             'descripcion'                           => $this->descripcion,
+            'glosa'                                 => $this->glosa,
 
             'tipo_documento_pago'                   => new TipoDocumentoPago($this->tipoDocumentoPago),
             'tipo_documento_identidad'              => new TipoDocumentoIdentidad($this->tipoDocumentoIdentidad),
