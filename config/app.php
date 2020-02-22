@@ -190,6 +190,8 @@ return [
         App\Providers\HelperServiceProvider::class,
 
         App\Providers\RepositoryServiceProvider::class,
+
+        Barryvdh\Cors\ServiceProvider::class,
     ],
 
     /*
