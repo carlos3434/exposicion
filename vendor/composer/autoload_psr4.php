@@ -88,7 +88,7 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Greenter\\XMLSecLibs\\' => array($vendorDir . '/greenter/xmldsig/src'),
     'Greenter\\' => array($vendorDir . '/greenter/core/src/Core', $vendorDir . '/greenter/data/src', $vendorDir . '/greenter/greenter/src/Greenter', $vendorDir . '/greenter/htmltopdf/src', $vendorDir . '/greenter/report/src', $vendorDir . '/greenter/ws/src', $vendorDir . '/greenter/xml/src'),
-    'Fruitcake\\Cors\\' => array($vendorDir . '/barryvdh/laravel-cors/src'),
+    'Fruitcake\\Cors\\' => array($vendorDir . '/fruitcake/laravel-cors/src'),
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
     'Fideloper\\Proxy\\' => array($vendorDir . '/fideloper/proxy/src'),

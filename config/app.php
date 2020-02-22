@@ -191,7 +191,7 @@ return [
 
         App\Providers\RepositoryServiceProvider::class,
 
-        Barryvdh\Cors\ServiceProvider::class,
+
     ],
 
     /*
