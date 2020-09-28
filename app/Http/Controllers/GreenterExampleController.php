@@ -22,17 +22,8 @@ use DB;
 class GreenterExampleController extends Controller
 {
     private $see;
-    private $util;/*
-    public function __construct()
-    {
-        $see = new See();
-        $see->setService(SunatEndpoints::NUBEACT_BETA);
-        $see->setCertificate(file_get_contents(base_path() . '/storage/cmvp.pem'));
-        $see->setCredentials('20144793413MODDATOS', 'MODDATOS');
-        $this->see = $see;
-        $this->util = Util::getInstance();
-    }
-*/
+    private $util;
+    
     public function envio(){
         // Cliente
         $client = new Client();
