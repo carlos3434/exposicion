@@ -19,6 +19,11 @@ use App\Http\Resources\Apelacion\ApelacionExcelCollection;
 use App\Http\Resources\Apelacion\Apelacion as ApelacionResource;
 use App\Helpers\FileUploader;
 
+use App\Exports\PresupuestoExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+use App\Http\Filters\ApelacionFilter;
+
 class ApelacionController extends Controller
 {
     public function __construct()
@@ -34,25 +39,29 @@ class ApelacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(ApelacionFilter $filters /*, PresupuestoExport $export*/)
     {
-        $query = Apelacion::filter($request)
+        $query = Apelacion::filter($filters)
             ->with([
                 'persona',
                 'documento'
         ]);
-        if ( !empty($request->excel) || !empty($request->pdf) ){
-            if ($query->count() > 0) {
-                $result = new ApelacionExcelCollection( $query->get() );
 
-                return $result->downloadExcel(
-                    'apelaciones_'.date('m-d-Y_hia').'.xlsx',
-                    $writerType = null,
-                    $headings = true
-                );
-            }
+        if ($filters->toExport() && $query->count() > 0 ) {
+            /*
+            $name = 'apelaciones_'.date('m-d-Y_hia').'.xlsx';
+            return Excel::download($export, $name);
+            */
+
+            $result = new ApelacionExcelCollection( $query->get() );
+
+            return $result->downloadExcel(
+                'apelaciones_'.date('m-d-Y_hia').'.xlsx',
+                $writerType = null,
+                $headings = true
+            );
         }
-        return new ApelacionCollection($query->sort()->paginate());
+        return new ApelacionCollection($query->paginate());
     }
 
 

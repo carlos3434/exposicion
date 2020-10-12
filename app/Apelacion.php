@@ -5,13 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Filters\ApelacionFilter;
+//use App\Filters\ApelacionFilter;
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Http\Filters\Filterable;
 
 class Apelacion extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Filterable;
     /**
      * The attributes that are fillable via mass assignment.
      *
@@ -34,10 +35,10 @@ class Apelacion extends Model
 
         $this->setTable('apelacions');
     }
-    public function scopeFilter(Builder $builder, $request)
+    /*public function scopeFilter(Builder $builder, $request)
     {
         return (new ApelacionFilter($request))->filter($builder);
-    }
+    }*/
     /**
      * Get the Persona
      */

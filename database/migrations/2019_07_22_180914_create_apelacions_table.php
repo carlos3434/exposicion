@@ -17,7 +17,7 @@ class CreateApelacionsTable extends Migration
             $table->bigIncrements('id');
             $table->date('fecha_registro');
             $table->string('resolucion');
-            $table->string('resolucion_nacional');
+            $table->string('resolucion_nacional')->nullable();
 
             $table->integer('persona_id');
             $table->integer('updated_by')->nullable();

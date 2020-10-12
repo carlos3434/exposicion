@@ -12,10 +12,11 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
  */
 class UserRepository implements UserRepositoryInterface
 {
-    public function all($request)
+    public function all($filters)
     {
         return new UserCollection(
-            User::filter($request)->sort()->paginate()
+            //User::filter($request)->sort()->paginate()
+            User::filter($filters)->orderBy('id','desc')->paginate()
         );
     }
     public function getOneForLogin($user)

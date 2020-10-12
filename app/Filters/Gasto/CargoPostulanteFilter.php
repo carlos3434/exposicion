@@ -1,7 +1,7 @@
 <?php
 namespace App\Filters\Gasto;
 
-class CargoFilter
+class CargoPostulanteFilter
 {
     public function filter($builder, $value)
     {

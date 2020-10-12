@@ -299,7 +299,8 @@ final class Util
         if ( $this->empresa->entorno === 2) {
             $endpoint = SunatEndpoints::FE_PRODUCCION;
         } else {
-            $endpoint = SunatEndpoints::NUBEACT_BETA;
+            $endpoint = SunatEndpoints::FE_BETA;
+            //$endpoint = SunatEndpoints::NUBEACT_BETA;
         }
         $see = new See();
         $see->setService($endpoint);

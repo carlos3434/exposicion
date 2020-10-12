@@ -7,6 +7,8 @@ use App\User;
 use App\Http\Requests\User as UserRequest;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 
+use App\Http\Filters\UserFilter;
+
 class UserController extends Controller
 {
     private $userRepository;
@@ -26,10 +28,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    //public function index(Request $request)
+    public function index(UserFilter $filters)
     {
-        return $this->userRepository->all($request);
-
+        //return $this->userRepository->all($request);
+        return  $this->userRepository->all($filters);
     }
     /**
      * Store a newly created resource in storage.

@@ -1,5 +1,5 @@
 <?php
-namespace App\Filters\Gasto;
+namespace App\Filters\GastoDetail;
 
 class TipoGastoFilter
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Contabilidad;
+namespace App\Http\Controllers\Api\Contabilidad;
 
 
 use App\Http\Controllers\Controller;

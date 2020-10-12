@@ -185,7 +185,7 @@ return [
 
         Intervention\Image\ImageServiceProvider::class,
 
-        Clockwork\Support\Laravel\ClockworkServiceProvider::class,
+        //Clockwork\Support\Laravel\ClockworkServiceProvider::class,
 
         App\Providers\HelperServiceProvider::class,
 

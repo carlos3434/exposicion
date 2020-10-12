@@ -53,6 +53,7 @@ Route::get('photos/{path}', function ($path) {
     return response()->file($pathToFile);
 });
 
+//Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
